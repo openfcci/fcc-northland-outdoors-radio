@@ -1,20 +1,20 @@
 <?php
 
-/*
- * Template fallback
-You can do this with the template_redirect hook.
-Here's my code to manually replace the template for a custom post type
-with one in the theme if there isn't one in the template folder.
-Put this in your plugin file and then put a folder underneath your plugin
-called themefiles with your default theme files.
-*/
+/** Template fallback:
+ * You can do this with the template_redirect hook.
+ * Here's my code to manually replace the template for a custom post type
+ * with one in the theme if there isn't one in the template folder.
+ * Put this in your plugin file and then put a folder underneath your plugin
+ * called themefiles with your default theme files.
+ */
 
 //Template fallback
 add_action("template_redirect", 'my_theme_redirect');
 
 function my_theme_redirect() {
     global $wp;
-    $plugindir = dirname( __FILE__ );
+    //$plugindir = dirname( __FILE__ );
+    $plugindir = plugin_dir_path( __FILE__ );
 
     //A Specific Custom Post Type
     if ($wp->query_vars["post_type"] == 'product') {

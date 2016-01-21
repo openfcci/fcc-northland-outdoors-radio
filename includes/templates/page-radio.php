@@ -15,6 +15,8 @@
 										<h1 class="story-title entry-title" itemprop="name headline"><?php the_title(); ?></h1> <!-- !? PAGE TITLE -->
 										<div id="content-area" class="left relative" itemprop="articleBody">
 
+											<?php get_template_part( 'radio', 'thisweeksshow' ); ?>
+
                       <!-- *** START NORTHLAND OUTDOORS RADIO CONTENT *** -->
                       <h2 class="section-title">STATIONS</h2>
                       <ol>

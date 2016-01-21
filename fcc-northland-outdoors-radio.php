@@ -2,111 +2,86 @@
 
 /**
  * Plugin Name: FCC Northland Outdoors Radio
- * Plugin URI:  https://
+ * Plugin URI:  https://github.com/openfcci/fcc-northland-outdoors-radio
  * Author:      FCC
- * Author URI:  https://
- * Version:     0.0.0
+ * Author URI:  http://www.forumcomm.com/
+ * Version:     0.16.01.21
  * Description: Northland Outdoors Radio, Podcasts and Stations plugin.
  * License:     GPL v2 or later
  */
 
-// Exit if accessed directly
-defined( 'ABSPATH' ) || exit;
+ // Exit if accessed directly
+ defined( 'ABSPATH' ) || exit;
 
+ /*--------------------------------------------------------------
+ # PLUGIN ACTIVATION/DEACTIVATION HOOKS
+ --------------------------------------------------------------*/
 
-/**
- * Flush our rewrite rules on deactivation.
- */
-function fcc_deactivation() {
-	flush_rewrite_rules();
-}
-//register_deactivation_hook( __FILE__, 'fcc_deactivation' );
+ /**
+  * Plugin Activation Hook
+  */
+ function fcc_northland_radio_plugin_activation() {
+ 	flush_rewrite_rules(); // Flush our rewrite rules on activation.
+ }
+ register_activation_hook( __FILE__, 'fcc_northland_radio_plugin_activation' );
 
-/**
- * Load "includes" files.
- */
+ /**
+  * Plugin Deactivation Hook
+  */
+ function fcc_northland_radio_plugin_deactivation() {
+ 	flush_rewrite_rules(); // Flush our rewrite rules on deactivation.
+ }
+ register_deactivation_hook( __FILE__, 'fcc_northland_radio_plugin_deactivation' );
+
+ /*--------------------------------------------------------------
+ # LOAD INCLUDES FILES
+ --------------------------------------------------------------*/
 function fcc_load_northland_radio_includes() {
 	if ( function_exists('current_user_can') && current_user_can('manage_options') ) {
-		require_once( plugin_dir_path( __FILE__ ) . '/includes/register-custom-post-types.php' );
-		//require_once( plugin_dir_path( __FILE__ ) . '/includes/template-functions.php' );
+
+		# Register the Custom Post Types: 'podcasts' & 'stations'
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/register-custom-post-types.php' );
+		# Page Template Redirects
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/template-functions.php' );
+
+		# ACF Fields
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
+
+		# Custom Meta Boxes Includes
+			//require_once( plugin_dir_path( __FILE__ ) . '/Custom-Meta-Boxes/custom-meta-boxes.php' ); // TODO: Use or Remove?
+			//require_once( plugin_dir_path( __FILE__ ) . '/includes/custom-meta-boxes.php' ); // TODO: Use or Remove?
+
+		# JW Platform/BOTR API
+		require_once( plugin_dir_path( __FILE__ ) . '/botr/api.php' );
+
+		# Misc.
+		require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: ToDo: Remove before launch.
 	}
 }
 add_action( 'init', 'fcc_load_northland_radio_includes', 99 );
 
 
 /**
- * Instantiate the main classes
- *
- * @since 0.0.0
- */
-function _fcc_northland_radio() {
-
-	// Setup the main file
-	$file = __FILE__;
-
-	// Includes
-	include dirname( $file ) . '/includes/register-custom-post-types.php';
-	//include dirname( $file ) . '/includes/class-fcc-stations.php';
-
-	// Instantiate the main class
-	/*new WP_Term_Locks( $file );*/
-}
-//add_action( 'init', '_fcc_northland_radio', 99 );
-
-/*
- * Template fallback
-You can do this with the template_redirect hook.
-Here's my code to manually replace the template for a custom post type
-with one in the theme if there isn't one in the template folder.
-Put this in your plugin file and then put a folder underneath your plugin
-called themefiles with your default theme files.
+* JW Platform API: Return Video Object
+* Call the JW API to return the video based on the key.
 */
+function fcc_jw_key( $key ) { // TODO: Add "key" validation
+	$botr_api = new BotrAPI('f7sgzZuL', '1Ha5RTydWjTM2321o47bgAmZ'); // Instantiate the API.
+	$response = $botr_api->call("/videos/show",array('video_key'=>$key)); // Call the API
+	// TODO: Add "Success" validation
 
-//Template fallback
-add_action("template_redirect", 'my_theme_redirect');
-
-function my_theme_redirect() {
-    global $wp;
-    $plugindir = dirname( __FILE__ );
-
-    //A Specific Custom Post Type
-    if ($wp->query_vars["post_type"] == 'product') {
-        $templatefilename = 'single-product.php'; // $templatefilename = 'single-product.php';
-        if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {
-            $return_template = TEMPLATEPATH . '/' . $templatefilename;
-        } else {
-            $return_template = $plugindir . '/themefiles/' . $templatefilename;
-        }
-        do_theme_redirect($return_template);
-
-    //A Custom Taxonomy Page
-    } elseif ($wp->query_vars["taxonomy"] == 'product_categories') {
-        $templatefilename = 'taxonomy-product_categories.php';
-        if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {
-            $return_template = TEMPLATEPATH . '/' . $templatefilename;
-        } else {
-            $return_template = $plugindir . '/themefiles/' . $templatefilename;
-        }
-        do_theme_redirect($return_template);
-
-    //A Simple Page
-	} elseif ($wp->query_vars["pagename"] == 'radio') {
-        $templatefilename = 'page-radio.php'; // $templatefilename = 'page-somepagename.php';
-        if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {
-            $return_template = TEMPLATEPATH . '/' . $templatefilename;
-        } else {
-            $return_template = $plugindir . '/templates/' . $templatefilename;
-        }
-        do_theme_redirect($return_template);
-    }
+	return $response;
 }
 
-function do_theme_redirect($url) {
-    global $post, $wp_query;
-    if (have_posts()) {
-        include($url);
-        die();
-    } else {
-        $wp_query->is_404 = true;
-    }
+/**
+* JW Platform API: Return Duration
+* Returns the duration of a video based on the player key.
+*/
+function fcc_jw_duration( $key ) {
+	$botr_api = new BotrAPI('f7sgzZuL', '1Ha5RTydWjTM2321o47bgAmZ'); //$botr_api = new BotrAPI('key', 'secret');
+	$response = $botr_api->call("/videos/show",array('video_key'=>$key));
+	$duration = $response['video']['duration'];
+	$duration = gmdate("H:i:s", round($duration) );
+
+	return $duration;
 }

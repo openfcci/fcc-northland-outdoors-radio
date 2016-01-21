@@ -1,4 +1,7 @@
 .DS_Store
+.imdone
+.imdone/
+
 *.log
 .htaccess
 sitemap.xml

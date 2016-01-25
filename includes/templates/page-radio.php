@@ -15,6 +15,28 @@
 										<h1 class="story-title entry-title" itemprop="name headline"><?php the_title(); ?></h1> <!-- !? PAGE TITLE -->
 										<div id="content-area" class="left relative" itemprop="articleBody">
 
+											<div class="tagline">
+												<em>
+													<strong>Tune into Northland Outdoors Radio each week all across the Northland. This one-hour radio show will get you updated on the latest news from the outdoors, tips from the experts and stories from those who bagged a trophy of a lifetime.</strong>
+												</em>
+											</div>
+											<div>
+												<h2 class="section-title">THIS WEEK'S SHOW</h2>
+												<ul>
+                           <li>Segment 1...</li>
+                           <li>Segment 2...</li>
+                           <li>Segment 3...</li>
+                        </ul>
+											</div>
+
+
+											<?php $upcoming = get_option('options_upcoming_shows'); ?>
+											<div id="upcoming">
+												<span style="text-decoration: underline;"><strong>Coming up on future shows:</strong></span>
+												<?php echo $upcoming; ?>
+												<em>*If you have a good story that we should feature on the show, contact us below. </em>
+											</div><br>
+
 											<?php get_template_part( 'radio', 'thisweeksshow' ); ?>
 
                       <!-- *** START NORTHLAND OUTDOORS RADIO CONTENT *** -->
@@ -68,6 +90,10 @@
                       } // endif;
                       ?>
                       </ol>
+
+											<div>
+												<h2 class="section-title">PODCASTS</h2>
+											</div>
                       <!-- END NORTHLAND OUTDOORS RADIO CONTENT-->
 
 										</div><!--content-area-->

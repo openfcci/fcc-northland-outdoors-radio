@@ -1,0 +1,127 @@
+[
+    {
+        "key": "group_56a14e7fabb05",
+        "title": "Podcast",
+        "fields": [
+            {
+                "key": "field_56a14e8a295d1",
+                "label": "Segment",
+                "name": "segment",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "collapsed": "",
+                "min": "",
+                "max": "",
+                "layout": "block",
+                "button_label": "Add Podcast Segment",
+                "sub_fields": [
+                    {
+                        "key": "field_56a14e9f295d2",
+                        "label": "JW Player Key",
+                        "name": "segment_key",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": 50,
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "placeholder": "V1HDlWg2",
+                        "prepend": "",
+                        "append": "",
+                        "maxlength": 8,
+                        "readonly": 0,
+                        "disabled": 0
+                    },
+                    {
+                        "key": "field_56a14eee295d5",
+                        "label": "Duration",
+                        "name": "segment_duration",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": 50,
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "placeholder": "00:00:00",
+                        "prepend": "",
+                        "append": "",
+                        "maxlength": 10,
+                        "readonly": 0,
+                        "disabled": 0
+                    },
+                    {
+                        "key": "field_56a14ea4295d3",
+                        "label": "Title",
+                        "name": "segment_title",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "maxlength": "",
+                        "readonly": 0,
+                        "disabled": 0
+                    },
+                    {
+                        "key": "field_56a14eb8295d4",
+                        "label": "Description",
+                        "name": "segment_description",
+                        "type": "wysiwyg",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "tabs": "all",
+                        "toolbar": "full",
+                        "media_upload": 1
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "podcasts"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": 1,
+        "description": ""
+    }
+]

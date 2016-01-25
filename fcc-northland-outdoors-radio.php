@@ -5,7 +5,7 @@
  * Plugin URI:  https://github.com/openfcci/fcc-northland-outdoors-radio
  * Author:      FCC
  * Author URI:  http://www.forumcomm.com/
- * Version:     0.16.01.21
+ * Version:     0.16.01.25
  * Description: Northland Outdoors Radio, Podcasts and Stations plugin.
  * License:     GPL v2 or later
  */
@@ -41,47 +41,30 @@ function fcc_load_northland_radio_includes() {
 
 		# Register the Custom Post Types: 'podcasts' & 'stations'
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/register-custom-post-types.php' );
+
 		# Page Template Redirects
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/template-functions.php' );
 
+    # JW Platform/BOTR API
+		require_once( plugin_dir_path( __FILE__ ) . '/botr/api.php' );
+
+    # JW Platform/Player API Functions
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/jw-api.php' );
+
+    # Add Admin Pages
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-settings-page.php' );
+      require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-upcoming-shows.php' );
+
 		# ACF Fields
-			require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
+			//require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
 
 		# Custom Meta Boxes Includes
+      // TODO: Define CMB_PATH & move the folder into 'includes' (if used)
 			//require_once( plugin_dir_path( __FILE__ ) . '/Custom-Meta-Boxes/custom-meta-boxes.php' ); // TODO: Use or Remove?
 			//require_once( plugin_dir_path( __FILE__ ) . '/includes/custom-meta-boxes.php' ); // TODO: Use or Remove?
 
-		# JW Platform/BOTR API
-		require_once( plugin_dir_path( __FILE__ ) . '/botr/api.php' );
-
-		# Misc.
-		require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: ToDo: Remove before launch.
+		# Misc/Testing Functions
+		require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
 	}
 }
 add_action( 'init', 'fcc_load_northland_radio_includes', 99 );
-
-
-/**
-* JW Platform API: Return Video Object
-* Call the JW API to return the video based on the key.
-*/
-function fcc_jw_key( $key ) { // TODO: Add "key" validation
-	$botr_api = new BotrAPI('f7sgzZuL', '1Ha5RTydWjTM2321o47bgAmZ'); // Instantiate the API.
-	$response = $botr_api->call("/videos/show",array('video_key'=>$key)); // Call the API
-	// TODO: Add "Success" validation
-
-	return $response;
-}
-
-/**
-* JW Platform API: Return Duration
-* Returns the duration of a video based on the player key.
-*/
-function fcc_jw_duration( $key ) {
-	$botr_api = new BotrAPI('f7sgzZuL', '1Ha5RTydWjTM2321o47bgAmZ'); //$botr_api = new BotrAPI('key', 'secret');
-	$response = $botr_api->call("/videos/show",array('video_key'=>$key));
-	$duration = $response['video']['duration'];
-	$duration = gmdate("H:i:s", round($duration) );
-
-	return $duration;
-}

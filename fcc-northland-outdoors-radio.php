@@ -13,6 +13,9 @@
  // Exit if accessed directly
  defined( 'ABSPATH' ) || exit;
 
+ define( 'NORADIO__PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+ define( 'NORADIO__PLUGIN_DIR',  plugin_dir_url( __FILE__ ) );
+
  /*--------------------------------------------------------------
  # PLUGIN ACTIVATION/DEACTIVATION HOOKS
  --------------------------------------------------------------*/
@@ -36,6 +39,8 @@
  /*--------------------------------------------------------------
  # LOAD INCLUDES FILES
  --------------------------------------------------------------*/
+
+
 function fcc_load_northland_radio_includes() {
 	if ( function_exists('current_user_can') && current_user_can('manage_options') ) {
 
@@ -46,7 +51,7 @@ function fcc_load_northland_radio_includes() {
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/template-functions.php' );
 
     # JW Platform/BOTR API
-		require_once( plugin_dir_path( __FILE__ ) . '/botr/api.php' );
+		require_once( plugin_dir_path( __FILE__ ) . 'includes/botr/api.php' );
 
     # JW Platform/Player API Functions
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/jw-api.php' );
@@ -58,13 +63,51 @@ function fcc_load_northland_radio_includes() {
 		# ACF Fields
 			//require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
 
-		# Custom Meta Boxes Includes
-      // TODO: Define CMB_PATH & move the folder into 'includes' (if used)
-			//require_once( plugin_dir_path( __FILE__ ) . '/Custom-Meta-Boxes/custom-meta-boxes.php' ); // TODO: Use or Remove?
-			//require_once( plugin_dir_path( __FILE__ ) . '/includes/custom-meta-boxes.php' ); // TODO: Use or Remove?
-
 		# Misc/Testing Functions
 		require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
 	}
 }
 add_action( 'init', 'fcc_load_northland_radio_includes', 99 );
+
+/*--------------------------------------------------------------
+# INCLUDE ACF PRO
+--------------------------------------------------------------*/
+
+# 1. customize ACF path
+add_filter('acf/settings/path', 'my_acf_settings_path');
+function my_acf_settings_path( $path ) {
+  $path = NORADIO__PLUGIN_PATH . 'includes/advanced-custom-fields-pro/';
+  return $path;
+}
+
+# 2. customize ACF dir
+add_filter('acf/settings/dir', 'my_acf_settings_dir');
+function my_acf_settings_dir( $dir ) {
+  $dir = NORADIO__PLUGIN_DIR . 'includes/advanced-custom-fields-pro/';
+  return $dir;
+}
+
+# 3. Hide ACF field group menu item
+//add_filter('acf/settings/show_admin', '__return_false'); // TODO: Uncomment before launch.
+
+# 4. Include ACF
+include_once( plugin_dir_path( __FILE__ ) . 'includes/advanced-custom-fields-pro/acf.php' );
+
+/*--------------------------------------------------------------
+# INCLUDE CMB
+--------------------------------------------------------------*/
+
+# Custom Meta Boxes Includes
+  // TODO: Define CMB_PATH & move the folder into 'includes' (if used)
+
+  /*if ( ! defined( 'CMB_DEV') )
+    define( 'CMB_DEV', false );
+
+  if ( ! defined( 'CMB_PATH') )
+    define( 'CMB_PATH', plugin_dir_path( __FILE__ ) );
+
+  if ( ! defined( 'CMB_URL' ) )
+    define( 'CMB_URL', plugins_url( '', __FILE__ ) );*/
+
+  //require_once( plugin_dir_path( __FILE__ ) . '/Custom-Meta-Boxes/custom-meta-boxes.php' );
+  //require_once( plugin_dir_path( __FILE__ ) . '/includes/custom-meta-boxes.php' );

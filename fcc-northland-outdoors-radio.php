@@ -10,6 +10,12 @@
  * License:     GPL v2 or later
  */
 
+ // TODO Register "Radio" & "TV" Station Type term on plugin activation
+ // TODO Change "Upcoming Shows" page to "Radio Page" with settings and addional fields like station notes
+ // TODO Make new podcasts trigger the creation of 3 new posts in "draft" status, with the title auto-populated and the post link saved to segment meta
+ // TODO shortcode function for returning segment info
+ // TODO shortcode function for returning full week podcast info (& upcoming shows?)
+
  // Exit if accessed directly
  defined( 'ABSPATH' ) || exit;
 
@@ -40,12 +46,11 @@
  # LOAD INCLUDES FILES
  --------------------------------------------------------------*/
 
-
 function fcc_load_northland_radio_includes() {
 	if ( function_exists('current_user_can') && current_user_can('manage_options') ) {
 
 		# Register the Custom Post Types: 'podcasts' & 'stations'
-			require_once( plugin_dir_path( __FILE__ ) . '/includes/register-custom-post-types.php' );
+			//require_once( plugin_dir_path( __FILE__ ) . '/includes/register-custom-post-types.php' );
 
 		# Page Template Redirects
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/template-functions.php' );
@@ -93,21 +98,10 @@ function my_acf_settings_dir( $dir ) {
 # 4. Include ACF
 include_once( plugin_dir_path( __FILE__ ) . 'includes/advanced-custom-fields-pro/acf.php' );
 
-/*--------------------------------------------------------------
-# INCLUDE CMB
---------------------------------------------------------------*/
+# 5. Local JSON (http://www.advancedcustomfields.com/resources/local-json/)
 
-# Custom Meta Boxes Includes
-  // TODO: Define CMB_PATH & move the folder into 'includes' (if used)
-
-  /*if ( ! defined( 'CMB_DEV') )
-    define( 'CMB_DEV', false );
-
-  if ( ! defined( 'CMB_PATH') )
-    define( 'CMB_PATH', plugin_dir_path( __FILE__ ) );
-
-  if ( ! defined( 'CMB_URL' ) )
-    define( 'CMB_URL', plugins_url( '', __FILE__ ) );*/
-
-  //require_once( plugin_dir_path( __FILE__ ) . '/Custom-Meta-Boxes/custom-meta-boxes.php' );
-  //require_once( plugin_dir_path( __FILE__ ) . '/includes/custom-meta-boxes.php' );
+# 6. Include ACF Accordion Field Type
+function include_field_types_accordion( $version ) {
+  include_once( plugin_dir_path( __FILE__ ) . 'includes/acf-accordion/acf-accordion-v5.php' );
+}
+add_action('acf/include_field_types', 'include_field_types_accordion');

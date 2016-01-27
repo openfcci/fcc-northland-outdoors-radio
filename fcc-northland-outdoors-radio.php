@@ -60,15 +60,46 @@ function fcc_load_northland_radio_includes() {
 }
 add_action( 'init', 'fcc_load_northland_radio_includes', 99 );
 
+function autopopulate_enqueue($hook) {
+    if ( 'post.php' != $hook ) {
+        return;
+    }
+
+    wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
+}
+add_action( 'admin_enqueue_scripts', 'autopopulate_enqueue' );
+
+function example_ajax_request() {
+
+    // The $_REQUEST contains all the data sent via ajax
+    if ( isset($_REQUEST) ) {
+
+        $key = $_REQUEST['key'];
+
+
+
+        // Now we'll return it to the javascript function
+        // Anything outputted will be returned in the response
+        echo fcc_jw_duration( $key );
+
+    }
+
+    // Always die in functions echoing ajax content
+   die();
+}
+
+add_action( 'wp_ajax_example_ajax_request', 'example_ajax_request' );
+
+
 
 /**
 * JW Platform API: Return Video Object
 * Call the JW API to return the video based on the key.
 */
-function fcc_jw_key( $key ) { // TODO: Add "key" validation
+function fcc_jw_key( $key ) { // DOING:0 Add "key" validation
 	$botr_api = new BotrAPI('f7sgzZuL', '1Ha5RTydWjTM2321o47bgAmZ'); // Instantiate the API.
 	$response = $botr_api->call("/videos/show",array('video_key'=>$key)); // Call the API
-	// TODO: Add "Success" validation
+	// DOING:10 Add "Success" validation
 
 	return $response;
 }

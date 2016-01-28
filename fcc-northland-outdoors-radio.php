@@ -50,13 +50,13 @@ function fcc_load_northland_radio_includes() {
 	if ( function_exists('current_user_can') && current_user_can('manage_options') ) {
 
 		# Register the Custom Post Types: 'podcasts' & 'stations'
-			//require_once( plugin_dir_path( __FILE__ ) . '/includes/register-custom-post-types.php' );
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/register-custom-post-types.php' );
 
 		# Page Template Redirects
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/template-functions.php' );
 
     # JW Platform/BOTR API
-		require_once( plugin_dir_path( __FILE__ ) . 'includes/botr/api.php' );
+		  require_once( plugin_dir_path( __FILE__ ) . 'includes/botr/api.php' );
 
     # JW Platform/Player API Functions
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/jw-api.php' );
@@ -66,7 +66,7 @@ function fcc_load_northland_radio_includes() {
       require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-upcoming-shows.php' );
 
 		# ACF Fields
-			//require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
 
 		# Misc/Testing Functions
 		require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.

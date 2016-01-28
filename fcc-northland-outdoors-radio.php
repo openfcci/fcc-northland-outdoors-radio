@@ -105,3 +105,27 @@ function include_field_types_accordion( $version ) {
   include_once( plugin_dir_path( __FILE__ ) . 'includes/acf-accordion/acf-accordion-v5.php' );
 }
 add_action('acf/include_field_types', 'include_field_types_accordion');
+
+/*--------------------------------------------------------------
+# AJAX
+--------------------------------------------------------------*/
+function autopopulate_enqueue($hook) {
+  if( $hook != 'edit.php' && $hook != 'post.php' && $hook != 'post-new.php' ) {
+    return;
+  }
+  wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
+}
+add_action( 'admin_enqueue_scripts', 'autopopulate_enqueue' );
+
+function example_ajax_request() {
+    // The $_REQUEST contains all the data sent via ajax
+    if ( isset($_REQUEST) ) {
+        $key = $_REQUEST['key'];
+        // Now we'll return it to the javascript function
+        // Anything outputted will be returned in the response
+        echo fcc_jw_duration( $key );
+    }
+    // Always die in functions echoing ajax content
+   die();
+}
+add_action( 'wp_ajax_example_ajax_request', 'example_ajax_request' );

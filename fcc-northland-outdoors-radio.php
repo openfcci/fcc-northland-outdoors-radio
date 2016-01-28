@@ -60,37 +60,6 @@ function fcc_load_northland_radio_includes() {
 }
 add_action( 'init', 'fcc_load_northland_radio_includes', 99 );
 
-function autopopulate_enqueue($hook) {
-    if ( 'post.php' != $hook ) {
-        return;
-    }
-
-    wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
-}
-add_action( 'admin_enqueue_scripts', 'autopopulate_enqueue' );
-
-function example_ajax_request() {
-
-    // The $_REQUEST contains all the data sent via ajax
-    if ( isset($_REQUEST) ) {
-
-        $key = $_REQUEST['key'];
-
-
-
-        // Now we'll return it to the javascript function
-        // Anything outputted will be returned in the response
-        echo fcc_jw_duration( $key );
-
-    }
-
-    // Always die in functions echoing ajax content
-   die();
-}
-
-add_action( 'wp_ajax_example_ajax_request', 'example_ajax_request' );
-
-
 
 /**
 * JW Platform API: Return Video Object
@@ -116,3 +85,27 @@ function fcc_jw_duration( $key ) {
 
 	return $duration;
 }
+
+/*--------------------------------------------------------------
+# AJAX
+--------------------------------------------------------------*/
+function autopopulate_enqueue($hook) {
+  if( $hook != 'edit.php' && $hook != 'post.php' && $hook != 'post-new.php' ) {
+    return;
+  }
+  wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
+}
+add_action( 'admin_enqueue_scripts', 'autopopulate_enqueue' );
+
+function example_ajax_request() { // TODO: Rename/prefix (& Associated JS if necessary)
+    // The $_REQUEST contains all the data sent via ajax
+    if ( isset($_REQUEST) ) {
+        $key = $_REQUEST['key'];
+        // Now we'll return it to the javascript function
+        // Anything outputted will be returned in the response
+        echo fcc_jw_duration( $key );
+    }
+    // Always die in functions echoing ajax content
+   die();
+}
+add_action( 'wp_ajax_example_ajax_request', 'example_ajax_request' ); // TODO: Rename/prefix (& Associated JS if necessary)

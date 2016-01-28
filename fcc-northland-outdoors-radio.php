@@ -113,17 +113,30 @@ function include_field_types_accordion( $version ) {
 }
 add_action('acf/include_field_types', 'include_field_types_accordion');
 
+/*--------------------------------------------------------------
+# ACF: Advanced Custom Fields Functions
+--------------------------------------------------------------*/
+
+/**
+* ACF: Podcast Date Admin Screen Format Filter
+* Filters the date format of Segments 1-3 Date fields that is displayed on screen
+* Reference: http://www.advancedcustomfields.com/resources/acfload_field/
+*/
 # 7. Filter for a specific value load based on it’s field name
-function my_acf_load_value( $value, $post_id, $field ) {
-    // run the_content filter on all textarea values
-    //$value = apply_filters('the_content',$value);
-    $value = $value;
-    PC::debug( $value, 'acf_load_value' ); // TODO: Remove after testing
+function fcc_norad_acf_filter_admin_date_format( $value, $post_id, $field ) {
+    $value = date( 'm/d/Y, g:ia', $value ); //Format: 01/04/2016, 3:29pm
     return $value;
 }
-//add_filter('acf/load_value/name=segment_1_duration', 'my_acf_load_value', 10, 3);
+add_filter('acf/load_value/name=segment_1_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
+add_filter('acf/load_value/name=segment_2_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
+add_filter('acf/load_value/name=segment_3_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
 
-# 7. Filter for a specific value load based on it’s field name
+/**
+* ACF: Read-Only Field Filter
+* Filter Segments 1-3 Date and Duration fields to 'Read Only'
+* Filter for a specific field load based on it’s field name
+* Reference: http://www.advancedcustomfields.com/resources/acfload_value/
+*/
 function fcc_norad_field_readonly_filter($field) {
   if( $field['readonly'] != 1 ) {
     $field['readonly'] = 1;

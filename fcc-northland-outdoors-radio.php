@@ -10,9 +10,16 @@
  * License:     GPL v2 or later
  */
 
+### Namespace/Prefix: fcc_norad_
+
+# Pre-Launch Requirements
  // TODO Register "Radio" & "TV" Station Type term on plugin activation
- // TODO Change "Upcoming Shows" page to "Radio Page" with settings and addional fields like station notes
+ // TODO add req. or admin notification to resolve potential conflicts if another ACF plugin is active
+ // TODO Add admin notification if JW API Key/Secret are not set in the plugin settings page
+
+# Ideas
  // TODO Make new podcasts trigger the creation of 3 new posts in "draft" status, with the title auto-populated and the post link saved to segment meta
+ // TODO Change "Upcoming Shows" page to "Radio Page" with settings and addional fields like station notes
  // TODO shortcode function for returning segment info
  // TODO shortcode function for returning full week podcast info (& upcoming shows?)
 
@@ -69,7 +76,7 @@ function fcc_load_northland_radio_includes() {
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
 
 		# Misc/Testing Functions
-		require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
 	}
 }
 add_action( 'init', 'fcc_load_northland_radio_includes', 99 );
@@ -105,6 +112,30 @@ function include_field_types_accordion( $version ) {
   include_once( plugin_dir_path( __FILE__ ) . 'includes/acf-accordion/acf-accordion-v5.php' );
 }
 add_action('acf/include_field_types', 'include_field_types_accordion');
+
+# 7. Filter for a specific value load based on it’s field name
+function my_acf_load_value( $value, $post_id, $field ) {
+    // run the_content filter on all textarea values
+    //$value = apply_filters('the_content',$value);
+    $value = $value;
+    PC::debug( $value, 'acf_load_value' ); // TODO: Remove after testing
+    return $value;
+}
+//add_filter('acf/load_value/name=segment_1_duration', 'my_acf_load_value', 10, 3);
+
+# 7. Filter for a specific value load based on it’s field name
+function fcc_norad_field_readonly_filter($field) {
+  if( $field['readonly'] != 1 ) {
+    $field['readonly'] = 1;
+  }
+	return $field;
+}
+add_filter("acf/load_field/name=segment_1_duration", "fcc_norad_field_readonly_filter");
+add_filter("acf/load_field/name=segment_1_date", "fcc_norad_field_readonly_filter");
+add_filter("acf/load_field/name=segment_2_duration", "fcc_norad_field_readonly_filter");
+add_filter("acf/load_field/name=segment_2_date", "fcc_norad_field_readonly_filter");
+add_filter("acf/load_field/name=segment_3_duration", "fcc_norad_field_readonly_filter");
+add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filter");
 
 /*--------------------------------------------------------------
 # AJAX

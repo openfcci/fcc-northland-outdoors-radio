@@ -66,18 +66,18 @@ jQuery(document).ready(function($) {
                           if ( data.indexOf('00:00:00') !== -1 ) {
                             $('#publishing-action .button').attr('disabled', 'disabled');
                             $('#acf-field-segment_2_key input').css('border-color', '#ff0000');
-                            $('#acf_acf_segment-2 .validate-player-key').remove();
+                            $('#acf-field-segment_2_key .validate-player-key').remove();
                             $('#acf-field-segment_2_key input').after('<p class="validate-player-key" style="color: red;">Incorrect format for audio/video key.</p>');
-                            $("#acf-field-segment_2_duration input").attr("readonly", false);
+
                           }
                           else{
 
-                            $('#acf_acf_segment-2 .validate-player-key').remove();
+                            $('#acf-field-segment_2_key .validate-player-key').remove();
                             if ($(".validate-player-key").length <= 0){
                               $('#publishing-action .button').removeAttr('disabled');
                             }
                             $('#acf-field-segment_2_key input').css('border-color', '#33cc33');
-                            $("#acf-field-segment_2_duration input").attr("readonly", true);
+
                           }
                         },
                         error: function(errorThrown) {
@@ -105,18 +105,18 @@ jQuery(document).ready(function($) {
                               if ( data.indexOf('00:00:00') !== -1 ) {
                                 $('#publishing-action .button').attr('disabled', 'disabled');
                                 $('#acf-field-segment_3_key input').css('border-color', '#ff0000');
-                                $('#acf_acf_segment-3 .validate-player-key').remove();
+                                $('#acf-field-segment_3_key .validate-player-key').remove();
                                 $('#acf-field-segment_3_key input').after('<p class="validate-player-key" style="color: red;">Incorrect format for audio/video key.</p>');
-                                $("#acf-field-segment_3_duration input").attr("readonly", false);
+
                               }
                               else{
 
-                                $('#acf_acf_segment-3 .validate-player-key').remove();
+                                $('#acf-field-segment_3_key .validate-player-key').remove();
                                 if ($(".validate-player-key").length <= 0){
                                   $('#publishing-action .button').removeAttr('disabled');
                                 }
                                 $('#acf-field-segment_3_key input').css('border-color', '#33cc33');
-                                $("#acf-field-segment_3_duration input").attr("readonly", true);
+                                
                               }
                             },
                             error: function(errorThrown) {

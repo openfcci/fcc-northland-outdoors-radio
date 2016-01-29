@@ -6,7 +6,54 @@ jQuery(document).ready(function($) {
     var lastValue = $('#acf-field-segment_1_key input').val();
     var lastValue2 = $('#acf-field-segment_2_key input').val();
     var lastValue3 = $('#acf-field-segment_3_key input').val();
-    var key, key2, key3;
+    var key =$('#acf-field-segment_1_key input').val(), key2 =$('#acf-field-segment_2_key input').val(),
+    key3 = $('#acf-field-segment_3_key input').val();
+
+    $.ajax({
+        url: ajaxurl,
+        data: {
+            'action': 'jwplayer_ajax_request',
+            'key': key
+        },
+        //if data is returned from ajax request
+        success: function(data) {
+            $('#acf-field-segment_1_duration input').val(data);
+
+        },
+        error: function(errorThrown) {
+            console.log(errorThrown);
+        }
+    });
+    $.ajax({
+        url: ajaxurl,
+        data: {
+            'action': 'jwplayer_ajax_request',
+            'key': key2
+        },
+        //if data is returned from ajax request
+        success: function(data) {
+            $('#acf-field-segment_2_duration input').val(data);
+
+        },
+        error: function(errorThrown) {
+            console.log(errorThrown);
+        }
+    });
+    $.ajax({
+        url: ajaxurl,
+        data: {
+            'action': 'jwplayer_ajax_request',
+            'key': key3
+        },
+        //if data is returned from ajax request
+        success: function(data) {
+            $('#acf-field-segment_3_duration input').val(data);
+
+        },
+        error: function(errorThrown) {
+            console.log(errorThrown);
+        }
+    });
     $('#acf-field-segment_1_key input').on('change keyup paste mouseup',
         function() {
             if ($(this).val() != lastValue) {
@@ -22,8 +69,7 @@ jQuery(document).ready(function($) {
                     },
                     //if data is returned from ajax request
                     success: function(data) {
-                        $('#acf-segment_1_duration input').val(data);
-                        console.log(data)
+                        $('#acf-field-segment_1_duration input').val(data);
                         //checks to see if key came back with duration
                         if ( data.indexOf('00:00:00') !== -1 ) {
                           $('#publishing-action .button').attr('disabled', 'disabled');
@@ -62,7 +108,7 @@ jQuery(document).ready(function($) {
                             'key': key2
                         },
                         success: function(data) {
-                          $('#acf-segment_2_duration input').val(data);
+                          $('#acf-field-segment_2_duration input').val(data);
                           if ( data.indexOf('00:00:00') !== -1 ) {
                             $('#publishing-action .button').attr('disabled', 'disabled');
                             $('#acf-field-segment_2_key input').css('border-color', '#ff0000');
@@ -101,7 +147,7 @@ jQuery(document).ready(function($) {
                                 'key': key3
                             },
                             success: function(data) {
-                              $('#acf-segment_3_duration input').val(data);
+                              $('#acf-field-segment_3_duration input').val(data);
                               if ( data.indexOf('00:00:00') !== -1 ) {
                                 $('#publishing-action .button').attr('disabled', 'disabled');
                                 $('#acf-field-segment_3_key input').css('border-color', '#ff0000');
@@ -116,7 +162,7 @@ jQuery(document).ready(function($) {
                                   $('#publishing-action .button').removeAttr('disabled');
                                 }
                                 $('#acf-field-segment_3_key input').css('border-color', '#33cc33');
-                                
+
                               }
                             },
                             error: function(errorThrown) {

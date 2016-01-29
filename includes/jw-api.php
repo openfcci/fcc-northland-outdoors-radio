@@ -25,6 +25,18 @@ function fcc_jw_key( $key ) {
 * JW Platform API: Return Video Object
 * Call the JW API to return the video based on the key.
 */
+function fcc_jw_status( $key ) {
+	$botr_api = new BotrAPI( get_option('options_jw_platform_api_key'), get_option('options_jw_platform_api_secret') ); // Instantiate the API.
+	$response = $botr_api->call("/videos/show",array('video_key'=>$key)); // Call the API
+	$status = $response['status'];
+	if ( $status == 'ok' ) { $status = true; } else { $status = false; }
+	return $status;
+}
+
+/**
+* JW Platform API: Return Video Object
+* Call the JW API to return the video based on the key.
+*/
 function fcc_jw_description( $key ) {
 	$botr_api = new BotrAPI( get_option('options_jw_platform_api_key'), get_option('options_jw_platform_api_secret') ); // Instantiate the API.
 	$response = $botr_api->call("/videos/show",array('video_key'=>$key)); // Call the API
@@ -42,6 +54,18 @@ function fcc_jw_duration( $key ) {
 	$duration = $response['video']['duration'];
 	$duration = gmdate("H:i:s", round($duration) );
 	return $duration;
+}
+
+/**
+* JW Platform API: Returns PubDate in original UNIX timestamp format
+* Format: Unix Timestamp
+* Returns the publish date of a video based on the player key.
+*/
+function fcc_jw_date( $key ) {
+	$botr_api = new BotrAPI( get_option('options_jw_platform_api_key'), get_option('options_jw_platform_api_secret') ); // Instantiate the API.
+	$response = $botr_api->call("/videos/show",array('video_key'=>$key));
+	$pubdate = $response['video']['date'];
+	return $pubdate;
 }
 
 /**

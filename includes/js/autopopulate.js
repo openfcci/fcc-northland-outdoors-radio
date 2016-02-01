@@ -18,8 +18,22 @@ jQuery(document).ready(function($) {
          dataType: 'json',
         //if data is returned from ajax request
         success: function(data) {
+
+          if ( data.indexOf('00:00:00') !== -1 ) {
+            $('#publishing-action .button').attr('disabled', 'disabled');
+            $('#acf-field-segment_1_key .validate-player-key').remove();
+            $('#acf-field-segment_1_key input').after('<span class="validate-player-key"></span>');
+
+          }
+          else{
+            $('#acf-field-segment_1_key .validate-player-key').remove();
+            if ($(".validate-player-key").length <= 0){
+              $('#publishing-action .button').removeAttr('disabled');
+            }
             $('#acf-field-segment_1_duration input').val(data[0]);
             $('#acf-field-segment_1_date input').val(data[1]);
+          }
+
 
         },
         error: function(errorThrown) {
@@ -35,8 +49,21 @@ jQuery(document).ready(function($) {
         dataType: 'json',
         //if data is returned from ajax request
         success: function(data) {
+          if ( data.indexOf('00:00:00') !== -1 ) {
+            $('#publishing-action .button').attr('disabled', 'disabled');
+            $('#acf-field-segment_2_key .validate-player-key').remove();
+            $('#acf-field-segment_2_key input').after('<span class="validate-player-key"></span>');
+
+          }
+          else{
+            $('#acf-field-segment_2_key .validate-player-key').remove();
+            if ($(".validate-player-key").length <= 0){
+              $('#publishing-action .button').removeAttr('disabled');
+            }
             $('#acf-field-segment_2_duration input').val(data[0]);
             $('#acf-field-segment_2_date input').val(data[1]);
+          }
+
         },
         error: function(errorThrown) {
             console.log(errorThrown);
@@ -51,8 +78,21 @@ jQuery(document).ready(function($) {
         dataType: 'json',
         //if data is returned from ajax request
         success: function(data) {
+          if ( data.indexOf('00:00:00') !== -1 ) {
+            $('#publishing-action .button').attr('disabled', 'disabled');
+            $('#acf-field-segment_3_key .validate-player-key').remove();
+            $('#acf-field-segment_3_key input').after('<span class="validate-player-key"></span>');
+
+          }
+          else{
+            $('#acf-field-segment_3_key .validate-player-key').remove();
+            if ($(".validate-player-key").length <= 0){
+              $('#publishing-action .button').removeAttr('disabled');
+            }
             $('#acf-field-segment_3_duration input').val(data[0]);
             $('#acf-field-segment_3_date input').val(data[1]);
+          }
+
         },
         error: function(errorThrown) {
             console.log(errorThrown);

@@ -11,7 +11,7 @@ function print_my_dump( $response ) { // TODO: ToDo: Remove before launch.
 
 function json_my_dump( $response ) { // TODO: ToDo: Remove before launch.
 	echo '<pre>';
-	print_r( json_encode( $response ) );
+	print_r( json_encode($response,JSON_PRETTY_PRINT) );
 	echo '</pre>';
 } // Console test: $key = 'emRKQcV8'; echo fcc_jw_duration( $key );
 
@@ -19,6 +19,24 @@ function plugindir() { // TODO: Remove before launch.
  $plugindir = plugin_dir_path( __FILE__ );
  echo $plugindir;
 }
+
+
+/* Admin WP_Screen Object tester */
+function fcc_test_admin() {
+  if ( is_admin() ) {
+    global $my_admin_page;
+    $screen = get_current_screen();
+
+    /*if ( $screen->post_type != 'podcasts' ) {
+      return;
+    } # Else Proceed*/
+
+    PC::debug( $screen, 'Screen:' );
+
+  }
+}
+//add_action( 'admin_enqueue_scripts', 'fcc_test_admin' );
+
 
 /*
 $segment_1_key = get_post_meta($id, 'segment_1_key', true);

@@ -112,7 +112,7 @@ acf_add_local_field_group(array (
 			'prepend' => '',
 			'append' => '',
 			'maxlength' => 10,
-			'readonly' => 1,
+			'readonly' => 0,
 			'disabled' => 0,
 		),
 		array (
@@ -133,7 +133,7 @@ acf_add_local_field_group(array (
 			'prepend' => '',
 			'append' => '',
 			'maxlength' => '',
-			'readonly' => 1,
+			'readonly' => 0,
 			'disabled' => 0,
 		),
 		array (

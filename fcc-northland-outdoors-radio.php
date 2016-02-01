@@ -212,6 +212,8 @@ add_action( 'wp_ajax_jwplayer_ajax_request', 'jwplayer_ajax_request' );
  *
  * A filter hook called by the wp_insert_post function prior to inserting into or updating the database.
  *
+ * Note: Alternate hook save_post_{post_type}. Hooking to this action you wouldn't have to check on the post type.
+ *
  * Optional: Run the slug from sanitize_title_with_dashes() through wp_unique_post_slug() to ensure that it's unique.
  * It will automatically append '-2', '-3' etc. if it's needed.
  * @since 0.16.01.28
@@ -223,14 +225,15 @@ function fcc_norad_myplugin_update_slug( $data, $postarr ) {
     if ( !in_array($data['post_status'], array('pending','auto-draft')) && in_array($data['post_type'], array('podcasts')) ) {
 
         # Declare the Variables
-        $date_slug = get_the_date( 'm-d-Y', $data['ID'] );  //FORMAT: 01-28-2016
-        $date_title = get_the_date( 'm/d/Y', $data['ID'] ); //FORMAT: 01/28/2016
+        //$date_slug = get_the_date( 'm-d-Y', $data['ID'] );  //FORMAT: 01-28-2016
+        //$date_title = get_the_date( 'm/d/Y', $data['ID'] ); //FORMAT: 01/28/2016
 
         # Set the Post Slug (For URLs)
-        $data['post_name'] = sanitize_title( $date_slug );
+        //$data['post_name'] = sanitize_title( $date_slug );
 
         # Set the Post Title
-        $data['post_title'] = $date_title;
+        //$data['post_title'] = $date_title;
+        PC::debug( $data, 'Post Object:' );
     }
     return $data;
 }

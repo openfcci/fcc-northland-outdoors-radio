@@ -1,5 +1,16 @@
 <?php
 
+/*
+$key = 'aioeEv3B';
+printf("fcc_jw_date: %s<br>", fcc_jw_date($key) );
+printf("fcc_jw_date_admin: %s<br>", fcc_jw_date_admin($key) );
+printf("fcc_jw_date_rss: %s<br>", fcc_jw_date_rss($key) );
+
+fcc_jw_date: 1453733820
+fcc_jw_date_admin: Jan 25 2016, 2:57pm
+fcc_jw_date_rss: Mon, 25 Jan 2016 14:57:00 +0000
+*/
+
 /**
 * Testing/Debugging Functions
 */

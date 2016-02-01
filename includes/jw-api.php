@@ -87,7 +87,6 @@ function fcc_jw_date_rss( $key ) {
 * Returns the publish date of a video based on the player key.
 */
 function fcc_jw_date_admin( $key ) {
-  // TODO: Move Key/Secret to Options Page
 	$botr_api = new BotrAPI( get_option('options_jw_platform_api_key'), get_option('options_jw_platform_api_secret') ); // Instantiate the API.
 	$response = $botr_api->call("/videos/show",array('video_key'=>$key)); // TODO: JW Admin Date - Add Success/Fail validation & AJAX support
 	$pubdate = $response['video']['date'];

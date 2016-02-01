@@ -204,51 +204,66 @@ function example_ajax_request() { // TODO: Rename & Prefix function & JS. fcc_no
 add_action( 'wp_ajax_example_ajax_request', 'example_ajax_request' );
 
 /*--------------------------------------------------------------
-# POST GENERATION & Save Hooks
+# POSTS: Generation & Save Hooks
 --------------------------------------------------------------*/
 
 /**
- * wp insert post data
+ * Post Slug & Title auto-naming
  *
  * A filter hook called by the wp_insert_post function prior to inserting into or updating the database.
+ *
+ * Optional: Run the slug from sanitize_title_with_dashes() through wp_unique_post_slug() to ensure that it's unique.
+ * It will automatically append '-2', '-3' etc. if it's needed.
  * @since 0.16.01.28
  * @link http://wordpress.stackexchange.com/questions/52896/force-post-slug-to-be-auto-generated-from-title-on-save
  * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/wp_insert_post_data
  * @link https://codex.wordpress.org/Class_Reference/WP_Post (post object members)
- * @todo rename, customize, finish
  */
-function myplugin_update_slug( $data, $postarr ) {
-    if ( !in_array($data['post_status'], array('draft','pending','auto-draft' )) && in_array($data['post_type'], array('podcasts' )) ) {
-      // TODO: add post_type to array conditional?
+function fcc_norad_myplugin_update_slug( $data, $postarr ) {
+    if ( !in_array($data['post_status'], array('pending','auto-draft')) && in_array($data['post_type'], array('podcasts')) ) {
 
-        // post_date (FORMAT: 2016-01-28 17:12:28)
-        $date_slug = get_the_date( 'm-d-Y', $data['ID'] );
-        $date_title = get_the_date( 'm/d/Y', $data['ID'] );
+        # Declare the Variables
+        $date_slug = get_the_date( 'm-d-Y', $data['ID'] );  //FORMAT: 01-28-2016
+        $date_title = get_the_date( 'm/d/Y', $data['ID'] ); //FORMAT: 01/28/2016
 
-        # Slug = post_name
-        //$data['post_name'] = sanitize_title( $data['post_title'] );
+        # Set the Post Slug (For URLs)
         $data['post_name'] = sanitize_title( $date_slug );
+
+        # Set the Post Title
         $data['post_title'] = $date_title;
-
-        //$data['post_name'] = wp_unique_post_slug('new-title');
-        //$data['post_title'] = 'New Title';
-
-        // TODO: add $post_title
-
-        # Also, run the slug from sanitize_title_with_dashes() through wp_unique_post_slug() to ensure that it's unique. It will automatically append '-2', '-3' etc. if it's needed.
     }
     return $data;
 }
-add_filter( 'wp_insert_post_data', 'myplugin_update_slug', 99, 2 );
+add_filter( 'wp_insert_post_data', 'fcc_norad_myplugin_update_slug', 99, 2 );
 
-/*-----------------------------------------------------------------------------------*/
-/*	Order Admin Pages by Date by Default
-/*-----------------------------------------------------------------------------------*/
-function set_post_order_in_admin( $wp_query ) {
+/**
+ * Order Admin Pages by Date by Default
+ *
+ * @since 0.16.01.28
+ */
+function fcc_norad_set_post_order_in_admin( $wp_query ) {
 global $pagenow;
   if ( is_admin() && 'edit.php' == $pagenow && !isset($_GET['orderby'])) {
     $wp_query->set( 'orderby', 'date' );
     $wp_query->set( 'order', 'DSC' );
   }
 }
-add_filter('pre_get_posts', 'set_post_order_in_admin' );
+add_filter('pre_get_posts', 'fcc_norad_set_post_order_in_admin' );
+
+/**
+ * Set Podcast Post Titles to Read-Only
+ *
+ * @since 0.16.01.28
+ */
+function disableAdminTitle () {
+  if ( is_admin() ) {
+    global $my_admin_page;
+    $screen = get_current_screen();
+    if ( $screen->id != 'podcasts' ) {
+      return;
+    } # Else Proceed
+    wp_enqueue_script( 'admin_title_disable', plugin_dir_url( __FILE__ ) . '/includes/js/admin_title_disable.js' );
+  }
+
+}
+add_action('admin_enqueue_scripts', 'disableAdminTitle');

@@ -15,9 +15,11 @@ jQuery(document).ready(function($) {
             'action': 'jwplayer_ajax_request',
             'key': key
         },
+         dataType: 'json',
         //if data is returned from ajax request
         success: function(data) {
-            $('#acf-field-segment_1_duration input').val(data);
+            $('#acf-field-segment_1_duration input').val(data[0]);
+            $('#acf-field-segment_1_date input').val(data[1]);
 
         },
         error: function(errorThrown) {
@@ -30,10 +32,11 @@ jQuery(document).ready(function($) {
             'action': 'jwplayer_ajax_request',
             'key': key2
         },
+        dataType: 'json',
         //if data is returned from ajax request
         success: function(data) {
-            $('#acf-field-segment_2_duration input').val(data);
-
+            $('#acf-field-segment_2_duration input').val(data[0]);
+            $('#acf-field-segment_2_date input').val(data[1]);
         },
         error: function(errorThrown) {
             console.log(errorThrown);
@@ -45,10 +48,11 @@ jQuery(document).ready(function($) {
             'action': 'jwplayer_ajax_request',
             'key': key3
         },
+        dataType: 'json',
         //if data is returned from ajax request
         success: function(data) {
-            $('#acf-field-segment_3_duration input').val(data);
-
+            $('#acf-field-segment_3_duration input').val(data[0]);
+            $('#acf-field-segment_3_date input').val(data[1]);
         },
         error: function(errorThrown) {
             console.log(errorThrown);
@@ -67,10 +71,12 @@ jQuery(document).ready(function($) {
                         'action': 'jwplayer_ajax_request',
                         'key': key
                     },
+                    dataType: 'json',
                     //if data is returned from ajax request
                     success: function(data) {
                       console.log(data)
-                        $('#acf-field-segment_1_duration input').val(data);
+                        $('#acf-field-segment_1_duration input').val(data[0]);
+                        $('#acf-field-segment_1_date input').val(data[1]);
                         //checks to see if key came back with duration
                         if ( data.indexOf('00:00:00') !== -1 ) {
                           $('#publishing-action .button').attr('disabled', 'disabled');
@@ -108,8 +114,10 @@ jQuery(document).ready(function($) {
                             'action': 'jwplayer_ajax_request',
                             'key': key2
                         },
+                        dataType: 'json',
                         success: function(data) {
-                          $('#acf-field-segment_2_duration input').val(data);
+                          $('#acf-field-segment_2_duration input').val(data[0]);
+                          $('#acf-field-segment_2_date input').val(data[1]);
                           if ( data.indexOf('00:00:00') !== -1 ) {
                             $('#publishing-action .button').attr('disabled', 'disabled');
                             $('#acf-field-segment_2_key input').css('border-color', '#ff0000');
@@ -147,8 +155,10 @@ jQuery(document).ready(function($) {
                                 'action': 'jwplayer_ajax_request',
                                 'key': key3
                             },
+                            dataType: 'json',
                             success: function(data) {
                               $('#acf-field-segment_3_duration input').val(data);
+                              $('#acf-field-segment_3_date input').val(data[1]);
                               if ( data.indexOf('00:00:00') !== -1 ) {
                                 $('#publishing-action .button').attr('disabled', 'disabled');
                                 $('#acf-field-segment_3_key input').css('border-color', '#ff0000');

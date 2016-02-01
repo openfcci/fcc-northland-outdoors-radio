@@ -196,7 +196,11 @@ function jwplayer_ajax_request() { // TODO: Rename & Prefix function & JS. fcc_n
         $key = $_REQUEST['key'];
         // Now we'll return it to the javascript function
         // Anything outputted will be returned in the response
-        echo fcc_jw_duration( $key );
+        $duration = fcc_jw_duration( $key );
+        $date = fcc_jw_date_admin( $key );
+        $jwplayer_array = array($duration,$date);
+        echo json_encode($jwplayer_array);
+
     }
     // Always die in functions echoing ajax content
    die();

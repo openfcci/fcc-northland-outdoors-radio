@@ -46,6 +46,7 @@
   */
  function fcc_northland_radio_plugin_activation() {
  	flush_rewrite_rules(); // Flush our rewrite rules on activation.
+  //$wp_rewrite->flush_rules(); // TODO: Incorporate this with Podcast Feed
  }
  register_activation_hook( __FILE__, 'fcc_northland_radio_plugin_activation' );
 
@@ -136,7 +137,8 @@ add_action('acf/include_field_types', 'include_field_types_accordion');
  * @return string $value Format: 01/04/2016, 3:29pm
  */
 function fcc_norad_acf_filter_admin_date_format( $value, $post_id, $field ) {
-    if ( $value ) { $value = date( 'm/d/Y, g:ia', $value ); }
+    //if ( $value ) { $value = date( 'm/d/Y, g:ia', $value ); }
+    if ( $value ) { $value = date( 'm/d/Y', $value ); }
     else { $value = $value; }
     return $value;
 }
@@ -229,15 +231,14 @@ function fcc_norad_myplugin_update_slug( $data, $postarr ) {
     if ( !in_array($data['post_status'], array('pending','auto-draft')) && in_array($data['post_type'], array('podcasts')) ) {
 
         # Declare the Variables
-        //$date_slug = get_the_date( 'm-d-Y', $data['ID'] );  //FORMAT: 01-28-2016
-        //$date_title = get_the_date( 'm/d/Y', $data['ID'] ); //FORMAT: 01/28/2016
+        $date_slug = get_the_date( 'm-d-Y', $data['ID'] );  //FORMAT: 01-28-2016
+        $date_title = get_the_date( 'm/d/Y', $data['ID'] ); //FORMAT: 01/28/2016
 
         # Set the Post Slug (For URLs)
-        //$data['post_name'] = sanitize_title( $date_slug );
+        $data['post_name'] = sanitize_title( $date_slug );
 
         # Set the Post Title
-        //$data['post_title'] = $date_title;
-        PC::debug( $data, 'Post Object:' );
+        $data['post_title'] = $date_title;
     }
     return $data;
 }

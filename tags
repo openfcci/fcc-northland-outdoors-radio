@@ -1772,9 +1772,12 @@ data	includes/advanced-custom-fields-pro/pro/api/api-pro.php	/^	$data = get_opti
 data_format	includes/advanced-custom-fields-pro/core/wpml.php	/^		$data_format = array( '%d', '%s' );$/;"	v
 data_type	includes/Custom-Meta-Boxes/classes.fields.php	/^		$data_type           = ( ! empty( $this->args['library-type'] ) ? implode( ',', $this->args['library-type'] ) : null );$/;"	v
 data_type	includes/Custom-Meta-Boxes/classes.fields.php	/^		$data_type = ( ! empty( $this->args['library-type'] ) ? implode( ',', $this->args['library-type'] ) : null );$/;"	v
+date	fcc-northland-outdoors-radio.php	/^        $date = fcc_jw_date_admin( $key );$/;"	v
 date	includes/advanced-custom-fields-pro/api/api-helpers.php	/^		$date = str_replace($search, $replace, $date);$/;"	v
 date_format	includes/advanced-custom-fields-pro/core/compatibility.php	/^			$date_format = acf_convert_date_to_php( $date_format );$/;"	v
 date_format	includes/advanced-custom-fields-pro/core/compatibility.php	/^			$date_format = acf_extract_var( $field, 'date_format' );$/;"	v
+date_slug	fcc-northland-outdoors-radio.php	/^        $date_slug = get_the_date( 'm-d-Y', $data['ID'] );  \/\/FORMAT: 01-28-2016$/;"	v
+date_title	fcc-northland-outdoors-radio.php	/^        $date_title = get_the_date( 'm\/d\/Y', $data['ID'] ); \/\/FORMAT: 01\/28\/2016$/;"	v
 db_fields	includes/advanced-custom-fields-pro/api/api-field-group.php	/^		$db_fields = acf_get_fields_by_id( $field_group['ID'] );$/;"	v
 db_fields	includes/advanced-custom-fields-pro/api/api-field-group.php	/^		$db_fields = acf_prepare_fields_for_import( $db_fields );$/;"	v
 db_fields	includes/advanced-custom-fields-pro/fields/taxonomy.php	/^		$db_fields = array ( 'parent' => 'parent', 'id' => 'term_id' );$/;"	v
@@ -1917,6 +1920,7 @@ download	includes/Custom-Meta-Boxes/js/vendor/select2/select2.jquery.json	/^    
 download	includes/advanced-custom-fields-pro/assets/inc/select2/select2.jquery.json	/^    "download": "https:\/\/github.com\/ivaynberg\/select2\/tags",$/;"	f
 duplicate_field	includes/advanced-custom-fields-pro/pro/fields/flexible-content.php	/^	function duplicate_field( $field ) {$/;"	f
 duplicate_field	includes/advanced-custom-fields-pro/pro/fields/repeater.php	/^	function duplicate_field( $field ) {$/;"	f
+duration	fcc-northland-outdoors-radio.php	/^        $duration = fcc_jw_duration( $key );$/;"	v
 duration	includes/jw-api.php	/^	$duration = $response['video']['duration'];$/;"	v
 duration	includes/jw-api.php	/^	$duration = gmdate("H:i:s", round($duration) );$/;"	v
 e	includes/advanced-custom-fields-pro/api/api-field-group.php	/^	$e = '';$/;"	v
@@ -2023,6 +2027,7 @@ fcc_jw_key	includes/jw-api.php	/^function fcc_jw_key( $key ) {$/;"	f
 fcc_jw_status	includes/jw-api.php	/^function fcc_jw_status( $key ) {$/;"	f
 fcc_load_northland_radio_includes	fcc-northland-outdoors-radio.php	/^function fcc_load_northland_radio_includes() {$/;"	f
 fcc_norad_acf_filter_admin_date_format	fcc-northland-outdoors-radio.php	/^function fcc_norad_acf_filter_admin_date_format( $value, $post_id, $field ) {$/;"	f
+fcc_norad_do_podcast_feed	includes/podcast-feed.php	/^function fcc_norad_do_podcast_feed() {$/;"	f
 fcc_norad_field_readonly_filter	fcc-northland-outdoors-radio.php	/^function fcc_norad_field_readonly_filter($field) {$/;"	f
 fcc_norad_myplugin_update_slug	fcc-northland-outdoors-radio.php	/^function fcc_norad_myplugin_update_slug( $data, $postarr ) {$/;"	f
 fcc_norad_set_post_order_in_admin	fcc-northland-outdoors-radio.php	/^function fcc_norad_set_post_order_in_admin( $wp_query ) {$/;"	f
@@ -2802,6 +2807,7 @@ json_my_dump	includes/misc-testing-functions.php	/^function json_my_dump( $respo
 jspm	includes/Custom-Meta-Boxes/js/vendor/select2/package.json	/^  "jspm": {$/;"	f
 jspm	includes/advanced-custom-fields-pro/assets/inc/select2/package.json	/^  "jspm": {$/;"	f
 jwplayer_ajax_request	fcc-northland-outdoors-radio.php	/^function jwplayer_ajax_request() { \/\/ TODO: Rename & Prefix function & JS. fcc_norad_ajax_request()$/;"	f
+jwplayer_array	fcc-northland-outdoors-radio.php	/^        $jwplayer_array = array($duration,$date);$/;"	v
 k	includes/advanced-custom-fields-pro/admin/field-group.php	/^				foreach( $templates as $k => $v ) {$/;"	v
 k	includes/advanced-custom-fields-pro/admin/views/field-group-field.php	/^		<?php foreach( $meta as $k => $v ):$/;"	v
 k	includes/advanced-custom-fields-pro/api/api-field-group.php	/^		$k = 'key';$/;"	v
@@ -5094,8 +5100,9 @@ value	assets/ACF-5/acf-export-2016-01-28.json	/^                    "value": "ac
 value	assets/ACF-5/acf-export-2016-01-28.json	/^                    "value": "acf-options-upcoming-shows"$/;"	f
 value	assets/ACF-5/acf-export-2016-01-28.json	/^                    "value": "podcasts"$/;"	f
 value	assets/ACF-5/acf-export-2016-01-28.json	/^                    "value": "stations"$/;"	f
+value	fcc-northland-outdoors-radio.php	/^    \/\/if ( $value ) { $value = date( 'm\/d\/Y, g:ia', $value ); }$/;"	v
 value	fcc-northland-outdoors-radio.php	/^    else { $value = $value; }$/;"	v
-value	fcc-northland-outdoors-radio.php	/^    if ( $value ) { $value = date( 'm\/d\/Y, g:ia', $value ); }$/;"	v
+value	fcc-northland-outdoors-radio.php	/^    if ( $value ) { $value = date( 'm\/d\/Y', $value ); }$/;"	v
 value	includes/Custom-Meta-Boxes/class.cmb-meta-box.php	/^				$value = (array) $_POST[ $field['id'] ];$/;"	v
 value	includes/Custom-Meta-Boxes/class.cmb-meta-box.php	/^				$value = array();$/;"	v
 value	includes/Custom-Meta-Boxes/class.cmb-meta-box.php	/^			$value = $this->strip_repeatable( $value );$/;"	v

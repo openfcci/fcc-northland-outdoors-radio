@@ -190,7 +190,7 @@ add_action( 'admin_enqueue_scripts', 'autopopulate_enqueue' );
  * @since 0.16.01.27
  * @link http://wptheming.com/2013/07/simple-ajax-example/
  */
-function example_ajax_request() { // TODO: Rename & Prefix function & JS. fcc_norad_ajax_request()
+function jwplayer_ajax_request() { // TODO: Rename & Prefix function & JS. fcc_norad_ajax_request()
     // The $_REQUEST contains all the data sent via ajax
     if ( isset($_REQUEST) ) {
         $key = $_REQUEST['key'];
@@ -201,7 +201,7 @@ function example_ajax_request() { // TODO: Rename & Prefix function & JS. fcc_no
     // Always die in functions echoing ajax content
    die();
 }
-add_action( 'wp_ajax_example_ajax_request', 'example_ajax_request' );
+add_action( 'wp_ajax_jwplayer_ajax_request', 'jwplayer_ajax_request' );
 
 /*--------------------------------------------------------------
 # POSTS: Generation & Save Hooks

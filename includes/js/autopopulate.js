@@ -69,6 +69,7 @@ jQuery(document).ready(function($) {
                     },
                     //if data is returned from ajax request
                     success: function(data) {
+                      console.log(data)
                         $('#acf-field-segment_1_duration input').val(data);
                         //checks to see if key came back with duration
                         if ( data.indexOf('00:00:00') !== -1 ) {

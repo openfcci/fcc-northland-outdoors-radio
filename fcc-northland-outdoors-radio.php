@@ -84,6 +84,9 @@ function fcc_load_northland_radio_includes() {
 		# ACF Fields
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
 
+    # Podcast Feed
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/podcast-feed.php' );
+
 		# Misc/Testing Functions
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
 	}
@@ -159,12 +162,12 @@ function fcc_norad_field_readonly_filter($field) {
   }
 	return $field;
 }
-/*add_filter("acf/load_field/name=segment_1_duration", "fcc_norad_field_readonly_filter");
+add_filter("acf/load_field/name=segment_1_duration", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_1_date", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_2_duration", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_2_date", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_3_duration", "fcc_norad_field_readonly_filter");
-add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filter");*/
+add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filter");
 
 /*--------------------------------------------------------------
 # AJAX

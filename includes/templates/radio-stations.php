@@ -1,9 +1,12 @@
-<?php ?>
-<!-- *** STATIONS *** -->
-<h2 class="section-title">STATIONS</h2>
-<!--<ol class="station-list">-->
-<ol>
 <?php
+/*--------------------------------------------------------------
+# STATIONS
+--------------------------------------------------------------*/
+
+echo '<h2 class="section-title">STATIONS</h2>';
+if ( !get_option('stations_style') ) { echo '<ol class="station-list">'; }
+else { echo '<ol>'; }
+
 /* Begin the Loop */
 wp_reset_query();
 
@@ -22,10 +25,11 @@ if ( $the_query->have_posts()  ) { // IF
     $id = (int) $post->ID;
 
  ?>
-<?php
+ <?php
       /**** POST META  *****/
       $post_title = wp_specialchars( get_the_title( $id ) );
       $station_location = get_post_meta($id, 'station_location', true);
+      $station_state = $station_state = get_the_terms( $id, 'station_state')['0']->name; //$station_state = the_terms( $id, 'station_state', '', ', ', ': ');
       $station_name = get_post_meta($id, 'station_name', true);
       $station_website = get_post_meta($id, 'station_website', true);
       $station_timeslot = get_post_meta($id, 'station_timeslot', true);
@@ -39,23 +43,23 @@ if ( $the_query->have_posts()  ) { // IF
       $station_address = get_post_meta($id, 'station_address', true);
       $station_places_id = get_post_meta($id, 'station_places_id', true);
       $thumbnail_id = get_post_meta($id, '_thumbnail_id', true);
-?>
+ ?>
 
   <li>
-    <?php if ( $station_location ) { echo '<b>' .  $station_location . ': </b>'; } ?>
+    <?php if ( $station_location ) { echo '<strong>' .  $station_location . ', ' . $station_state . ': </strong>'; } ?>
     <?php if ( $station_website ) { echo '<a href="' .  $station_website . '" target="_blank">';}?>
     <?php if ( $station_name ) { echo $station_name; } ?><?php if ( $station_website ) { echo '</a>,'; } ?>
-    <?php //if ( $station_timeslot ) { echo $station_timeslot; } ?>
     <?php if ( $station_day && $station_time && $station_ampm) { echo $station_day . ' at ' . $station_time . ' ' . $station_ampm; } ?>
+    <?php if ( $station_notes ) { echo $station_notes; } ?>
     <?php if ( $station_streaming_link ) { echo '<a href="' .  $station_streaming_link . '" target="_blank">(LISTEN LIVE)</a>'; } ?>
   </li>
-<?php
+ <?php
   } //endwhile;
   /* Restore original Post Data */
   wp_reset_postdata();
   wp_reset_query();
 } // endif;
-?>
+ ?>
 </ol>
 <!-- END STATIONS-->
 <?php

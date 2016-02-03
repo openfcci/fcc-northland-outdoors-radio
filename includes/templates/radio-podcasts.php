@@ -21,27 +21,41 @@ if ( $the_query->have_posts()  ) { // IF
 
  ?>
 <?php
-      /**** POST META  *****/
 
-      $segment_1_description = get_post_meta($id, 'segment_1_description', true);
-      $segment_2_description = get_post_meta($id, 'segment_2_description', true);
-      $segment_3_description = get_post_meta($id, 'segment_3_description', true);
-      ?>
+  /**** POST META  *****/
+  $segment_1_description = get_post_meta($id, 'segment_1_description', true);
+  $segment_2_description = get_post_meta($id, 'segment_2_description', true);
+  $segment_3_description = get_post_meta($id, 'segment_3_description', true);
 
-      <div class="podcast-post">
-        <p class="podcast-title" style="text-align: left">
-          <span style="text-decoration: underline">
-            <strong><?php echo get_the_date('n/j/Y');?></strong>
-          </span>
-        </p>
-        <ul>
-        <?php
-          echo '<li>' . $segment_1_description . '</li>';
-          echo '<li>' . $segment_2_description . '</li>';
-          echo '<li>' . $segment_3_description . '</li>';
-          ?>
-        </ul>
-      </div>
+  $segment_1_link = get_post_meta($id, 'segment_1_link', true);
+  $segment_2_link = get_post_meta($id, 'segment_2_link', true);
+  $segment_3_link = get_post_meta($id, 'segment_3_link', true);
+
+  ?>
+  <?php if ( $station_website ) { echo '<a href="' .  $station_website . '" target="_blank">';}?>
+  <div class="podcast-post">
+    <p class="podcast-title" style="text-align: left">
+      <span style="text-decoration: underline">
+        <strong><?php echo get_the_date('n/j/Y');?></strong>
+      </span>
+    </p>
+    <ul>
+      <?php
+      echo '<li>' . $segment_1_description;
+      if ( $segment_1_link ) { echo '<a href="' .  $segment_1_link . '" target="_blank"> CLICK HERE TO LISTEN</a>';}
+      echo '</li>'; ?>
+
+      <?php
+      echo '<li>' . $segment_2_description;
+      if ( $segment_2_link ) { echo '<a href="' .  $segment_2_link . '" target="_blank"> CLICK HERE TO LISTEN</a>';}
+      echo '</li>'; ?>
+
+      <?php
+      echo '<li>' . $segment_3_description;
+      if ( $segment_3_link ) { echo '<a href="' .  $segment_3_link . '" target="_blank"> CLICK HERE TO LISTEN</a>';}
+      echo '</li>'; ?>
+    </ul>
+  </div>
 
 <?php
   } //endwhile;

@@ -85,7 +85,7 @@ function fcc_load_northland_radio_includes() {
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
 
     # Podcast Feed
-			require_once( plugin_dir_path( __FILE__ ) . '/includes/podcast-feed.php' );
+			//require_once( plugin_dir_path( __FILE__ ) . '/includes/podcasts-feed-functions.php' );
 
 		# Misc/Testing Functions
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
@@ -145,9 +145,9 @@ function fcc_norad_acf_filter_admin_date_format( $value, $post_id, $field ) {
     else { $value = $value; }
     return $value;
 }
-add_filter('acf/load_value/name=segment_1_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
-add_filter('acf/load_value/name=segment_2_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
-add_filter('acf/load_value/name=segment_3_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
+//add_filter('acf/load_value/name=segment_1_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
+//add_filter('acf/load_value/name=segment_2_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
+//add_filter('acf/load_value/name=segment_3_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
 
 /**
  * Read-Only Field Filter
@@ -168,6 +168,25 @@ add_filter("acf/load_field/name=segment_2_duration", "fcc_norad_field_readonly_f
 add_filter("acf/load_field/name=segment_2_date", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_3_duration", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filter");
+
+
+/**
+ * Hide Fields
+ *
+ * Filters the load fields before rendering, use to "disable" fields by hiding.
+ * @since 0.16.02.02
+ * @link http://www.advancedcustomfields.com/resources/acfload_value/
+ */
+function fcc_norad_segment_thumbnail_load_field( $field ) {
+
+  if (!get_option('options_segement_thumbnail_image_field')['0']) {
+    $field['wrapper']['class'] = 'hidden-by-conditional-logic';
+  }
+  return $field;
+
+}
+add_filter('acf/load_field/name=segment_thumbnail', 'fcc_norad_segment_thumbnail_load_field');
+
 
 /*--------------------------------------------------------------
 # AJAX
@@ -211,6 +230,32 @@ function jwplayer_ajax_request() { // TODO: Rename & Prefix function & JS. fcc_n
    die();
 }
 add_action( 'wp_ajax_jwplayer_ajax_request', 'jwplayer_ajax_request' );
+
+/*--------------------------------------------------------------
+# PODCASTS FEED LOADING
+--------------------------------------------------------------*/
+
+/**
+ * Add Podcasts Feed
+ *
+ * Add a new feed type at [example.com]/feed/podcasts
+ * @since 0.16.02.03
+ * @uses add_podcasts_feed()
+ * @link https://codex.wordpress.org/Rewrite_API/add_feed
+ */
+add_action('init', 'fcc_norad_do_podcasts_feed');
+function fcc_norad_do_podcasts_feed(){
+
+  # Load the functions file
+  require_once( plugin_dir_path( __FILE__ ) . '/includes/podcasts-feed-functions.php' );
+
+  # Declare the feed
+  add_feed('podcasts', 'add_podcasts_feed');
+
+  global $wp_rewrite; // TODO: Remove before launch, use plugin activation hook
+  $wp_rewrite->flush_rules(); // TODO: Remove before launch, use plugin activation hook
+
+}
 
 /*--------------------------------------------------------------
 # POSTS: Generation & Save Hooks

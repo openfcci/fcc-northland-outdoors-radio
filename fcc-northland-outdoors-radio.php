@@ -203,7 +203,7 @@ function autopopulate_enqueue($hook) {
   if( $hook != 'edit.php' && $hook != 'post.php' && $hook != 'post-new.php' ) {
     return;
   }
-  //wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
+  wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
 }
 add_action( 'admin_enqueue_scripts', 'autopopulate_enqueue' );
 

@@ -179,7 +179,7 @@ add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filte
  */
 function fcc_norad_segment_thumbnail_load_field( $field ) {
 
-  if (!get_option('options_segement_thumbnail_image_field')['0']) {
+  if (!get_option('options_segement_thumbnail_image_field')) {
     $field['wrapper']['class'] = 'hidden-by-conditional-logic';
   }
   return $field;
@@ -207,26 +207,26 @@ function autopopulate_enqueue($hook) {
 }
 add_action( 'admin_enqueue_scripts', 'autopopulate_enqueue' );
 
-/**
- * Podcasts AJAX Request (Duration)
- *
- * Validate the segment JW key and returns the duration to the duration field.
- * @since 0.16.01.27
- * @link http://wptheming.com/2013/07/simple-ajax-example/
- */
+#
+ # Podcasts AJAX Request (Duration)
+ #
+ # Validate the segment JW key and returns the duration to the duration field.
+ # @since 0.16.01.27
+ # @link http://wptheming.com/2013/07/simple-ajax-example/
+ #
 function jwplayer_ajax_request() { // TODO: Rename & Prefix function & JS. fcc_norad_ajax_request()
-    // The $_REQUEST contains all the data sent via ajax
+    # The $_REQUEST contains all the data sent via ajax
     if ( isset($_REQUEST) ) {
         $key = $_REQUEST['key'];
-        // Now we'll return it to the javascript function
-        // Anything outputted will be returned in the response
+        # Now we'll return it to the javascript function
+        # Anything outputted will be returned in the response
         $duration = fcc_jw_duration( $key );
         $date = fcc_jw_date_admin( $key );
         $jwplayer_array = array($duration,$date);
         echo json_encode($jwplayer_array);
 
     }
-    // Always die in functions echoing ajax content
+    # Always die in functions echoing ajax content
    die();
 }
 add_action( 'wp_ajax_jwplayer_ajax_request', 'jwplayer_ajax_request' );

@@ -1,5 +1,12 @@
 <?php
-// ACF-5 (Pro), 01-28-2016
+/**
+ * ACF-5 (Pro) Fields
+ *
+ * Notes:
+ * Add 'hidden-by-conditional-logic' to Segment Thumbnail 1-3
+ *
+ * Last Updated: 01-28-2016
+ */
 
 if( function_exists('acf_add_local_field_group') ):
 
@@ -179,23 +186,40 @@ acf_add_local_field_group(array (
 			'key' => 'field_56aa399d07f80',
 			'label' => 'Link to corresponding post',
 			'name' => 'segment_1_link',
-			'type' => 'page_link',
+			'type' => 'url',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
-				'width' => '',
+				'width' => 66,
 				'class' => '',
 				'id' => '',
 			),
-			'post_type' => array (
-				0 => 'post',
+			'default_value' => '',
+			'placeholder' => '',
+		),
+		array (
+			'key' => 'field_56b0faad20354',
+			'label' => 'Post ID',
+			'name' => 'segment_1_postid',
+			'type' => 'number',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => 33,
+				'class' => '',
+				'id' => '',
 			),
-			'taxonomy' => array (
-				0 => 'category:podcast',
-			),
-			'allow_null' => 1,
-			'multiple' => 0,
+			'default_value' => '',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'min' => 0,
+			'max' => '',
+			'step' => '',
+			'readonly' => 0,
+			'disabled' => 0,
 		),
 		array (
 			'key' => 'field_56a6875d5dcbc',
@@ -207,7 +231,7 @@ acf_add_local_field_group(array (
 			'conditional_logic' => 0,
 			'wrapper' => array (
 				'width' => '',
-				'class' => '',
+				'class' => 'hidden-by-conditional-logic',
 				'id' => '',
 			),
 			'icon_class' => 'dashicons-format-image',
@@ -366,23 +390,40 @@ acf_add_local_field_group(array (
 			'key' => 'field_56aa3ae7e829c',
 			'label' => 'Link to corresponding post',
 			'name' => 'segment_2_link',
-			'type' => 'page_link',
+			'type' => 'url',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
-				'width' => '',
+				'width' => 66,
 				'class' => '',
 				'id' => '',
 			),
-			'post_type' => array (
-				0 => 'post',
-			),
-			'taxonomy' => array (
-				0 => 'category:podcast',
-			),
-			'allow_null' => 1,
-			'multiple' => 0,
+			'default_value' => '',
+			'placeholder' => '',
+		),
+		array (
+		  'key' => 'field_56b0fbc1589e4',
+		  'label' => 'Post ID',
+		  'name' => 'segment_2_postid',
+		  'type' => 'number',
+		  'instructions' => '',
+		  'required' => 0,
+		  'conditional_logic' => 0,
+		  'wrapper' => array (
+		    'width' => 33,
+		    'class' => '',
+		    'id' => '',
+		  ),
+		  'default_value' => '',
+		  'placeholder' => '',
+		  'prepend' => '',
+		  'append' => '',
+		  'min' => 0,
+		  'max' => '',
+		  'step' => '',
+		  'readonly' => 0,
+		  'disabled' => 0,
 		),
 		array (
 			'key' => 'field_56a907cdde065',
@@ -549,23 +590,40 @@ acf_add_local_field_group(array (
 			'key' => 'field_56aa3b67849a2',
 			'label' => 'Link to corresponding post',
 			'name' => 'segment_3_link',
-			'type' => 'page_link',
+			'type' => 'url',
 			'instructions' => '',
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
-				'width' => '',
+				'width' => 66,
 				'class' => '',
 				'id' => '',
 			),
-			'post_type' => array (
-				0 => 'post',
-			),
-			'taxonomy' => array (
-				0 => 'category:podcast',
-			),
-			'allow_null' => 1,
-			'multiple' => 0,
+			'default_value' => '',
+			'placeholder' => '',
+		),
+		array (
+		  'key' => 'field_56b0fc6829259',
+		  'label' => 'Post ID',
+		  'name' => 'segment_3_postid',
+		  'type' => 'number',
+		  'instructions' => '',
+		  'required' => 0,
+		  'conditional_logic' => 0,
+		  'wrapper' => array (
+		    'width' => 33,
+		    'class' => '',
+		    'id' => '',
+		  ),
+		  'default_value' => '',
+		  'placeholder' => '',
+		  'prepend' => '',
+		  'append' => '',
+		  'min' => 0,
+		  'max' => '',
+		  'step' => '',
+		  'readonly' => 0,
+		  'disabled' => 0,
 		),
 		array (
 			'key' => 'field_56a908365a56a',

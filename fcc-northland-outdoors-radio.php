@@ -145,9 +145,9 @@ function fcc_norad_acf_filter_admin_date_format( $value, $post_id, $field ) {
     else { $value = $value; }
     return $value;
 }
-add_filter('acf/load_value/name=segment_1_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
-add_filter('acf/load_value/name=segment_2_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
-add_filter('acf/load_value/name=segment_3_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
+//add_filter('acf/load_value/name=segment_1_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
+//add_filter('acf/load_value/name=segment_2_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
+//add_filter('acf/load_value/name=segment_3_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
 
 /**
  * Read-Only Field Filter
@@ -169,6 +169,25 @@ add_filter("acf/load_field/name=segment_2_date", "fcc_norad_field_readonly_filte
 add_filter("acf/load_field/name=segment_3_duration", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filter");
 
+
+/**
+ * Hide Fields
+ *
+ * Filters the load fields before rendering, use to "disable" fields by hiding.
+ * @since 0.16.02.02
+ * @link http://www.advancedcustomfields.com/resources/acfload_value/
+ */
+function fcc_norad_segment_thumbnail_load_field( $field ) {
+
+  if (!get_option('options_segement_thumbnail_image_field')['0']) {
+    $field['wrapper']['class'] = 'hidden-by-conditional-logic';
+  }
+  return $field;
+
+}
+add_filter('acf/load_field/name=segment_thumbnail', 'fcc_norad_segment_thumbnail_load_field');
+
+
 /*--------------------------------------------------------------
 # AJAX
 --------------------------------------------------------------*/
@@ -184,7 +203,7 @@ function autopopulate_enqueue($hook) {
   if( $hook != 'edit.php' && $hook != 'post.php' && $hook != 'post-new.php' ) {
     return;
   }
-  wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
+  //wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
 }
 add_action( 'admin_enqueue_scripts', 'autopopulate_enqueue' );
 

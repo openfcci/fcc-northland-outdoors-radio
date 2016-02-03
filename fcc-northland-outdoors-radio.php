@@ -46,6 +46,7 @@
   */
  function fcc_northland_radio_plugin_activation() {
  	flush_rewrite_rules(); // Flush our rewrite rules on activation.
+  //$wp_rewrite->flush_rules(); // TODO: Incorporate this with Podcast Feed
  }
  register_activation_hook( __FILE__, 'fcc_northland_radio_plugin_activation' );
 
@@ -82,6 +83,9 @@ function fcc_load_northland_radio_includes() {
 
 		# ACF Fields
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
+
+    # Podcast Feed
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/podcast-feed.php' );
 
 		# Misc/Testing Functions
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
@@ -136,7 +140,8 @@ add_action('acf/include_field_types', 'include_field_types_accordion');
  * @return string $value Format: 01/04/2016, 3:29pm
  */
 function fcc_norad_acf_filter_admin_date_format( $value, $post_id, $field ) {
-    if ( $value ) { $value = date( 'm/d/Y, g:ia', $value ); }
+    //if ( $value ) { $value = date( 'm/d/Y, g:ia', $value ); }
+    if ( $value ) { $value = date( 'm/d/Y', $value ); }
     else { $value = $value; }
     return $value;
 }
@@ -157,12 +162,12 @@ function fcc_norad_field_readonly_filter($field) {
   }
 	return $field;
 }
-/*add_filter("acf/load_field/name=segment_1_duration", "fcc_norad_field_readonly_filter");
+add_filter("acf/load_field/name=segment_1_duration", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_1_date", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_2_duration", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_2_date", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_3_duration", "fcc_norad_field_readonly_filter");
-add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filter");*/
+add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filter");
 
 /*--------------------------------------------------------------
 # AJAX
@@ -215,6 +220,8 @@ add_action( 'wp_ajax_jwplayer_ajax_request', 'jwplayer_ajax_request' );
  * Post Slug & Title auto-naming
  *
  * A filter hook called by the wp_insert_post function prior to inserting into or updating the database.
+ *
+ * Note: Alternate hook save_post_{post_type}. Hooking to this action you wouldn't have to check on the post type.
  *
  * Optional: Run the slug from sanitize_title_with_dashes() through wp_unique_post_slug() to ensure that it's unique.
  * It will automatically append '-2', '-3' etc. if it's needed.

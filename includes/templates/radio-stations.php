@@ -4,7 +4,7 @@
 --------------------------------------------------------------*/
 
 echo '<h2 class="section-title">STATIONS</h2>';
-if ( !get_option('stations_style') ) { echo '<ol class="station-list">'; }
+if ( get_option('options_stations_layout') ) { echo '<ol class="station-list">'; }
 else { echo '<ol>'; }
 
 /* Begin the Loop */

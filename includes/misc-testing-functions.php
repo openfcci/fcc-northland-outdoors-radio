@@ -31,6 +31,14 @@ function plugindir() { // TODO: Remove before launch.
  echo $plugindir;
 }
 
+/*
+//$array = 'ZOODFSb7,VFrKuBJQ,bYQxT4bY,aioeEv3B,CgKIfAbr,Ft5xxeSg,9SgRtoNx,DzF4eWAf,emRKQcV8,CVT6VLT7,ik8PTske,Z0KzQwu4,19javmV6,44ibZxmP,G6XDPAtI,0DSEmpK8,MJv0Qt6F,8XaA2Z7G,VgbrG3Z5,WTZuMKov,e4s2yqkj,V1HDlWg2,FiGUFver,AGNWvKyjI,R4wsa1f';
+
+//$keys = explode( ',', $array );
+//for ($i = 0; $i < count($keys); ++$i) {
+	//printf("%s<br>", $keys[$i] . ':' .fcc_jw_size( $keys[$i] ) );
+}*/
+
 
 /* Admin WP_Screen Object tester */
 function fcc_test_admin() {

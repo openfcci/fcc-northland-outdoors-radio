@@ -22,6 +22,16 @@ function fcc_jw_key( $key ) {
 }
 
 /**
+* JW Platform API: List Conversions
+* Returns an array of file conversions based on key.
+*/
+function fcc_jw_list_conversions( $key ) {
+	$botr_api = new BotrAPI( get_option('options_jw_platform_api_key'), get_option('options_jw_platform_api_secret') ); // Instantiate the API.
+	$response = $botr_api->call("/videos/conversions/list",array('video_key'=>$key)); // Call the API
+	return $response;
+}
+
+/**
 * JW Platform API: Return Video Object
 * Call the JW API to return the video based on the key.
 */
@@ -54,6 +64,24 @@ function fcc_jw_duration( $key ) {
 	$duration = $response['video']['duration'];
 	$duration = gmdate("H:i:s", round($duration) );
 	return $duration;
+}
+
+/**
+* JW Platform API: Return Size ("Length")
+* Returns the size of the file in bytes.
+*/
+function fcc_jw_size( $key ) {
+	$botr_api = new BotrAPI( get_option('options_jw_platform_api_key'), get_option('options_jw_platform_api_secret') ); // Instantiate the API.
+	$response = $botr_api->call("/videos/conversions/list",array('video_key'=>$key)); // Call the API
+	$total = $response['total']; # Total number of conversions
+
+	if ( '2' == $total ) { # The 2nd array item should be the Audio conversion, grab that if present
+		$size = $response['conversions']['1']['filesize'];
+	} else { # If not, grab the original file
+		$size = $response['conversions']['0']['filesize'];
+	}
+
+	return $size;
 }
 
 /**

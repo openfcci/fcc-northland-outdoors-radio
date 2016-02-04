@@ -4,7 +4,7 @@
  * Plugin URI:  https://github.com/openfcci/fcc-northland-outdoors-radio
  * Author:      FCC
  * Author URI:  http://www.forumcomm.com/
- * Version:     0.16.01.28
+ * Version:     0.16.02.03
  * Description: Northland Outdoors Radio, Podcasts and Stations plugin.
  * License:     GPL v2 or later
  */
@@ -19,6 +19,7 @@
  */
 
 # Pre-Launch Requirements
+ // TODO Add regex "JW Player Key" field to remove content after any potential "-" (in case the attempt to paste key and player)
  // TODO Register "Radio" & "TV" Station Type term on plugin activation
  // TODO Programmatically create "Radio" page on plugin activation
  // TODO Programmatically create three linked podcast posts upon podcast publish (or auto-save?). https://developer.wordpress.org/reference/functions/wp_insert_post/
@@ -45,8 +46,8 @@
   * Plugin Activation Hook
   */
  function fcc_northland_radio_plugin_activation() {
- 	flush_rewrite_rules(); // Flush our rewrite rules on activation.
-  //$wp_rewrite->flush_rules(); // TODO: Incorporate this with Podcast Feed
+   # Flush our rewrite rules on activation.
+   flush_rewrite_rules();
  }
  register_activation_hook( __FILE__, 'fcc_northland_radio_plugin_activation' );
 
@@ -54,7 +55,8 @@
   * Plugin Deactivation Hook
   */
  function fcc_northland_radio_plugin_deactivation() {
- 	flush_rewrite_rules(); // Flush our rewrite rules on deactivation.
+   # Flush our rewrite rules on deactivation.
+   flush_rewrite_rules();
  }
  register_deactivation_hook( __FILE__, 'fcc_northland_radio_plugin_deactivation' );
 
@@ -84,17 +86,15 @@ function fcc_load_northland_radio_includes() {
 		# ACF Fields
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
 
-    # Podcast Feed
-			//require_once( plugin_dir_path( __FILE__ ) . '/includes/podcasts-feed-functions.php' );
-
-		# Misc/Testing Functions
+    ##########################
+		# Misc/Testing Functions #
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
 	}
 }
 add_action( 'init', 'fcc_load_northland_radio_includes', 99 );
 
 /*--------------------------------------------------------------
-# INCLUDE ACF PRO
+# ACF INCLUDES
 --------------------------------------------------------------*/
 
 # 1. customize ACF path
@@ -162,28 +162,39 @@ function fcc_norad_field_readonly_filter($field) {
   }
 	return $field;
 }
+# Segment 1
 add_filter("acf/load_field/name=segment_1_duration", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_1_date", "fcc_norad_field_readonly_filter");
+add_filter("acf/load_field/name=segment_1_size", "fcc_norad_field_readonly_filter");
+# Segment 2
 add_filter("acf/load_field/name=segment_2_duration", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_2_date", "fcc_norad_field_readonly_filter");
+add_filter("acf/load_field/name=segment_2_size", "fcc_norad_field_readonly_filter");
+# Segment 3
 add_filter("acf/load_field/name=segment_3_duration", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filter");
-
+add_filter("acf/load_field/name=segment_3_size", "fcc_norad_field_readonly_filter");
 
 /**
- * Hide Fields
+ * Enable/Disable Segment Image Thumbnail Fields
  *
  * Filters the load fields before rendering, use to "disable" fields by hiding.
  * @since 0.16.02.02
  * @link http://www.advancedcustomfields.com/resources/acfload_value/
  */
 function fcc_norad_segment_thumbnail_load_field( $field ) {
+<<<<<<< HEAD
 
   if (!get_option('options_segement_thumbnail_image_field')) {
     $field['wrapper']['class'] = 'hidden-by-conditional-logic';
+=======
+  if ( !get_option('options_segement_thumbnail_image_field') ) {
+    $field['wrapper']['class'] = 'hidden-by-conditional-logic'; # Hide
+  } else {
+    $field['wrapper']['class'] = ''; # Show
+>>>>>>> bc0b8d62c5aa955c56bb1239a85b2df3bbbdd062
   }
   return $field;
-
 }
 add_filter('acf/load_field/name=segment_thumbnail', 'fcc_norad_segment_thumbnail_load_field');
 
@@ -304,7 +315,7 @@ global $pagenow;
     $wp_query->set( 'order', 'DSC' );
   }
 }
-add_filter('pre_get_posts', 'fcc_norad_set_post_order_in_admin' );
+add_filter('pre_get_posts', 'fcc_norad_set_post_order_in_admin' ); // TODO: Fix to only load on Podcasts & Stations screen, it messes with ACF export
 
 /**
  * Set Podcast Post Titles to Read-Only

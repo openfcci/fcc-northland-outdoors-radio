@@ -198,21 +198,6 @@ add_filter('acf/load_field/name=segment_thumbnail', 'fcc_norad_segment_thumbnail
 # AJAX
 --------------------------------------------------------------*/
 
-/**
- * Enqueue AJAX Scripts
- *
- * Load the AJAX JS only to post-related pages.
- * @since 0.16.01.27
- * @link https://codex.wordpress.org/Plugin_API/Action_Reference/admin_enqueue_scripts
- */
-function autopopulate_enqueue($hook) {
-  if( $hook != 'edit.php' && $hook != 'post.php' && $hook != 'post-new.php' ) {
-    return;
-  }
-  wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
-}
-add_action( 'admin_enqueue_scripts', 'autopopulate_enqueue' );
-
 #
  # Podcasts AJAX Request (Duration)
  #
@@ -315,10 +300,11 @@ add_filter('pre_get_posts', 'fcc_norad_set_post_order_in_admin' ); // TODO: Fix 
 
 /**
  * Set Podcast Post Titles to Read-Only
+ *Autopopulate Podcast Fields with jwplayer info
  *
- * @since 0.16.01.28
+ * @since 0.16.02.04
  */
-function disableAdminTitle () {
+function loadOnPodcasts () {
   if ( is_admin() ) {
     global $my_admin_page;
     $screen = get_current_screen();
@@ -326,7 +312,8 @@ function disableAdminTitle () {
       return;
     } # Else Proceed
     wp_enqueue_script( 'admin_title_disable', plugin_dir_url( __FILE__ ) . '/includes/js/admin_title_disable.js' );
+    wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
   }
 
 }
-add_action('admin_enqueue_scripts', 'disableAdminTitle');
+add_action('admin_enqueue_scripts', 'loadOnPodcasts');

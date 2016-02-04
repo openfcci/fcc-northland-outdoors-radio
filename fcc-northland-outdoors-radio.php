@@ -228,7 +228,8 @@ function jwplayer_ajax_request() { // TODO: Rename & Prefix function & JS. fcc_n
         # Anything outputted will be returned in the response
         $duration = fcc_jw_duration( $key );
         $date = fcc_jw_date_admin( $key );
-        $jwplayer_array = array($duration,$date);
+        $size = fcc_jw_size( $key );
+        $jwplayer_array = array($duration,$date, $size);
         echo json_encode($jwplayer_array);
 
     }

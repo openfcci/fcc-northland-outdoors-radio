@@ -183,16 +183,11 @@ add_filter("acf/load_field/name=segment_3_size", "fcc_norad_field_readonly_filte
  * @link http://www.advancedcustomfields.com/resources/acfload_value/
  */
 function fcc_norad_segment_thumbnail_load_field( $field ) {
-<<<<<<< HEAD
 
-  if (!get_option('options_segement_thumbnail_image_field')) {
-    $field['wrapper']['class'] = 'hidden-by-conditional-logic';
-=======
   if ( !get_option('options_segement_thumbnail_image_field') ) {
     $field['wrapper']['class'] = 'hidden-by-conditional-logic'; # Hide
   } else {
     $field['wrapper']['class'] = ''; # Show
->>>>>>> bc0b8d62c5aa955c56bb1239a85b2df3bbbdd062
   }
   return $field;
 }

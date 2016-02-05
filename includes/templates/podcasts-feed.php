@@ -5,4 +5,4 @@
 --------------------------------------------------------------*/
 
 header("Content-type: text/xml");
-echo '<test>I am the Podcasts Feed Template File</test>';
+echo '<test>I am the Podcasts Feed Template File Hello</test>';

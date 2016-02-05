@@ -31,15 +31,6 @@ function plugindir() { // TODO: Remove before launch.
  echo $plugindir;
 }
 
-/*
-//$array = 'ZOODFSb7,VFrKuBJQ,bYQxT4bY,aioeEv3B,CgKIfAbr,Ft5xxeSg,9SgRtoNx,DzF4eWAf,emRKQcV8,CVT6VLT7,ik8PTske,Z0KzQwu4,19javmV6,44ibZxmP,G6XDPAtI,0DSEmpK8,MJv0Qt6F,8XaA2Z7G,VgbrG3Z5,WTZuMKov,e4s2yqkj,V1HDlWg2,FiGUFver,AGNWvKyjI,R4wsa1f';
-
-//$keys = explode( ',', $array );
-//for ($i = 0; $i < count($keys); ++$i) {
-	//printf("%s<br>", $keys[$i] . ':' .fcc_jw_size( $keys[$i] ) );
-}*/
-
-
 /* Admin WP_Screen Object tester */
 function fcc_test_admin() {
   if ( is_admin() ) {
@@ -50,12 +41,28 @@ function fcc_test_admin() {
       return;
     } # Else Proceed*/
 
-    PC::debug( $screen, 'Screen:' );
+    //PC::debug( $screen, 'Screen:' );
 
   }
 }
 //add_action( 'admin_enqueue_scripts', 'fcc_test_admin' );
 
+/* Get the Screen ID in a Hook */
+/* Place the below lines in the function hook
+global $my_admin_page;
+$screen = get_current_screen();
+PC::debug( $screen->id, 'Screen ID:' );
+*/
+
+###########################################################
+
+/*
+//$array = 'ZOODFSb7,VFrKuBJQ,bYQxT4bY,aioeEv3B,CgKIfAbr,Ft5xxeSg,9SgRtoNx,DzF4eWAf,emRKQcV8,CVT6VLT7,ik8PTske,Z0KzQwu4,19javmV6,44ibZxmP,G6XDPAtI,0DSEmpK8,MJv0Qt6F,8XaA2Z7G,VgbrG3Z5,WTZuMKov,e4s2yqkj,V1HDlWg2,FiGUFver,AGNWvKyjI,R4wsa1f';
+
+//$keys = explode( ',', $array );
+//for ($i = 0; $i < count($keys); ++$i) {
+	//printf("%s<br>", $keys[$i] . ':' .fcc_jw_size( $keys[$i] ) );
+}*/
 
 /*
 $segment_1_key = get_post_meta($id, 'segment_1_key', true);
@@ -72,22 +79,3 @@ printf("%s<br>", $segment_1_title );
 printf("%s<br>", $segment_1_description );
 printf("%s<br>", $segment_1_image );
 */
-
-/*--------------------------------------------------------------
-# INCLUDE CMB
---------------------------------------------------------------*/
-
-# Custom Meta Boxes Includes
-  // TODO: Define CMB_PATH & move the folder into 'includes' (if used)
-
-  /*if ( ! defined( 'CMB_DEV') )
-    define( 'CMB_DEV', false );
-
-  if ( ! defined( 'CMB_PATH') )
-    define( 'CMB_PATH', plugin_dir_path( __FILE__ ) );
-
-  if ( ! defined( 'CMB_URL' ) )
-    define( 'CMB_URL', plugins_url( '', __FILE__ ) );*/
-
-  //require_once( plugin_dir_path( __FILE__ ) . '/Custom-Meta-Boxes/custom-meta-boxes.php' );
-  //require_once( plugin_dir_path( __FILE__ ) . '/includes/custom-meta-boxes.php' );

@@ -33,7 +33,7 @@ if ( $the_query->have_posts()  ) { // IF
       /*
       Parse error: syntax error, unexpected '[' in /Applications/AMPPS/www/wp/wp-content/plugins/fcc-northland-outdoors-radio/includes/templates/radio-stations.php on line 32
       */
-      //$station_state = $station_state = get_the_terms( $id, 'station_state')['0']->name; //$station_state = the_terms( $id, 'station_state', '', ', ', ': ');
+      $station_state = $station_state = get_the_terms( $id, 'station_state')['0']->name; //$station_state = the_terms( $id, 'station_state', '', ', ', ': ');
       $station_name = get_post_meta($id, 'station_name', true);
       $station_website = get_post_meta($id, 'station_website', true);
       $station_timeslot = get_post_meta($id, 'station_timeslot', true);

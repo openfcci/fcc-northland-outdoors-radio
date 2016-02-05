@@ -11,27 +11,6 @@
 
 ### Namespace/Prefix: fcc_norad_
 
-/**
- * CPT Slug: podcasts
- * CPT Slug: stations
- * TAX Slug: station_type
- * TAX Slug: station_state
- */
-
-# Pre-Launch Requirements
- // TODO Add regex "JW Player Key" field to remove content after any potential "-" (in case the attempt to paste key and player)
- // TODO Register "Radio" & "TV" Station Type term on plugin activation
- // TODO Programmatically create "Radio" page on plugin activation
- // TODO Programmatically create three linked podcast posts upon podcast publish (or auto-save?). https://developer.wordpress.org/reference/functions/wp_insert_post/
- // TODO add req. or admin notification to resolve potential conflicts if another ACF plugin is active (http://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices)
- // TODO Add admin notification if JW API Key/Secret are not set in the plugin settings page (http://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices)
-
-# Ideas
- // TODO Make new podcasts trigger the creation of 3 new posts in "draft" status, with the title auto-populated and the post link saved to segment meta
- // TODO Change "Upcoming Shows" page to "Radio Page" with settings and addional fields like station notes
- // TODO shortcode function for returning segment info
- // TODO shortcode function for returning full week podcast info (& upcoming shows?)
-
  // Exit if accessed directly
  defined( 'ABSPATH' ) || exit;
 

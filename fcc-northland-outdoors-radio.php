@@ -299,6 +299,20 @@ global $pagenow;
 add_filter('pre_get_posts', 'fcc_norad_set_post_order_in_admin' ); // TODO: Fix to only load on Podcasts & Stations screen, it messes with ACF export
 
 /**
+*load radio page css outside admin pages
+*
+*@since 0.16.02.05
+*/
+function loadOnRadio (){
+  if ( ! is_admin() ) {
+    if ( is_page( 'radio' ) ) { 
+      wp_enqueue_style( 'custom_css_norad', plugin_dir_url( __FILE__ ) . '/includes/css/fcc_norad.css' );
+    }
+  }
+}
+add_action('wp_head', 'loadOnRadio');
+
+/**
  * Set Podcast Post Titles to Read-Only
  *Autopopulate Podcast Fields with jwplayer info
  *

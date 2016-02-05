@@ -23,6 +23,10 @@ if ( $the_query->have_posts()  ) { // IF
 <?php
 
   /**** POST META  *****/
+  $segment_1_title = get_post_meta($id, 'segment_1_title', true);
+  $segment_2_title = get_post_meta($id, 'segment_2_title', true);
+  $segment_3_title = get_post_meta($id, 'segment_3_title', true);
+
   $segment_1_description = get_post_meta($id, 'segment_1_description', true);
   $segment_2_description = get_post_meta($id, 'segment_2_description', true);
   $segment_3_description = get_post_meta($id, 'segment_3_description', true);
@@ -41,19 +45,19 @@ if ( $the_query->have_posts()  ) { // IF
     </p>
     <ul>
       <?php
-      echo '<li>' . $segment_1_description;
-      if ( $segment_1_link ) { echo '<a href="' .  $segment_1_link . '" target="_blank"> CLICK HERE TO LISTEN</a>';}
-      echo '</li>'; ?>
+      echo '<li>';
+      if ( $segment_1_link ) { echo '<a href="' .  $segment_1_link . '" target="_blank">' . $segment_1_title . '</a> &ndash; ';}
+      echo $segment_1_description . '</li>'; ?>
 
       <?php
-      echo '<li>' . $segment_2_description;
-      if ( $segment_2_link ) { echo '<a href="' .  $segment_2_link . '" target="_blank"> CLICK HERE TO LISTEN</a>';}
-      echo '</li>'; ?>
+      echo '<li>';
+      if ( $segment_2_link ) { echo '<a href="' .  $segment_2_link . '" target="_blank">' . $segment_2_title . '</a> &ndash; ';}
+      echo $segment_2_description . '</li>'; ?>
 
       <?php
-      echo '<li>' . $segment_3_description;
-      if ( $segment_3_link ) { echo '<a href="' .  $segment_3_link . '" target="_blank"> CLICK HERE TO LISTEN</a>';}
-      echo '</li>'; ?>
+      echo '<li>';
+      if ( $segment_3_link ) { echo '<a href="' .  $segment_3_link . '" target="_blank">' . $segment_3_title . '</a> &ndash; ';}
+      echo $segment_3_description . '</li>'; ?>
     </ul>
   </div>
 

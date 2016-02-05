@@ -162,6 +162,7 @@ add_filter("acf/load_field/name=segment_3_size", "fcc_norad_field_readonly_filte
  * @link http://www.advancedcustomfields.com/resources/acfload_value/
  */
 function fcc_norad_segment_thumbnail_load_field( $field ) {
+
   if ( !get_option('options_segement_thumbnail_image_field') ) {
     $field['wrapper']['class'] = 'hidden-by-conditional-logic'; # Hide
   } else {
@@ -201,41 +202,27 @@ add_filter("acf/load_field/name=podcasts_channel_link", "fcc_norad_podcasts_chan
 # AJAX
 --------------------------------------------------------------*/
 
-/**
- * Enqueue AJAX Scripts
- *
- * Load the AJAX JS only to post-related pages.
- * @since 0.16.01.27
- * @link https://codex.wordpress.org/Plugin_API/Action_Reference/admin_enqueue_scripts
- */
-function autopopulate_enqueue($hook) {
-  if( $hook != 'edit.php' && $hook != 'post.php' && $hook != 'post-new.php' ) {
-    return;
-  }
-  wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
-}
-add_action( 'admin_enqueue_scripts', 'autopopulate_enqueue' );
-
-/**
- * Podcasts AJAX Request (Duration)
- *
- * Validate the segment JW key and returns the duration to the duration field.
- * @since 0.16.01.27
- * @link http://wptheming.com/2013/07/simple-ajax-example/
- */
+#
+ # Podcasts AJAX Request (Duration)
+ #
+ # Validate the segment JW key and returns the duration to the duration field.
+ # @since 0.16.01.27
+ # @link http://wptheming.com/2013/07/simple-ajax-example/
+ #
 function jwplayer_ajax_request() { // TODO: Rename & Prefix function & JS. fcc_norad_ajax_request()
-    // The $_REQUEST contains all the data sent via ajax
+    # The $_REQUEST contains all the data sent via ajax
     if ( isset($_REQUEST) ) {
         $key = $_REQUEST['key'];
-        // Now we'll return it to the javascript function
-        // Anything outputted will be returned in the response
+        # Now we'll return it to the javascript function
+        # Anything outputted will be returned in the response
         $duration = fcc_jw_duration( $key );
         $date = fcc_jw_date_admin( $key );
-        $jwplayer_array = array($duration,$date);
+        $size = fcc_jw_size( $key );
+        $jwplayer_array = array($duration,$date, $size);
         echo json_encode($jwplayer_array);
 
     }
-    // Always die in functions echoing ajax content
+    # Always die in functions echoing ajax content
    die();
 }
 add_action( 'wp_ajax_jwplayer_ajax_request', 'jwplayer_ajax_request' );
@@ -317,11 +304,26 @@ $screen = get_current_screen();
 if ( is_admin() ) { add_filter('pre_get_posts', 'fcc_norad_set_post_order_in_admin' ); }
 
 /**
+*load radio page css outside admin pages
+*
+*@since 0.16.02.05
+*/
+function loadOnRadio (){
+  if ( ! is_admin() ) {
+    if ( is_page( 'radio' ) ) { 
+      wp_enqueue_style( 'custom_css_norad', plugin_dir_url( __FILE__ ) . '/includes/css/fcc_norad.css' );
+    }
+  }
+}
+add_action('wp_head', 'loadOnRadio');
+
+/**
  * Set Podcast Post Titles to Read-Only
+ *Autopopulate Podcast Fields with jwplayer info
  *
- * @since 0.16.01.28
+ * @since 0.16.02.04
  */
-function disableAdminTitle () {
+function loadOnPodcasts () {
   if ( is_admin() ) {
     global $my_admin_page;
     $screen = get_current_screen();
@@ -329,7 +331,8 @@ function disableAdminTitle () {
       return;
     } # Else Proceed
     wp_enqueue_script( 'admin_title_disable', plugin_dir_url( __FILE__ ) . '/includes/js/admin_title_disable.js' );
+    wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
   }
 
 }
-add_action('admin_enqueue_scripts', 'disableAdminTitle');
+add_action('admin_enqueue_scripts', 'loadOnPodcasts');

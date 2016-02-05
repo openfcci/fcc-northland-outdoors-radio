@@ -215,7 +215,7 @@ function jwplayer_ajax_request() { // TODO: Rename & Prefix function & JS. fcc_n
         $key = $_REQUEST['key'];
         # Now we'll return it to the javascript function
         # Anything outputted will be returned in the response
-        $duration = fcc_jw_duration( $key );
+        $duration = fcc_jw_conversion_duration( $key );
         $date = fcc_jw_date_admin( $key );
         $size = fcc_jw_size( $key );
         $jwplayer_array = array($duration,$date, $size);
@@ -310,7 +310,7 @@ if ( is_admin() ) { add_filter('pre_get_posts', 'fcc_norad_set_post_order_in_adm
 */
 function loadOnRadio (){
   if ( ! is_admin() ) {
-    if ( is_page( 'radio' ) ) { 
+    if ( is_page( 'radio' ) ) {
       wp_enqueue_style( 'custom_css_norad', plugin_dir_url( __FILE__ ) . '/includes/css/fcc_norad.css' );
     }
   }

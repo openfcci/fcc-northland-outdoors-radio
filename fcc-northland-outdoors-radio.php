@@ -88,7 +88,7 @@ function fcc_load_northland_radio_includes() {
 
     ##########################
 		# Misc/Testing Functions #
-			require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
+			//require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
 	}
 }
 add_action( 'init', 'fcc_load_northland_radio_includes', 99 );
@@ -193,6 +193,31 @@ function fcc_norad_segment_thumbnail_load_field( $field ) {
 }
 add_filter('acf/load_field/name=segment_thumbnail', 'fcc_norad_segment_thumbnail_load_field');
 
+/**
+ * Set Default "Channel Title" Value
+ *
+ * @since 0.16.02.04
+ * @link http://www.advancedcustomfields.com/resources/acfload_value/
+ */
+function fcc_norad_podcasts_channel_title_filter($field) {
+  $field['default_value'] = get_bloginfo('name');
+	return $field;
+}
+add_filter("acf/load_field/name=podcasts_channel_title", "fcc_norad_podcasts_channel_title_filter");
+
+/**
+ * Set Default "Channel Link" Value
+ *
+ * @since 0.16.02.04
+ * @link http://www.advancedcustomfields.com/resources/acfload_value/
+ */
+function fcc_norad_podcasts_channel_link_filter($field) {
+  $field['default_value'] = home_url();
+	return $field;
+}
+add_filter("acf/load_field/name=podcasts_channel_link", "fcc_norad_podcasts_channel_link_filter");
+
+
 
 /*--------------------------------------------------------------
 # AJAX
@@ -285,18 +310,19 @@ function fcc_norad_myplugin_update_slug( $data, $postarr ) {
 add_filter( 'wp_insert_post_data', 'fcc_norad_myplugin_update_slug', 99, 2 );
 
 /**
- * Order Admin Pages by Date by Default
+ * Order "All Podcasts" & "All Stations" Pages by Date
  *
  * @since 0.16.01.28
  */
 function fcc_norad_set_post_order_in_admin( $wp_query ) {
-global $pagenow;
-  if ( is_admin() && 'edit.php' == $pagenow && !isset($_GET['orderby'])) {
+global $my_admin_page;
+$screen = get_current_screen();
+  if ( ($screen->id == 'edit-podcasts' || $screen->id == 'edit-stations') && !isset($_GET['orderby']) ) {
     $wp_query->set( 'orderby', 'date' );
     $wp_query->set( 'order', 'DSC' );
   }
 }
-add_filter('pre_get_posts', 'fcc_norad_set_post_order_in_admin' ); // TODO: Fix to only load on Podcasts & Stations screen, it messes with ACF export
+if ( is_admin() ) { add_filter('pre_get_posts', 'fcc_norad_set_post_order_in_admin' ); }
 
 /**
 *load radio page css outside admin pages

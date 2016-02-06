@@ -2,7 +2,7 @@
 /**
  * Plugin Name: FCC Northland Outdoors Radio
  * Plugin URI:  https://github.com/openfcci/fcc-northland-outdoors-radio
- * Author:      FCC
+ * Author:      Forum Communications Company
  * Author URI:  http://www.forumcomm.com/
  * Version:     0.16.02.05
  * Description: Northland Outdoors Radio, Podcasts and Stations plugin.

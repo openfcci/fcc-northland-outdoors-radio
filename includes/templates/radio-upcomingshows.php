@@ -1,7 +1,7 @@
 <?php $upcoming = get_option('options_upcoming_shows'); ?>
 <div id="upcoming">
-  <span style="text-decoration: underline;"><strong>Coming up on future shows:</strong></span>
-  <?php echo $upcoming; ?>
-  <em>*If you have a good story that we should feature on the show, contact us below. </em>
+  <span class="headline" style=""><?php echo get_option('options_norad_upcoming_shows_header'); ?></span>
+  <div class="shows-content"><?php echo $upcoming; ?></div>
+  <span class="tagline"><?php echo get_option('options_norad_upcoming_shows_footer'); ?></span>
 </div><br>
 <?php //Re-open PHP

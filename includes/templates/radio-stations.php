@@ -2,8 +2,12 @@
 /*--------------------------------------------------------------
 # STATIONS
 --------------------------------------------------------------*/
-
-echo '<h2 class="section-title">STATIONS</h2>';
+?>
+<h2 class="section-title">STATIONS</h2>
+<div class="section-content">
+<p><strong><?php echo get_option('options_norad_stations_tagline'); ?></strong></p>
+<p><?php echo get_option('options_norad_stations_announcements'); ?></p>
+<?php
 if ( get_option('options_stations_layout') ) { echo '<ol class="station-list">'; }
 else { echo '<ol>'; }
 
@@ -67,5 +71,7 @@ if ( $the_query->have_posts()  ) { // IF
 } // endif;
  ?>
 </ol>
+<h6><?php echo get_option('options_norad_stations_footnote'); ?></h6>
+</div><!-- END section-content-->
 <!-- END STATIONS-->
 <?php

@@ -91,7 +91,8 @@ function fcc_load_northland_radio_includes() {
 			//require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
 	}
 }
-add_action( 'init', 'fcc_load_northland_radio_includes', 99 );
+add_action( 'init', 'fcc_load_northland_radio_includes', 100 );
+
 
 /*--------------------------------------------------------------
 # ACF INCLUDES
@@ -286,7 +287,6 @@ function fcc_norad_do_podcasts_feed(){
   $wp_rewrite->flush_rules(); // TODO: Remove before launch, use plugin activation hook
 
 }
-
 /*--------------------------------------------------------------
 # POSTS: Generation & Save Hooks
 --------------------------------------------------------------*/
@@ -354,3 +354,16 @@ function disableAdminTitle () {
 
 }
 add_action('admin_enqueue_scripts', 'disableAdminTitle');
+
+/**
+ * Set Admin Notices
+ *
+ *@since 0.16.02.08
+ */
+add_action('init', 'add_admin_notices');
+function add_admin_notices(){
+  // if ( !get_option ( 'options_jw_platform_api_key' ) || !get_option('options_jw_platform_api_secret')) {
+    if ( !get_option ( 'options_jw_platform_api_key' ) || !get_option('options_jw_platform_api_secret')) {
+        require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-notices.php' );
+      }
+}

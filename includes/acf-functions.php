@@ -105,3 +105,56 @@ $screen = get_current_screen();
   }
 }
 if ( is_admin() ) { add_filter('pre_get_posts', 'fcc_norad_set_post_order_in_admin' ); }
+
+/*--------------------------------------------------------------
+# ACF: Custom Location Rules
+--------------------------------------------------------------*/
+/**
+ * Step 1: Add custom types (Page Name)
+ *
+ * @link http://www.advancedcustomfields.com/resources/custom-location-rules/
+ * @since 0.16.02.08
+ */
+add_filter('acf/location/rule_types', 'acf_location_rules_types');
+function acf_location_rules_types( $choices )
+{
+    $choices['Page']['pagename'] = 'Page Name';
+    return $choices;
+}
+
+/**
+ * Step 3: Add custom values (Page Name)
+ *
+ * @link http://www.advancedcustomfields.com/resources/custom-location-rules/
+ * @since 0.16.02.08
+ */
+add_filter('acf/location/rule_values/pagename', 'acf_location_rules_values_pagename');
+function acf_location_rules_values_pagename( $choices ) {
+    $pages = get_pages( array('post_type' => 'page') );
+    if( $pages ) {
+        foreach( $pages as $page ) {
+          $choices[ $page->post_name ] = $page->post_name;
+        }
+    }
+    return $choices;
+}
+
+/**
+ * Step 4: Matching the rule (Page Name)
+ *
+ * @link http://www.advancedcustomfields.com/resources/custom-location-rules/
+ * @since 0.16.02.08
+ */
+add_filter('acf/location/rule_match/pagename', 'acf_location_rules_match_pagename', 10, 3);
+function acf_location_rules_match_pagename( $match, $rule, $options ) {
+  global $post;
+  $post_slug = $post->post_name;
+  $selected_page = $rule['value'];
+  if($rule['operator'] == "==") {
+  	$match = ( $post_slug == $selected_page );
+  }
+  elseif($rule['operator'] == "!="){
+  	$match = ( $post_slug != $selected_page );
+  }
+  return $match;
+}

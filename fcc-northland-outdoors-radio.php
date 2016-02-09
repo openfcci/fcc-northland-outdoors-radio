@@ -46,7 +46,6 @@
 function add_admin_notices(){
   if ( !get_option ( 'options_jw_platform_api_key' ) || !get_option('options_jw_platform_api_secret')) {
     require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-notices.php' );
-
   }
 }
 add_action('init', 'add_admin_notices');

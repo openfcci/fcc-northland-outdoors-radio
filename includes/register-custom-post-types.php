@@ -127,7 +127,7 @@ function cptui_register_my_taxes_station_type() {
 		"labels" => $labels,
 		"hierarchical" => true,
 		"label" => "Station Types",
-		"show_ui" => false,
+		"show_ui" => true,
 		"query_var" => true,
 		"rewrite" => array( 'slug' => 'station/type', 'with_front' => true ),
 		"show_admin_column" => true,
@@ -167,7 +167,7 @@ function cptui_register_my_taxes_station_state() {
 		"labels" => $labels,
 		"hierarchical" => true,
 		"label" => "Station States",
-		"show_ui" => false,
+		"show_ui" => true,
 		"query_var" => true,
 		"rewrite" => array( 'slug' => 'station/state', 'with_front' => true ),
 		"show_admin_column" => true,
@@ -175,4 +175,26 @@ function cptui_register_my_taxes_station_state() {
 	register_taxonomy( "station_state", array( "stations" ), $args );
 
 // End cptui_register_my_taxes_station_state()
+}
+
+/**
+ * Setting the default terms for the custom taxonomies
+ *
+ * @since 0.16.02.08
+ */
+if ( ! get_option('fcc_norad_terms') ) {
+	add_action( 'wp_loaded', 'fcc_norad_insert_terms', 200 );
+}
+function fcc_norad_insert_terms() {
+  wp_insert_term( 'Radio', 'station_type', array( 'description'	=> 'Northland Outdoors Radio Station Affiliate.', 'slug' => 'radio' ) );
+  wp_insert_term( 'TV', 'station_type', array( 'description'	=> 'Northland Outdoors TV Station Affiliate.', 'slug' => 'tv' ) );
+  wp_insert_term( 'IA', 'station_state', array( 'description'	=> 'Iowa', 'slug' => 'ia' ) );
+  wp_insert_term( 'MB', 'station_state', array( 'description'	=> 'Manitoba', 'slug' => 'mb' ) );
+  wp_insert_term( 'MN', 'station_state', array( 'description'	=> 'Minnesota', 'slug' => 'mn' ) );
+  wp_insert_term( 'MT', 'station_state', array( 'description'	=> 'Montana', 'slug' => 'mt' ) );
+  wp_insert_term( 'ND', 'station_state', array( 'description'	=> 'North Dakota', 'slug' => 'nd' ) );
+  wp_insert_term( 'SD', 'station_state', array( 'description'	=> 'South Dakota', 'slug' => 'sd' ) );
+  wp_insert_term( 'WI', 'station_state', array( 'description'	=> 'Wisconsin', 'slug' => 'wi' ) );
+	# After update, set option to prevent recursion
+	update_option('fcc_norad_terms','1');
 }

@@ -19,7 +19,7 @@ $channel_language = 'en-us';
 $channel_copyright = ' ' . date('Y') . ' Forum Communications Company. All Rights Reserved.';
 $channel_author = get_option('options_podcasts_channel_author');
 $channel_email = get_option('options_podcasts_channel_email');
-$channel_summary = get_option('options_podcasts_channel_summary');
+$channel_summary = '<![CDATA[' . get_option('options_podcasts_channel_summary') . ']]>';
 $channel_category = get_option('options_podcasts_channel_category');
 $channel_explicit = get_option('options_podcasts_channel_explicit');
 

@@ -8,15 +8,16 @@
  * called themefiles with your default theme files.
  */
 
-//Template fallback
-add_action("template_redirect", 'fcc_norad_theme_redirect');
+# Template Redirect: Enable by default, option to disable in settings page.
+if ( !get_option('options_segment_thumbnail_image_field') ) {
+  add_action("template_redirect", 'fcc_norad_theme_redirect');
+}
 
 function fcc_norad_theme_redirect() {
     global $wp;
-    //$plugindir = dirname( __FILE__ );
     $plugindir = plugin_dir_path( __FILE__ );
 
-    //A Specific Custom Post Type
+    # A Specific Custom Post Type
     if ($wp->query_vars["post_type"] == 'product') {
         $templatefilename = 'single-product.php'; // $templatefilename = 'single-product.php';
         if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {
@@ -26,7 +27,7 @@ function fcc_norad_theme_redirect() {
         }
         do_theme_redirect($return_template);
 
-    //A Custom Taxonomy Page
+    # A Custom Taxonomy Page
     } elseif ($wp->query_vars["taxonomy"] == 'product_categories') {
         $templatefilename = 'taxonomy-product_categories.php';
         if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {
@@ -36,7 +37,7 @@ function fcc_norad_theme_redirect() {
         }
         do_theme_redirect($return_template);
 
-    //A Simple Page
+    # A Simple Page
 	} elseif ($wp->query_vars["pagename"] == 'radio') {
         $templatefilename = 'page-radio.php'; // $templatefilename = 'page-somepagename.php';
         if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {

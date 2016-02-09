@@ -27,8 +27,9 @@
 												<h2 class="section-title">PODCASTS</h2>
 											</div>-->
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-podcasts.php' ); ?><!--podcasts-->
+											<?php //load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-podcasts-v1.php' ); ?><!--podcasts-->
 
-											<div class="radio-contact">Contact Bret:</div>
+											<div class="radio-contact">Contact Bret:</div><br>
 											<?php //echo get_option('options_norad_radio_contact'); ?>
 											<?php
 											/**
@@ -41,7 +42,7 @@
 											endwhile; endif;
 											wp_reset_query();
 											?>
-											<?php echo get_option('options_norad_radio_page_footnote'); // TODO: Style this?>
+											<?php echo get_post_meta($post->ID, 'norad_radio_page_footnote', true); // TODO: Style this?>
 											</div><!--radio-wrapper-->
 											<!-- END NORTHLAND OUTDOORS RADIO CONTENT-->
 										</div><!--content-area-->

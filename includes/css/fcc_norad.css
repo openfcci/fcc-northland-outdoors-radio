@@ -1,3 +1,11 @@
+.podcast-post {
+  display: block;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 100%;
+  border-bottom: 1px solid #cccccc;
+}
+
 .podcast-title span{
   text-decoration: none !important;
   font-size: 25px;
@@ -153,13 +161,6 @@ box-sizing: border-box;
   padding: 15px !important;
   box-sizing: border-box;
   list-style: none;
-}
-.podcast-post {
-  display: block;
-  box-sizing: border-box;
-  padding: 20px;
-  width: 100%;
-  border-bottom: 1px solid #cccccc;
 }
 .podcast-title {
   font-size: 20px;

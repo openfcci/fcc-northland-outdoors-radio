@@ -37,8 +37,8 @@ $channel_array = array (
   $channel_image => 'xlmns:itunes:image',
   $channel_category => 'xlmns:itunes:category',
   $channel_explicit => 'xlmns:itunes:explicit',
-  $channel_keywords => 'xlmns:itunes:keywords',          
-);   
+  $channel_keywords => 'xlmns:itunes:keywords',
+);
 
 /* Add channel array tags as a child to rss tag */
 array_walk_recursive($channel_array, array ($channel_xml, 'addChild'));
@@ -117,7 +117,7 @@ if ( $the_query->have_posts()  ) { // IF
           $item_1_date = $item_1->addChild('pubDate', $segment_1_pubdate);
 
           $item_1_duration = $item_1->addChild('duration', $segment_1_duration);
-                   
+
         }
 
         /* Add Segment two xml */
@@ -141,7 +141,7 @@ if ( $the_query->have_posts()  ) { // IF
           $item_2_date = $item_2->addChild('pubDate', $segment_2_pubdate);
 
           $item_2_duration = $item_2->addChild('duration', $segment_2_duration);
-                   
+
         }
 
         /* Add Segment three xml */
@@ -165,8 +165,8 @@ if ( $the_query->have_posts()  ) { // IF
           $item_3_date = $item_3->addChild('pubDate', $segment_2_pubdate);
 
           $item_3_duration = $item_3->addChild('duration', $segment_3_duration);
-                   
-        }     
+
+        }
 
      } //endwhile;
 

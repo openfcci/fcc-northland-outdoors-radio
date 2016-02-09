@@ -1,5 +1,13 @@
 <?php
 
+// $segment_1_pubdate = date( DATE_RFC2822, strtotime( get_post_meta($id, 'segment_1_date', true) ) );
+
+/*
+$id = '2782';
+$segment_1_pubdate = get_post_meta($id, 'segment_1_date', true);
+echo $segment_1_pubdate;
+*/
+
 /*
 $key = 'aioeEv3B';
 printf("fcc_jw_date: %s<br>", fcc_jw_date($key) );

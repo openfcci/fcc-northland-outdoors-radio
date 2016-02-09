@@ -62,6 +62,31 @@ function fcc_jw_duration( $key ) {
 	$botr_api = new BotrAPI( get_option('options_jw_platform_api_key'), get_option('options_jw_platform_api_secret') ); // Instantiate the API.
 	$response = $botr_api->call("/videos/show",array('video_key'=>$key)); // TODO: JW Duration - Add Success/Fail validation & AJAX support
 	$duration = $response['video']['duration'];
+
+	if ( $duration != 0.00 ) {
+		$duration = gmdate("H:i:s", round($duration) );
+	} else {
+
+	}
+	//$duration = gmdate("H:i:s", round($duration) );
+	return $duration;
+}
+
+/** 11:57:48 | 00:12:05
+* JW Platform API: Return Duration from the 'Conversions' List
+* Returns the duration of a video based on the player key.
+*/
+function fcc_jw_conversion_duration( $key ) {
+	$botr_api = new BotrAPI( get_option('options_jw_platform_api_key'), get_option('options_jw_platform_api_secret') ); // Instantiate the API.
+	$response = $botr_api->call("/videos/conversions/list",array('video_key'=>$key)); // Call the API
+	$total = $response['total']; # Total number of conversions
+
+	if ( '2' == $total ) { # The 2nd array item should be the Audio conversion, grab that if present
+		$duration = $response['conversions']['1']['duration'];
+	} else { # If not, grab the original file
+		$duration = $response['conversions']['0']['duration'];
+	}
+
 	$duration = gmdate("H:i:s", round($duration) );
 	return $duration;
 }

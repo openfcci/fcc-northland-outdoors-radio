@@ -1,11 +1,85 @@
 <?php ?>
+<!-- *** This Week's Show *** -->
 <div>
   <h2 class="section-title">THIS WEEK'S SHOW</h2>
-  <ul>
-     <li>Segment 1...</li>
-     <li>Segment 2...</li>
-     <li>Segment 3...</li>
-  </ul>
-</div>
 
-<?php //Re-open PHP
+  <?php
+  /* Begin the Loop */
+  //wp_reset_query(); // TODO: Remove?
+
+  global $do_not_duplicate;
+  global $post;
+
+
+  // WP_Query arguments
+  $args = array (
+  	'post_type'              => array( 'podcasts' ),
+  	'post_status'            => array( 'publish' ),
+  	'posts_per_page'         => '1',
+    'order'                  => 'DESC',
+  	'cache_results'          => true,
+  	'update_post_meta_cache' => true,
+  	'update_post_term_cache' => true,
+  );
+
+  $the_query = new WP_Query( $args );
+  if ( $the_query->have_posts()  ) { # IF
+
+    while ( $the_query->have_posts() ) { # WHILE
+      $the_query->the_post();
+      $do_not_duplicate[] = $post->ID;
+      $id = (int) $post->ID;
+      if (isset($do_not_duplicate)) { ?>
+
+     <?php
+     /**** POST META  *****/
+     $segment_1_title = get_post_meta($id, 'segment_1_title', true);
+     $segment_2_title = get_post_meta($id, 'segment_2_title', true);
+     $segment_3_title = get_post_meta($id, 'segment_3_title', true);
+
+     $segment_1_description = get_post_meta($id, 'segment_1_description', true);
+     $segment_2_description = get_post_meta($id, 'segment_2_description', true);
+     $segment_3_description = get_post_meta($id, 'segment_3_description', true);
+
+     $segment_1_link = get_post_meta($id, 'segment_1_link', true);
+     $segment_2_link = get_post_meta($id, 'segment_2_link', true);
+     $segment_3_link = get_post_meta($id, 'segment_3_link', true);
+
+     ?>
+     <?php if ( $station_website ) { echo '<a href="' .  $station_website . '" target="_blank">';}?>
+       <div class="section-content">
+       <!--<p class="podcast-title" style="text-align: left">
+         <span style="text-decoration: underline">
+           <strong><?php //echo get_the_date('n/j/Y');?></strong>
+         </span>
+       </p>-->
+       <ul>
+         <?php
+         echo '<li>';
+         if ( $segment_1_link ) { echo '<a href="' .  $segment_1_link . '" target="_blank">' . $segment_1_title . '</a> &ndash; ';}
+         echo $segment_1_description . '</li>'; ?>
+
+         <?php
+         echo '<li>';
+         if ( $segment_2_link ) { echo '<a href="' .  $segment_2_link . '" target="_blank">' . $segment_2_title . '</a> &ndash; ';}
+         echo $segment_2_description . '</li>'; ?>
+
+         <?php
+         echo '<li>';
+         if ( $segment_3_link ) { echo '<a href="' .  $segment_3_link . '" target="_blank">' . $segment_3_title . '</a> &ndash; ';}
+         echo $segment_3_description . '</li>'; ?>
+       </ul>
+   </div><!-- END section-content-->
+</div><!-- END This Week's Show-->
+
+<?php } #endif
+  } #endwhile; ?>
+
+<?php
+  # Restore original Post Data
+  wp_reset_postdata();
+  //wp_reset_query(); // TODO: Remove?
+} # endif;
+?>
+
+<?php

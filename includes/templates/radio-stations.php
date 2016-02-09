@@ -2,8 +2,12 @@
 /*--------------------------------------------------------------
 # STATIONS
 --------------------------------------------------------------*/
-
-echo '<h2 class="section-title">STATIONS</h2>';
+?>
+<h2 class="section-title">STATIONS</h2>
+<div class="section-content">
+<p><strong><?php echo get_option('options_norad_stations_tagline'); ?></strong></p>
+<p><?php echo get_option('options_norad_stations_announcements'); ?></p>
+<?php
 if ( get_option('options_stations_layout') ) { echo '<ol class="station-list">'; }
 else { echo '<ol>'; }
 
@@ -29,12 +33,9 @@ if ( $the_query->have_posts()  ) { // IF
       /**** POST META  *****/
       $post_title = wp_specialchars( get_the_title( $id ) );
       $station_location = get_post_meta($id, 'station_location', true);
-
-      // TODO Fix erro
-      /*
-      Parse error: syntax error, unexpected '[' in /Applications/AMPPS/www/wp/wp-content/plugins/fcc-northland-outdoors-radio/includes/templates/radio-stations.php on line 32
-      */
-      //$station_state = $station_state = get_the_terms( $id, 'station_state')['0']->name; //$station_state = the_terms( $id, 'station_state', '', ', ', ': ');
+      $station_state = get_the_terms( $id, 'station_state');
+      # Sanity check to ensure array is populated, prevents parse syntax error.
+        if ( $station_state ){ $station_state = $station_state['0']->name; }
 
       $station_name = get_post_meta($id, 'station_name', true);
       $station_website = get_post_meta($id, 'station_website', true);
@@ -67,5 +68,7 @@ if ( $the_query->have_posts()  ) { // IF
 } // endif;
  ?>
 </ol>
+<h6><?php echo get_option('options_norad_stations_footnote'); ?></h6>
+</div><!-- END section-content-->
 <!-- END STATIONS-->
 <?php

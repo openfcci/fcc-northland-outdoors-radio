@@ -2,35 +2,13 @@
 /**
  * Plugin Name: FCC Northland Outdoors Radio
  * Plugin URI:  https://github.com/openfcci/fcc-northland-outdoors-radio
- * Author:      FCC
+ * Author:      Forum Communications Company
  * Author URI:  http://www.forumcomm.com/
- * Version:     0.16.02.03
+ * Version:     0.16.02.08
  * Description: Northland Outdoors Radio, Podcasts and Stations plugin.
  * License:     GPL v2 or later
+ * Text Domain: fcc_norad
  */
-
-### Namespace/Prefix: fcc_norad_
-
-/**
- * CPT Slug: podcasts
- * CPT Slug: stations
- * TAX Slug: station_type
- * TAX Slug: station_state
- */
-
-# Pre-Launch Requirements
- // TODO Add regex "JW Player Key" field to remove content after any potential "-" (in case the attempt to paste key and player)
- // TODO Register "Radio" & "TV" Station Type term on plugin activation
- // TODO Programmatically create "Radio" page on plugin activation
- // TODO Programmatically create three linked podcast posts upon podcast publish (or auto-save?). https://developer.wordpress.org/reference/functions/wp_insert_post/
- // TODO add req. or admin notification to resolve potential conflicts if another ACF plugin is active (http://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices)
- // TODO Add admin notification if JW API Key/Secret are not set in the plugin settings page (http://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices)
-
-# Ideas
- // TODO Make new podcasts trigger the creation of 3 new posts in "draft" status, with the title auto-populated and the post link saved to segment meta
- // TODO Change "Upcoming Shows" page to "Radio Page" with settings and addional fields like station notes
- // TODO shortcode function for returning segment info
- // TODO shortcode function for returning full week podcast info (& upcoming shows?)
 
  // Exit if accessed directly
  defined( 'ABSPATH' ) || exit;
@@ -60,6 +38,18 @@
  }
  register_deactivation_hook( __FILE__, 'fcc_northland_radio_plugin_deactivation' );
 
+ /**
+ * Set Admin Notices
+ *
+ * @since 0.16.02.08
+ */
+function add_admin_notices(){
+  if ( !get_option ( 'options_jw_platform_api_key' ) || !get_option('options_jw_platform_api_secret')) {
+    require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-notices.php' );
+  }
+}
+add_action('init', 'add_admin_notices');
+
  /*--------------------------------------------------------------
  # LOAD INCLUDES FILES
  --------------------------------------------------------------*/
@@ -86,6 +76,12 @@ function fcc_load_northland_radio_includes() {
 		# ACF Fields
 			require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
 
+    # ACF Functions
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-functions.php' );
+
+    # Insert Post Functions
+			require_once( plugin_dir_path( __FILE__ ) . '/includes/insert-post-functions.php' );
+
     ##########################
 		# Misc/Testing Functions #
 			//require_once( plugin_dir_path( __FILE__ ) . '/includes/misc-testing-functions.php' ); // TODO: Remove before launch.
@@ -94,7 +90,7 @@ function fcc_load_northland_radio_includes() {
 add_action( 'init', 'fcc_load_northland_radio_includes', 99 );
 
 /*--------------------------------------------------------------
-# ACF INCLUDES
+# INCLUDES: Advanced Custom Fields
 --------------------------------------------------------------*/
 
 # 1. customize ACF path
@@ -126,98 +122,42 @@ function include_field_types_accordion( $version ) {
 add_action('acf/include_field_types', 'include_field_types_accordion');
 
 /*--------------------------------------------------------------
-# ACF: Advanced Custom Fields Functions
+# ENQUEUE CUSTOM JS & JSS
 --------------------------------------------------------------*/
 
 /**
- * Podcast Date Format Filter
- *
- * Filters the date field format of Segments 1-3.
- * Occurs after retrieving value from db, but before displaying on admin screen.
- * @since 0.16.01.28
- * @link http://www.advancedcustomfields.com/resources/acfload_field/
- *
- * @return string $value Format: 01/04/2016, 3:29pm
- */
-function fcc_norad_acf_filter_admin_date_format( $value, $post_id, $field ) {
-    //if ( $value ) { $value = date( 'm/d/Y, g:ia', $value ); }
-    if ( $value ) { $value = date( 'm/d/Y', $value ); }
-    else { $value = $value; }
-    return $value;
-}
-//add_filter('acf/load_value/name=segment_1_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
-//add_filter('acf/load_value/name=segment_2_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
-//add_filter('acf/load_value/name=segment_3_date', 'fcc_norad_acf_filter_admin_date_format', 10, 3);
-
-/**
- * Read-Only Field Filter
- *
- * Filter Segments 1-3 Date and Duration field values to 'Read Only'.
- * @since 0.16.01.28
- * @link http://www.advancedcustomfields.com/resources/acfload_value/
- */
-function fcc_norad_field_readonly_filter($field) {
-  if( $field['readonly'] != 1 ) {
-    $field['readonly'] = 1;
+* Load radio page css outside admin pages
+*
+*@since 0.16.02.05
+*/
+function loadOnRadio (){
+  if ( ! is_admin() ) {
+    if ( is_page( 'radio' ) ) {
+      wp_enqueue_style( 'custom_css_norad', plugin_dir_url( __FILE__ ) . '/includes/css/fcc_norad.css' );
+    }
   }
-	return $field;
 }
-# Segment 1
-add_filter("acf/load_field/name=segment_1_duration", "fcc_norad_field_readonly_filter");
-add_filter("acf/load_field/name=segment_1_date", "fcc_norad_field_readonly_filter");
-add_filter("acf/load_field/name=segment_1_size", "fcc_norad_field_readonly_filter");
-# Segment 2
-add_filter("acf/load_field/name=segment_2_duration", "fcc_norad_field_readonly_filter");
-add_filter("acf/load_field/name=segment_2_date", "fcc_norad_field_readonly_filter");
-add_filter("acf/load_field/name=segment_2_size", "fcc_norad_field_readonly_filter");
-# Segment 3
-add_filter("acf/load_field/name=segment_3_duration", "fcc_norad_field_readonly_filter");
-add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filter");
-add_filter("acf/load_field/name=segment_3_size", "fcc_norad_field_readonly_filter");
+add_action('wp_head', 'loadOnRadio');
 
 /**
- * Enable/Disable Segment Image Thumbnail Fields
- *
- * Filters the load fields before rendering, use to "disable" fields by hiding.
- * @since 0.16.02.02
- * @link http://www.advancedcustomfields.com/resources/acfload_value/
- */
-function fcc_norad_segment_thumbnail_load_field( $field ) {
-
-  if ( !get_option('options_segement_thumbnail_image_field') ) {
-    $field['wrapper']['class'] = 'hidden-by-conditional-logic'; # Hide
-  } else {
-    $field['wrapper']['class'] = ''; # Show
-  }
-  return $field;
-}
-add_filter('acf/load_field/name=segment_thumbnail', 'fcc_norad_segment_thumbnail_load_field');
-
-/**
- * Set Default "Channel Title" Value
+ * Set Podcast Post Titles to Read-Only
+ * Autopopulate Podcast Fields with jwplayer info
  *
  * @since 0.16.02.04
- * @link http://www.advancedcustomfields.com/resources/acfload_value/
  */
-function fcc_norad_podcasts_channel_title_filter($field) {
-  $field['default_value'] = get_bloginfo('name');
-	return $field;
+function loadOnPodcasts () {
+  if ( is_admin() ) {
+    global $my_admin_page;
+    $screen = get_current_screen();
+    if ( $screen->id != 'podcasts' ) {
+      return;
+    } # Else Proceed
+    wp_enqueue_script( 'admin_title_disable', plugin_dir_url( __FILE__ ) . '/includes/js/admin_title_disable.js' );
+    wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/includes/js/autopopulate.js' );
+  }
+
 }
-add_filter("acf/load_field/name=podcasts_channel_title", "fcc_norad_podcasts_channel_title_filter");
-
-/**
- * Set Default "Channel Link" Value
- *
- * @since 0.16.02.04
- * @link http://www.advancedcustomfields.com/resources/acfload_value/
- */
-function fcc_norad_podcasts_channel_link_filter($field) {
-  $field['default_value'] = home_url();
-	return $field;
-}
-add_filter("acf/load_field/name=podcasts_channel_link", "fcc_norad_podcasts_channel_link_filter");
-
-
+add_action('admin_enqueue_scripts', 'loadOnPodcasts');
 
 /*--------------------------------------------------------------
 # AJAX
@@ -236,7 +176,7 @@ function jwplayer_ajax_request() { // TODO: Rename & Prefix function & JS. fcc_n
         $key = $_REQUEST['key'];
         # Now we'll return it to the javascript function
         # Anything outputted will be returned in the response
-        $duration = fcc_jw_duration( $key );
+        $duration = fcc_jw_conversion_duration( $key );
         $date = fcc_jw_date_admin( $key );
         $size = fcc_jw_size( $key );
         $jwplayer_array = array($duration,$date, $size);
@@ -273,6 +213,7 @@ function fcc_norad_do_podcasts_feed(){
   $wp_rewrite->flush_rules(); // TODO: Remove before launch, use plugin activation hook
 
 }
+
 
 /*--------------------------------------------------------------
 # POSTS: Generation & Save Hooks

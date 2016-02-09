@@ -9,9 +9,9 @@
  */
 
 //Template fallback
-add_action("template_redirect", 'my_theme_redirect');
+add_action("template_redirect", 'fcc_norad_theme_redirect');
 
-function my_theme_redirect() {
+function fcc_norad_theme_redirect() {
     global $wp;
     //$plugindir = dirname( __FILE__ );
     $plugindir = plugin_dir_path( __FILE__ );

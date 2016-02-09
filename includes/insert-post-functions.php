@@ -21,6 +21,8 @@ function fcc_norad_myplugin_update_slug( $data, $postarr ) {
     if ( !in_array($data['post_status'], array('pending','auto-draft')) && in_array($data['post_type'], array('podcasts')) ) {
 
         # Declare the Variables
+        $id = $postarr['ID'];
+        $episode_number = get_post_meta( $id, 'podcast_episode_number', true);
         $date_slug = get_the_date( 'm-d-Y', $data['ID'] );  //FORMAT: 01-28-2016
         $date_title = get_the_date( 'm/d/Y', $data['ID'] ); //FORMAT: 01/28/2016
 
@@ -28,11 +30,34 @@ function fcc_norad_myplugin_update_slug( $data, $postarr ) {
         $data['post_name'] = sanitize_title( $date_slug );
 
         # Set the Post Title
-        $data['post_title'] = $date_title;
+        //$data['post_title'] = $date_title;
+        $data['post_title'] = 'Episode ' . $episode_number . ' - ' . $date_title;
     }
     return $data;
 }
-add_filter( 'wp_insert_post_data', 'fcc_norad_myplugin_update_slug', 99, 2 );
+//add_filter( 'wp_insert_post_data', 'fcc_norad_myplugin_update_slug', 99, 2 ); // TODO: Remove
+
+function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
+  if ( $post->post_type == 'podcasts' && $post->post_status == 'publish' ) {
+    $episode_number = get_post_meta( $post_id, 'podcast_episode_number', true);
+    $date_title = get_the_date( 'm/d/Y', $post_id ); #FORMAT: 01/28/2016
+
+    #Title
+    $post_title = 'Episode ' . $episode_number . ' - ' . $date_title;
+    #Slug
+    $post_name = get_the_date( 'm-d-Y', $post_id );  # FORMAT: 01-28-2016
+
+    # unhook this function so it doesn't loop infinitely
+    remove_action('save_post', 'fcc_norad_update_title_and_slug');
+
+    wp_update_post(array('ID' => $post_id, 'post_name' => $post_name ));
+    wp_update_post(array('ID' => $post_id, 'post_title' => $post_title ));
+
+    # re-hook this function
+    add_action('save_post', 'fcc_norad_update_title_and_slug');
+  }
+}
+add_action('save_post', 'fcc_norad_update_title_and_slug', 10, 3 );
 
 /*--------------------------------------------------------------
 # INSERT POST FUNCTIONS

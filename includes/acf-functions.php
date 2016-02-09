@@ -60,7 +60,7 @@ add_filter("acf/load_field/name=segment_3_size", "fcc_norad_field_readonly_filte
  */
 function fcc_norad_segment_thumbnail_load_field( $field ) {
 
-  if ( !get_option('options_segement_thumbnail_image_field') ) {
+  if ( !get_option('options_segment_thumbnail_image_field') ) {
     $field['wrapper']['class'] = 'hidden-by-conditional-logic'; # Hide
   } else {
     $field['wrapper']['class'] = ''; # Show

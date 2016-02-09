@@ -2,7 +2,7 @@
 /**
  * ACF-5 (Pro) Fields
  *
- * Last Updated: 02-08-2016
+ * Last Updated: 02-09-2016
  */
 
  if( function_exists('acf_add_local_field_group') ):
@@ -1504,7 +1504,7 @@ acf_add_local_field_group(array (
 		array (
 			'key' => 'field_56b1099349088',
 			'label' => 'Podcasts',
-			'name' => 'segement_thumbnail_image_field',
+			'name' => 'segment_thumbnail_image_field',
 			'type' => 'true_false',
 			'instructions' => '',
 			'required' => 0,

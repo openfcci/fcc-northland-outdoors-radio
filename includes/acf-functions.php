@@ -48,6 +48,8 @@ add_filter("acf/load_field/name=segment_2_size", "fcc_norad_field_readonly_filte
 add_filter("acf/load_field/name=segment_3_duration", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_3_size", "fcc_norad_field_readonly_filter");
+# Episode Number
+//add_filter("acf/load_field/name=podcast_episode_number", "fcc_norad_field_readonly_filter");
 
 /**
  * Enable/Disable Segment Image Thumbnail Fields

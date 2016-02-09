@@ -38,6 +38,19 @@
  }
  register_deactivation_hook( __FILE__, 'fcc_northland_radio_plugin_deactivation' );
 
+ /**
+ * Set Admin Notices
+ *
+ * @since 0.16.02.08
+ */
+function add_admin_notices(){
+  if ( !get_option ( 'options_jw_platform_api_key' ) || !get_option('options_jw_platform_api_secret')) {
+    require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-notices.php' );
+
+  }
+}
+add_action('init', 'add_admin_notices');
+
  /*--------------------------------------------------------------
  # LOAD INCLUDES FILES
  --------------------------------------------------------------*/

@@ -22,6 +22,18 @@ function fcc_jw_key( $key ) {
 }
 
 /**
+* JW Platform API: Query API Status
+* Call the JW API to return API status, use for key/secret verification.
+*/
+function fcc_jw_api_status() {
+	$botr_api = new BotrAPI( get_option('options_jw_platform_api_key'), get_option('options_jw_platform_api_secret') ); // Instantiate the API.
+	$response = $botr_api->call("/status"); // Call the API
+	$status = $response['status'];
+	if ( $status == 'ok' ) { $status = true; } else { $status = false; }
+	return $status;
+}
+
+/**
 * JW Platform API: List Conversions
 * Returns an array of file conversions based on key.
 */
@@ -35,7 +47,7 @@ function fcc_jw_list_conversions( $key ) {
 * JW Platform API: Return Video Object
 * Call the JW API to return the video based on the key.
 */
-function fcc_jw_status( $key ) {
+function fcc_jw_video_status( $key ) {
 	$botr_api = new BotrAPI( get_option('options_jw_platform_api_key'), get_option('options_jw_platform_api_secret') ); // Instantiate the API.
 	$response = $botr_api->call("/videos/show",array('video_key'=>$key)); // Call the API
 	$status = $response['status'];

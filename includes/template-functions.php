@@ -115,7 +115,7 @@ add_filter( 'the_content', 'fcc_norad_podcast_single_post_content' );
  * @since 0.16.02.11
  */
 function fcc_norad_podcast_single_post_title( $title, $post_id ) {
-    if ( is_singular('podcasts') && !is_admin() ) {
+    if ( is_singular('podcasts') && !is_admin() && in_the_loop() ) {
       $episode_number = get_post_meta( $post_id, 'podcast_episode_number', true );
       $title = 'Episode ' . $episode_number;
         return $title;

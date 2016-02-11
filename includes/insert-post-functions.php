@@ -32,8 +32,8 @@ function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
 
     # Post Title
     $date_title = get_the_date( 'm/d/y', $post_id ); # FORMAT: 01/28/16
-    //$post_title = 'Episode ' . $episode_number . ' - ' . $date_title;
-    $post_title = 'Episode ' . $episode_number;
+    $post_title = 'Episode ' . $episode_number . ' - ' . $date_title;
+    //$post_title = 'Episode ' . $episode_number;
 
     #Post Slug
     //$post_name = get_the_date( 'm-d-Y', $post_id ); # FORMAT: 01-28-2016

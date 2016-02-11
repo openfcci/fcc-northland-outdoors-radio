@@ -58,3 +58,68 @@ function do_theme_redirect($url) {
         $wp_query->is_404 = true;
     }
 }
+
+/**
+ * Podcasts Post single.php - Content
+ *
+ * Filters the content of single.php for podcasts posts.
+ * @since 0.16.02.11
+ */
+function fcc_norad_podcast_single_post_content( $content ) {
+   if ( is_singular('podcasts') && !is_admin() ) {
+     $id = $GLOBALS['post']->ID;
+
+     $content = '';
+
+     /**** POST META  *****/
+     $segment_1_title = get_post_meta($id, 'segment_1_title', true);
+     $segment_2_title = get_post_meta($id, 'segment_2_title', true);
+     $segment_3_title = get_post_meta($id, 'segment_3_title', true);
+
+     $segment_1_description = get_post_meta($id, 'segment_1_description', true);
+     $segment_2_description = get_post_meta($id, 'segment_2_description', true);
+     $segment_3_description = get_post_meta($id, 'segment_3_description', true);
+
+     $segment_1_link = get_post_meta($id, 'segment_1_link', true);
+     $segment_2_link = get_post_meta($id, 'segment_2_link', true);
+     $segment_3_link = get_post_meta($id, 'segment_3_link', true);
+
+     if ( $segment_1_link ) {
+       $segment_1_title_link .= '<a href="' .  $segment_1_link . '" target="_blank">' . $segment_1_title . '</a> &ndash; ';
+     } else { $segment_1_title_link = ''; }
+
+     if ( $segment_2_link ) {
+       $segment_2_title_link .= '<a href="' .  $segment_2_link . '" target="_blank">' . $segment_2_title . '</a> &ndash; ';
+     } else { $segment_2_title_link = ''; }
+
+     if ( $segment_3_link ) {
+       $segment_3_title_link .= '<a href="' .  $segment_3_link . '" target="_blank">' . $segment_3_title . '</a> &ndash; ';
+     } else { $segment_3_title_link = ''; }
+
+     /**** The Content *****/
+     $content .= '<ul>';
+     $content .= '<li>' . $segment_1_title_link . $segment_1_description . '</li>';
+     $content .= '<li>' . $segment_2_title_link . $segment_2_description . '</li>';
+     $content .= '<li>' . $segment_3_title_link . $segment_3_description . '</li>';
+     $content .= '</ul>';
+
+   }
+   return $content;
+}
+add_filter( 'the_content', 'fcc_norad_podcast_single_post_content' );
+
+/**
+ * Podcasts Post single.php - Title
+ *
+ * Filters the title of single.php for podcasts posts.
+ * @since 0.16.02.11
+ */
+function fcc_norad_podcast_single_post_title( $title, $post_id ) {
+    if ( is_singular('podcasts') && !is_admin() ) {
+      $episode_number = get_post_meta( $post_id, 'podcast_episode_number', true );
+      $title = 'Episode ' . $episode_number;
+        return $title;
+    }
+    return $title;
+}
+add_filter( 'the_title', 'fcc_norad_podcast_single_post_title', 10, 2 );

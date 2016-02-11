@@ -1,9 +1,10 @@
+
+
 .podcast-post {
   display: block;
   box-sizing: border-box;
   padding: 20px;
   width: 100%;
-  border-bottom: 1px solid #cccccc;
 }
 
 .podcast-title span{
@@ -56,18 +57,29 @@ position: relative;
   color: #999;
 }
 
+.segment--number{
+  color: #999;
+  font-weight: 400;
+  font-size: 15px;
+
+}
+
 @media only screen and (max-width : 480px){
 
-  .podcast-post{
-    border-bottom: 2px solid #ccc;
+.podcast-post{
+  padding: 0;
+}
+
+  .podcast-title{
+    border-bottom: 1px solid #ccc;
+    padding: 20px 0 10px 0;
   }
 
 .segment--title{
   width: 100%;
 float: none;
 margin-bottom: 10px;
-padding: 10px;
-border-bottom: 1px solid #ccc;
+padding: 0px;
 display: block;
 overflow: auto;
 box-sizing: border-box;
@@ -82,13 +94,14 @@ box-sizing: border-box;
 .segment--link{
 width: 100%;
 box-sizing: border-box;
-
-
+font-size: 18px;
 }
 
-.segment--button{
-
+.segment--description{
+  padding-left: 46px;
+  font-size: 15px;
 }
+
 .podcast--segment{
   margin-bottom: 15px;
 }

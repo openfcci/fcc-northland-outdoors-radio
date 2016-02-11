@@ -54,17 +54,17 @@ if ( $the_query->have_posts()  ) { # IF
     <ul>
       <?php
       echo '<li class="podcast--segment">';
-      if ( $segment_1_link ) { echo '<span class="segment--title"><a href="' .  $segment_1_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link">' . $segment_1_title . '</span></a></span>';}
+      if ( $segment_1_link ) { echo '<span class="segment--title"><a href="' .  $segment_1_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link"><span class="segment--number">Segment 1</span><br/>' . $segment_1_title . '</span></a><span class="segment--show"> Show More </span></span>';}
       echo '<span class="segment--description">' . $segment_1_description . '</span></li>'; ?>
 
       <?php
       echo '<li class="podcast--segment">';
-      if ( $segment_2_link ) { echo '<span class="segment--title"><a href="' .  $segment_2_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link">' . $segment_2_title . '</span></a></span>';}
+      if ( $segment_2_link ) { echo '<span class="segment--title"><a href="' .  $segment_2_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link"><span class="segment--number">Segment 2</span><br/>' . $segment_2_title . '</span></a></span>';}
       echo '<span class="segment--description">' . $segment_2_description . '</span></li>'; ?>
 
       <?php
       echo '<li class="podcast--segment">';
-      if ( $segment_3_link ) { echo '<span class="segment--title"><a href="' .  $segment_3_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link">' . $segment_3_title . '</span></a></span>';}
+      if ( $segment_3_link ) { echo '<span class="segment--title"><a href="' .  $segment_3_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link"><span class="segment--number">Segment 3</span><br/>' . $segment_3_title . '</span></a></span>';}
       echo '<span class="segment--description">' . $segment_3_description . '</span></li>'; ?>
     </ul>
   </div>

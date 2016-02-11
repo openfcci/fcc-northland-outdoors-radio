@@ -64,6 +64,10 @@ position: relative;
 
 }
 
+.segment--show{
+  display: none;
+}
+
 @media only screen and (max-width : 480px){
 
 .podcast-post{
@@ -95,11 +99,28 @@ box-sizing: border-box;
 width: 100%;
 box-sizing: border-box;
 font-size: 18px;
+padding-right: 60px;
+}
+
+.segment--show{
+  display: inline;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  z-index: 10;
+}
+
+.show{
+  display: block !important;
 }
 
 .segment--description{
   padding-left: 46px;
   font-size: 15px;
+  display: none;
+  float: left;
 }
 
 .podcast--segment{
@@ -183,4 +204,5 @@ font-size: 18px;
   padding: 20px 0 0 0;
   box-sizing: border-box;
 
+}
 }

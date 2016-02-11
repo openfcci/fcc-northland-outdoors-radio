@@ -4,7 +4,7 @@
  * Plugin URI:  https://github.com/openfcci/fcc-northland-outdoors-radio
  * Author:      Forum Communications Company
  * Author URI:  http://www.forumcomm.com/
- * Version:     0.16.02.08
+ * Version:     0.16.02.11 (beta-v1)
  * Description: Northland Outdoors Radio, Podcasts and Stations plugin.
  * License:     GPL v2 or later
  * Text Domain: fcc_norad
@@ -108,7 +108,7 @@ function my_acf_settings_dir( $dir ) {
 }
 
 # 3. Hide ACF field group menu item
-//add_filter('acf/settings/show_admin', '__return_false'); // TODO: Uncomment before launch.
+add_filter('acf/settings/show_admin', '__return_false'); // TODO: Uncomment before launch.
 
 # 4. Include ACF
 include_once( plugin_dir_path( __FILE__ ) . 'includes/advanced-custom-fields-pro/acf.php' );

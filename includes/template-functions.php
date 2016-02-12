@@ -9,7 +9,7 @@
  */
 
 # Template Redirect: Enable by default, option to disable in settings page.
-if ( !get_option('options_segment_thumbnail_image_field') ) {
+if ( !get_option('options_radio_page_toggle') ) {
   add_action("template_redirect", 'fcc_norad_theme_redirect');
 }
 
@@ -18,12 +18,12 @@ function fcc_norad_theme_redirect() {
     $plugindir = plugin_dir_path( __FILE__ );
 
     # A Specific Custom Post Type
-    if ($wp->query_vars["post_type"] == 'product') {
-        $templatefilename = 'single-product.php'; // $templatefilename = 'single-product.php';
+    if ($wp->query_vars["post_type"] == 'podcasts') {
+        $templatefilename = 'archive-podcasts.php'; // $templatefilename = 'single-product.php';
         if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {
             $return_template = TEMPLATEPATH . '/' . $templatefilename;
         } else {
-            $return_template = $plugindir . '/themefiles/' . $templatefilename;
+            $return_template = $plugindir . '/templates/' . $templatefilename;
         }
         do_theme_redirect($return_template);
 
@@ -33,7 +33,7 @@ function fcc_norad_theme_redirect() {
         if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {
             $return_template = TEMPLATEPATH . '/' . $templatefilename;
         } else {
-            $return_template = $plugindir . '/themefiles/' . $templatefilename;
+            $return_template = $plugindir . '/templates/' . $templatefilename;
         }
         do_theme_redirect($return_template);
 
@@ -122,4 +122,4 @@ function fcc_norad_podcast_single_post_title( $title, $post_id ) {
     }
     return $title;
 }
-add_filter( 'the_title', 'fcc_norad_podcast_single_post_title', 10, 2 );
+//add_filter( 'the_title', 'fcc_norad_podcast_single_post_title', 10, 2 ); // TODO: Fix, returns title from last item of megamenu

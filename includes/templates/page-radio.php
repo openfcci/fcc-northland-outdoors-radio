@@ -36,7 +36,8 @@
 											 * Jetpack Contact Forms workaround  // TODO: Make this not suck
 											 * Source: https://wordpress.org/support/topic/jetpack-contact-form-not-working-with-do_shortcode?replies=9
 											 */
-											query_posts( array( 'page_id' => 2533 ) ); // ID of the page including the form
+											$contact_form_page_id = get_post_meta($post->ID, 'norad_radio_contact_form_page', true);
+											query_posts( array( 'page_id' => $contact_form_page_id ) );
 											if ( have_posts() ) : while ( have_posts() ) : the_post();
 												the_content();
 											endwhile; endif;

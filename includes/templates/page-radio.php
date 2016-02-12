@@ -1,4 +1,9 @@
 <?php get_header(); ?>
+<?php
+# Fixes Top News Theme Page Title/misc bugs.
+wp_reset_postdata();
+wp_reset_query();
+?>
 		</div><!--head-wrap-in-->
 	</div><!--head-wrap-out-->
 </div><!--head-wrap-->
@@ -12,6 +17,7 @@
 								<div id="post-content-contain" class="left relative">
 								<div id="post-content-wrapper" class="relative" <?php post_class(); ?>>
 									<div id="post-area" class="left relative">
+
 										<h1 class="story-title entry-title radio" itemprop="name headline"><?php the_title(); ?></h1> <!-- !? PAGE TITLE -->
 										<div id="content-area" class="left relative" itemprop="articleBody">
 											<!-- *** START NORTHLAND OUTDOORS RADIO CONTENT *** -->
@@ -22,12 +28,7 @@
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-thisweeksshow.php' ); ?><!--this weeks show-->
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-upcomingshows.php' ); ?><!--upcoming shows-->
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-stations.php' ); ?><!--stations-->
-
-											<!--<div>
-												<h2 class="section-title">PODCASTS</h2>
-											</div>-->
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-podcasts.php' ); ?><!--podcasts-->
-											<?php //load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-podcasts-v1.php' ); ?><!--podcasts-->
 
 											<div class="radio-contact">Contact Bret:</div><br>
 											<?php //echo get_option('options_norad_radio_contact'); ?>

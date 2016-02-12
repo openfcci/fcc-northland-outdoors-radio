@@ -3,7 +3,7 @@
 <h2 class="section-title">PODCASTS</h2><br>
 <?php
 /* Begin the Loop */
-//wp_reset_query(); // TODO: Remove?
+wp_reset_query(); // TODO: Remove?
 
 global $do_not_duplicate;
 global $post;
@@ -79,7 +79,7 @@ if ( $the_query->have_posts()  ) { # IF
 <?php
   # Restore original Post Data
   wp_reset_postdata();
-  //wp_reset_query(); // TODO: Remove?
+  wp_reset_query(); // TODO: Remove?
 } # endif;
 ?>
 <!-- END STATIONS-->

@@ -27,7 +27,6 @@ if ( $the_query->have_posts()  ) { // IF
   while ( $the_query->have_posts() ) { // WHILE
     $the_query->the_post();
     $id = (int) $post->ID;
-
  ?>
  <?php
       /**** POST META  *****/
@@ -64,7 +63,7 @@ if ( $the_query->have_posts()  ) { // IF
   } //endwhile;
   /* Restore original Post Data */
   wp_reset_postdata();
-  wp_reset_query();
+  //wp_reset_query();
 } // endif;
  ?>
 </ol>

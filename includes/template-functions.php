@@ -14,39 +14,18 @@ if ( !get_option('options_radio_page_toggle') ) {
 }
 
 function fcc_norad_theme_redirect() {
-    global $wp;
-    $plugindir = plugin_dir_path( __FILE__ );
-
-    # A Specific Custom Post Type
-    if ($wp->query_vars["post_type"] == 'podcasts') {
-        $templatefilename = 'archive-podcasts.php'; // $templatefilename = 'single-product.php';
-        if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {
-            $return_template = TEMPLATEPATH . '/' . $templatefilename;
-        } else {
-            $return_template = $plugindir . '/templates/' . $templatefilename;
-        }
-        do_theme_redirect($return_template);
-
-    # A Custom Taxonomy Page
-    } elseif ($wp->query_vars["taxonomy"] == 'product_categories') {
-        $templatefilename = 'taxonomy-product_categories.php';
-        if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {
-            $return_template = TEMPLATEPATH . '/' . $templatefilename;
-        } else {
-            $return_template = $plugindir . '/templates/' . $templatefilename;
-        }
-        do_theme_redirect($return_template);
-
-    # A Simple Page
-	} elseif ($wp->query_vars["pagename"] == 'radio') {
-        $templatefilename = 'page-radio.php'; // $templatefilename = 'page-somepagename.php';
-        if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {
-            $return_template = TEMPLATEPATH . '/' . $templatefilename;
-        } else {
-            $return_template = $plugindir . '/templates/' . $templatefilename;
-        }
-        do_theme_redirect($return_template);
+  global $wp;
+  $plugindir = plugin_dir_path( __FILE__ );
+  # Radio Page
+  if ($wp->query_vars["pagename"] == 'radio') {
+    $templatefilename = 'page-radio.php'; // $templatefilename = 'page-somepagename.php';
+    if (file_exists(TEMPLATEPATH . '/' . $templatefilename)) {
+      $return_template = TEMPLATEPATH . '/' . $templatefilename;
+    } else {
+      $return_template = $plugindir . '/templates/' . $templatefilename;
     }
+    do_theme_redirect($return_template);
+  }
 }
 
 function do_theme_redirect($url) {

@@ -44,7 +44,8 @@ function cptui_register_my_cpts_podcasts() {
 		"capability_type" => "post",
 		"map_meta_cap" => true,
 		"hierarchical" => true,
-		"rewrite" => array( "slug" => "podcasts", "with_front" => true ),
+		//"rewrite" => array( "slug" => "podcasts", "with_front" => true ), // TODO (Fix)
+    "rewrite" => false,
 		"query_var" => true,
 		"menu_icon" => "dashicons-microphone",
 		"supports" => array( "title" ),

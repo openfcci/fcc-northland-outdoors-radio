@@ -34,6 +34,26 @@ function fcc_jw_api_status() {
 }
 
 /**
+ * Verify the API key and secret that the user has given, by making a call to
+ * the API.
+ *
+ * If the credentials are invalid, return false.
+ *
+ * If the API call failed, return NULL.
+ */
+function fcc_jw_account_verify_api_key_secret() {
+    $botr_api = new BotrAPI( get_option('options_jw_platform_api_key'), get_option('options_jw_platform_api_secret') ); // Instantiate the API.
+    $response = $botr_api->call("/accounts/list"); // Call the API
+        if ( isset( $response ) && isset( $response['status'] ) ) {
+        if ( 'ok' === $response['status'] ) {
+            return true;
+        }
+        return false;
+    }
+    return null;
+}
+
+/**
 * JW Platform API: List Conversions
 * Returns an array of file conversions based on key.
 */

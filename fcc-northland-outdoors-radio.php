@@ -40,7 +40,7 @@
  register_deactivation_hook( __FILE__, 'fcc_northland_radio_plugin_deactivation' );
 
  /*--------------------------------------------------------------
- # LOAD INCLUDES FILES
+ # LOAD INCLUDES FILES Pt. 1
  --------------------------------------------------------------*/
 
  # Register the Custom Post Types: 'podcasts' & 'stations'
@@ -55,11 +55,8 @@
  # JW Platform/Player API Functions
  require_once( plugin_dir_path( __FILE__ ) . '/includes/jw-api.php' );
 
- # Insert Post Functions
- require_once( plugin_dir_path( __FILE__ ) . '/includes/insert-post-functions.php' );
-
  /*--------------------------------------------------------------
- # INCLUDES: Advanced Custom Fields
+ # LOAD INCLUDES FILES Pt. 2 - Advanced Custom Fields
  --------------------------------------------------------------*/
 
  # 1. customize ACF path
@@ -77,7 +74,7 @@
  }
 
  # 3. Hide ACF field group menu item
- add_filter('acf/settings/show_admin', '__return_false'); // TODO: Uncomment before launch.
+ //add_filter('acf/settings/show_admin', '__return_false'); // TODO: Uncomment before launch.
 
  # 4. Include ACF
  include_once( plugin_dir_path( __FILE__ ) . 'includes/advanced-custom-fields-pro/acf.php' );
@@ -90,15 +87,22 @@
  }
  add_action('acf/include_field_types', 'include_field_types_accordion');
 
+ /*--------------------------------------------------------------
+ # LOAD INCLUDES FILES Pt. 3
+ --------------------------------------------------------------*/
+
  # ACF: Load Custom Functions & Filters
  require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-functions.php' );
 
  # ACF: Add Admin Pages
  require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-settings-page.php' );
-  require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-upcoming-shows.php' );
+ require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-upcoming-shows.php' );
 
  # ACF: Load Custom Fields
  require_once( plugin_dir_path( __FILE__ ) . '/includes/acf-fields.php' );
+
+ # Insert Post Functions
+ require_once( plugin_dir_path( __FILE__ ) . '/includes/insert-post-functions.php' );
 
 /*--------------------------------------------------------------
 # ADMIN NOTICES
@@ -108,11 +112,12 @@
  * Set Admin Notices
  *
  * @author Josh Slebodnik <josh.slebodnik@forumcomm.com>
- * @since   0.16.02.08
- * @version 0.16.02.12
+ * @since 0.16.02.08
  */
  function add_admin_notices(){
-   require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-notices.php' );
+   if ( !get_option ( 'options_jw_platform_api_key' ) || !get_option('options_jw_platform_api_secret')) {
+     require_once( plugin_dir_path( __FILE__ ) . '/includes/admin-notices.php' );
+   }
  }
  add_action('init', 'add_admin_notices');
 
@@ -206,6 +211,6 @@
    # Load the functions file
    require_once( plugin_dir_path( __FILE__ ) . '/includes/podcasts-feed-functions.php' );
    # Declare the feed
-   add_feed('podcasts', 'add_podcasts_feed');
+   add_feed('podcast', 'add_podcasts_feed');
  }
  add_action('init', 'fcc_norad_do_podcasts_feed');

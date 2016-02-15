@@ -1,7 +1,6 @@
 <?php
-
-// Note: Add a priority of 100 to the register actions
-// Example: add_action( 'init', 'cptui_register_my_cpts_podcasts', 100 );
+# NOTE: CPT-UI may not correctly output the post type archive re-write string
+# "rewrite" => array( "slug" => "radio/podcasts", "with_front" => true ),
 
 /**
  * Register the Custom Post Types
@@ -10,56 +9,57 @@
  */
 
  /*--------------------------------------------------------------
- # PODCASTS CUSTOM POST TYPE , 100 );
+ # PODCASTS CUSTOM POST TYPE  );
  --------------------------------------------------------------*/
 
- add_action( 'init', 'cptui_register_my_cpts_podcasts', 100 );
- function cptui_register_my_cpts_podcasts() {
- 	$labels = array(
- 		"name" => "Podcasts",
- 		"singular_name" => "Podcast",
- 		"menu_name" => "Podcasts",
- 		"all_items" => "All Podcasts",
- 		"add_new" => "Add Podcast",
- 		"add_new_item" => "Add New Podcast",
- 		"edit" => "Edit",
- 		"edit_item" => "Edit Podcast",
- 		"new_item" => "New Podcast",
- 		"view" => "View",
- 		"view_item" => "View Podcast",
- 		"search_items" => "Search Podcast",
- 		"not_found" => "No Podcasts found",
- 		"not_found_in_trash" => "No Podcasts found in Trash",
- 		"parent" => "Parent Podcast",
- 		);
+ add_action( 'init', 'cptui_register_my_cpts_podcasts' );
+function cptui_register_my_cpts_podcasts() {
+	$labels = array(
+		"name" => "Podcasts",
+		"singular_name" => "Podcast",
+		"menu_name" => "Podcasts",
+		"all_items" => "All Podcasts",
+		"add_new" => "Add Podcast",
+		"add_new_item" => "Add New Podcast",
+		"edit" => "Edit",
+		"edit_item" => "Edit Podcast",
+		"new_item" => "New Podcast",
+		"view" => "View",
+		"view_item" => "View Podcast",
+		"search_items" => "Search Podcast",
+		"not_found" => "No Podcasts found",
+		"not_found_in_trash" => "No Podcasts found in Trash",
+		"parent" => "Parent Podcast",
+		);
 
- 	$args = array(
- 		"labels" => $labels,
- 		"description" => "",
- 		"public" => true,
- 		"show_ui" => true,
- 		"show_in_rest" => true,
- 		"has_archive" => true,
- 		"show_in_menu" => true,
- 		"exclude_from_search" => false,
- 		"capability_type" => "post",
- 		"map_meta_cap" => true,
- 		"hierarchical" => true,
- 		"rewrite" => array( "slug" => "podcasts", "with_front" => true ),
- 		"query_var" => true,
- 		"menu_icon" => "dashicons-microphone",
- 		"supports" => array( "title" ),
- 	);
- 	register_post_type( "podcasts", $args );
+	$args = array(
+		"labels" => $labels,
+		"description" => "",
+		"public" => true,
+		"show_ui" => true,
+		"show_in_rest" => true,
+		"has_archive" => true,
+		"show_in_menu" => true,
+		"exclude_from_search" => false,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => true,
+		"rewrite" => array( "slug" => "radio/podcasts", "with_front" => true ),
+		"query_var" => true,
+		"menu_icon" => "dashicons-microphone",
+		"supports" => array( "title" ),
+	);
+	register_post_type( "podcasts", $args );
 
- // End of cptui_register_my_cpts_podcasts()
- }
+// End of cptui_register_my_cpts_podcasts()
+}
+
 
 /*--------------------------------------------------------------
 # STATIONS CUSTOM POST TYPE
 --------------------------------------------------------------*/
 
-add_action( 'init', 'cptui_register_my_cpts_stations', 100 );
+add_action( 'init', 'cptui_register_my_cpts_stations' );
 function cptui_register_my_cpts_stations() {
 	$labels = array(
 		"name" => "Stations",
@@ -102,7 +102,7 @@ function cptui_register_my_cpts_stations() {
 # Station Types Taxonomy
 --------------------------------------------------------------*/
 
-add_action( 'init', 'cptui_register_my_taxes_station_type', 100 );
+add_action( 'init', 'cptui_register_my_taxes_station_type' );
 function cptui_register_my_taxes_station_type() {
 
 	$labels = array(
@@ -144,7 +144,7 @@ function cptui_register_my_taxes_station_type() {
 # Station Types Taxonomy
 --------------------------------------------------------------*/
 
-add_action( 'init', 'cptui_register_my_taxes_station_state', 100 );
+add_action( 'init', 'cptui_register_my_taxes_station_state' );
 function cptui_register_my_taxes_station_state() {
 
 	$labels = array(

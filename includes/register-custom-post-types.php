@@ -182,24 +182,45 @@ function cptui_register_my_taxes_station_state() {
 // End cptui_register_my_taxes_station_state()
 }
 
-/**
- * Setting the default terms for the custom taxonomies
- *
- * @since 0.16.02.08
- */
-if ( ! get_option('fcc_norad_terms') ) {
-	add_action( 'wp_loaded', 'fcc_norad_insert_terms', 200 );
-}
-function fcc_norad_insert_terms() {
-  wp_insert_term( 'Radio', 'station_type', array( 'description'	=> 'Northland Outdoors Radio Station Affiliate.', 'slug' => 'radio' ) );
-  wp_insert_term( 'TV', 'station_type', array( 'description'	=> 'Northland Outdoors TV Station Affiliate.', 'slug' => 'tv' ) );
-  wp_insert_term( 'IA', 'station_state', array( 'description'	=> 'Iowa', 'slug' => 'ia' ) );
-  wp_insert_term( 'MB', 'station_state', array( 'description'	=> 'Manitoba', 'slug' => 'mb' ) );
-  wp_insert_term( 'MN', 'station_state', array( 'description'	=> 'Minnesota', 'slug' => 'mn' ) );
-  wp_insert_term( 'MT', 'station_state', array( 'description'	=> 'Montana', 'slug' => 'mt' ) );
-  wp_insert_term( 'ND', 'station_state', array( 'description'	=> 'North Dakota', 'slug' => 'nd' ) );
-  wp_insert_term( 'SD', 'station_state', array( 'description'	=> 'South Dakota', 'slug' => 'sd' ) );
-  wp_insert_term( 'WI', 'station_state', array( 'description'	=> 'Wisconsin', 'slug' => 'wi' ) );
-	# After update, set option to prevent recursion
-	update_option('fcc_norad_terms','1');
+/*--------------------------------------------------------------
+# iTunes Categories Taxonomy
+--------------------------------------------------------------*/
+
+# /wp-admin/edit-tags.php?taxonomy=itunes_categories
+
+add_action( 'init', 'cptui_register_my_taxes_itunes_categories' );
+function cptui_register_my_taxes_itunes_categories() {
+
+	$labels = array(
+		"name" => "iTunes Categories",
+		"label" => "iTunes Categories",
+		"menu_name" => "iTunes Categories",
+		"all_items" => "All iTunes Categories",
+		"edit_item" => "Edit iTunes Category",
+		"view_item" => "View iTunes Category",
+		"update_item" => "Update iTunes Category",
+		"add_new_item" => "Add New iTunes Category",
+		"new_item_name" => "New iTunes Category Name",
+		"parent_item" => "Parent iTunes Category",
+		"parent_item_colon" => "Parent iTunes Category:",
+		"search_items" => "Search iTunes Categories",
+		"popular_items" => "Popular iTunes Categories",
+		"separate_items_with_commas" => "Separate iTunes Categories with commas",
+		"add_or_remove_items" => "Add or remove iTunes Categories",
+		"choose_from_most_used" => "Choose from most used iTunes Categories",
+		"not_found" => "No iTunes Categories found",
+		);
+
+	$args = array(
+		"labels" => $labels,
+		"hierarchical" => true,
+		"label" => "iTunes Categories",
+		"show_ui" => true,
+		"query_var" => true,
+		"rewrite" => array( 'slug' => 'itunes_categories', 'with_front' => true,  'hierarchical' => true ),
+		"show_admin_column" => false,
+	);
+  register_taxonomy( "itunes_categories", '', $args );
+
+// End cptui_register_my_taxes_itunes_categories()
 }

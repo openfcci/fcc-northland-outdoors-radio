@@ -92,6 +92,7 @@ add_filter( 'the_content', 'fcc_norad_podcast_single_post_content' );
  *
  * Filters the title of single.php for podcasts posts.
  * @since 0.16.02.11
+ * @deprecated
  */
 function fcc_norad_podcast_single_post_title( $title, $post_id ) {
     if ( is_singular('podcasts') && !is_admin() && in_the_loop() ) {

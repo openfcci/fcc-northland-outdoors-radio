@@ -9,6 +9,7 @@
  * Triggers on save, edit or update of published podcasts
  * Works in "Quick Edit", but not bulk edit.
  * @since 0.16.01.28
+ * @version 0.16.02.21
  */
 function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
   if ( $post->post_type == 'podcasts' && $post->post_status == 'publish' ) {
@@ -24,8 +25,10 @@ function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
     $podcasts = get_posts($args);
     $post_count = (int) wp_count_posts('podcasts')->publish;
     for ($i = 0; $i <= $post_count; $i++) {
-    	if ( $podcasts[$i]->ID == $current_post ) { # find the index of the current post
-    		$episode_number = ($i + 1); # Set the episode number
+      # Find the index of the current post
+    	if ( $podcasts[$i]->ID == $current_post ) {
+        # Set the episode number
+    		$episode_number = ($i + 1);
     	}
     }
     update_post_meta( $post_id, 'podcast_episode_number', $episode_number );
@@ -33,23 +36,29 @@ function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
     # Post Title
     $date_title = get_the_date( 'm/d/y', $post_id ); # FORMAT: 01/28/16
     $post_title = 'Episode ' . $episode_number . ' - ' . $date_title;
-    //$post_title = 'Episode ' . $episode_number;
 
     #Post Slug
-    //$post_name = get_the_date( 'm-d-Y', $post_id ); # FORMAT: 01-28-2016
-    //$post_name = 'Episode_' . $episode_number . '_-_' . get_the_date( 'm-d-Y', $post_id ); # FORMAT: episode_11_-_02-11-16
     $post_name = 'episode-' . $episode_number; # FORMAT: episode_11_-_02-11-16
 
 
-    # unhook this function so it doesn't loop infinitely
+    # Unhook this function so it doesn't loop infinitely
     remove_action('save_post', 'fcc_norad_update_title_and_slug');
 
     # Update the Post Title & Post Slug
     wp_update_post(array('ID' => $post_id, 'post_name' => $post_name ));
     wp_update_post(array('ID' => $post_id, 'post_title' => $post_title ));
 
-    # re-hook this function
+    # Re-hook this function
     add_action('save_post', 'fcc_norad_update_title_and_slug');
+
+    # Add segment post
+    fcc_insert_segment_post( $post_id, $post, $update );
+
+  } else if ( $post->post_type == 'podcasts' && $update) {
+
+    #Update segment post
+    fcc_insert_segment_post_update( $post_id, $post, $update );
+
   }
 }
 add_action('save_post', 'fcc_norad_update_title_and_slug', 10, 3 );
@@ -57,3 +66,118 @@ add_action('save_post', 'fcc_norad_update_title_and_slug', 10, 3 );
 /*--------------------------------------------------------------
 # INSERT POST FUNCTIONS
 --------------------------------------------------------------*/
+
+/**
+ * Insert New Posts Corresponding to Podcast Segments 1-3
+ *
+ * Triggers on publish of new podcast
+ *
+ * @author Josh Slebodnik <josh.slebodnik@forumcomm.com>
+ * @since 0.16.02.17
+ * @version 0.16.02.21
+ */
+function fcc_insert_segment_post( $post_id, $post, $update ) {
+    #Get user by email
+    $user = get_user_by( 'email', get_option('options_podcasts_channel_owner_e-mail'));
+
+    #Set new post meta segment 1
+    $podcast_segment1_post = array(
+        'post_title'    => 'Northland Outdoors Radio Podcast – ' . get_post_meta($post_id, 'segment_1_title', true),
+        'post_content'  => get_post_meta($post_id, 'segment_1_description', true),
+        'post_status'   => 'draft',
+        'post_author'   => $user->ID,
+      );
+    #Set new post meta segment 2
+    $podcast_segment2_post = array(
+        'post_title'    => 'Northland Outdoors Radio Podcast – ' . get_post_meta($post_id, 'segment_2_title', true),
+        'post_content'  => get_post_meta($post_id, 'segment_2_description', true),
+        'post_status'   => 'draft',
+        'post_author'   => $user->ID,
+      );
+    #Set new post meta segment 3
+    $podcast_segment3_post = array(
+        'post_title'    => 'Northland Outdoors Radio Podcast – ' . get_post_meta($post_id, 'segment_3_title', true),
+        'post_content'  => get_post_meta($post_id, 'segment_3_description', true),
+        'post_status'   => 'draft',
+        'post_author'   => $user->ID,
+      );
+
+    #Get corresponding segment 1 post id and insert a segment post
+    $segment1_post_id = wp_insert_post( $podcast_segment1_post );
+    #Set segment 1 post tags
+    wp_set_post_tags($segment1_post_id, 'Podcast,Radio,Featured', true);
+    #Get corresponding segment 2 post id and insert a segment post
+    $segment2_post_id = wp_insert_post( $podcast_segment2_post );
+    #Set segment 2 post tags
+    wp_set_post_tags($segment2_post_id, 'Podcast,Radio,Featured', true);
+    #Get corresponding segment 3 post id and insert a segment post
+    $segment3_post_id = wp_insert_post( $podcast_segment3_post );
+    #Set segment 3 post tags
+    wp_set_post_tags($segment3_post_id, 'Podcast,Radio,Featured', true);
+
+    #Set embed meta on segment 1 post
+    $segment_1_jw_key = get_post_meta($post_id, 'segment_1_key', true);
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_1_jw_key .'-XmRneLwC.js"></script>';
+    update_post_meta($segment1_post_id, 'mvp_video_embed', $mvp_video_embed );
+    #Set embed meta on segment 2 post
+    $segment_2_jw_key = get_post_meta($post_id, 'segment_2_key', true);
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_2_jw_key .'-XmRneLwC.js"></script>';
+    update_post_meta($segment2_post_id, 'mvp_video_embed', $mvp_video_embed );
+    #Set embed meta on segment 3 post
+    $segment_3_jw_key = get_post_meta($post_id, 'segment_3_key', true);
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_3_jw_key .'-XmRneLwC.js"></script>';
+    update_post_meta($segment3_post_id, 'mvp_video_embed', $mvp_video_embed );
+
+    #Update podcast post data segment 1
+    update_post_meta($post_id, 'segment_1_link', get_permalink($segment1_post_id));
+    update_post_meta($post_id, 'segment_1_postid', $segment1_post_id);
+    #Update podcast post data segment 2
+    update_post_meta($post_id, 'segment_2_link', get_permalink($segment2_post_id));
+    update_post_meta($post_id, 'segment_2_postid', $segment2_post_id);
+    #Update podcast post data segment 3
+    update_post_meta($post_id, 'segment_3_link', get_permalink($segment3_post_id));
+    update_post_meta($post_id, 'segment_3_postid', $segment3_post_id);
+
+ }
+
+ /**
+  * Update Posts Corresponding to Podcast Segments 1-3
+  *
+  * Triggers on update of existing podcast
+  *
+  * @author Josh Slebodnik <josh.slebodnik@forumcomm.com>
+  * @since 0.16.02.17
+  * @version 0.16.02.21
+  */
+function fcc_insert_segment_post_update( $post_id, $post, $update ) {
+    #Get post id of segment 1 post
+    $post_segment_1 = get_post_meta( $post_id, 'segment_1_postid');
+    #Get post id of segment 2 post
+    $post_segment_2 = get_post_meta( $post_id, 'segment_2_postid');
+    #Get post id of segment 3 post
+    $post_segment_3 = get_post_meta( $post_id, 'segment_3_postid');
+
+    #update segment 1 post title and content
+    wp_update_post(array('ID' => $post_segment_1, 'post_title' => get_post_meta($post_id, 'segment_1_title', true) ));
+    wp_update_post(array('ID' => $post_segment_1, 'post_content' => get_post_meta($post_id, 'segment_1_description', true) ));
+    #update segment 2 post title and content
+    wp_update_post(array('ID' => $post_segment_2, 'post_title' => get_post_meta($post_id, 'segment_2_title', true) ));
+    wp_update_post(array('ID' => $post_segment_2, 'post_content' => get_post_meta($post_id, 'segment_2_description', true) ));
+    #update segment 3 post title and content
+    wp_update_post(array('ID' => $post_segment_3, 'post_title' => get_post_meta($post_id, 'segment_3_title', true) ));
+    wp_update_post(array('ID' => $post_segment_3, 'post_content' => get_post_meta($post_id, 'segment_3_description', true) ));
+
+    #Set embed meta on segment 1 post
+    $segment_1_jw_key = get_post_meta($post_id, 'segment_1_key', true);
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_1_jw_key .'-XmRneLwC.js"></script>';
+    update_post_meta($post_segment_1, 'mvp_video_embed', $mvp_video_embed );
+    #Set embed meta on segment 2 post
+    $segment_2_jw_key = get_post_meta($post_id, 'segment_2_key', true);
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_2_jw_key .'-XmRneLwC.js"></script>';
+    update_post_meta($post_segment_2, 'mvp_video_embed', $mvp_video_embed );
+    #Set embed meta on segment 3 post
+    $segment_3_jw_key = get_post_meta($post_id, 'segment_3_key', true);
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_3_jw_key .'-XmRneLwC.js"></script>';
+    update_post_meta($post_segment_3, 'mvp_video_embed', $mvp_video_embed );
+
+ }

@@ -36,20 +36,17 @@ $channel_copyright = html_entity_decode('&#xA9; ') . date('Y') . ' Forum Communi
 $channel_author = get_option('options_podcasts_channel_author');
 $channel_email = get_option('options_podcasts_channel_owner_e-mail');
 $channel_summary = sanitize_text_field ( get_option('options_podcasts_channel_summary') );
-$channel_category_parent = 'Sports &amp; Recreation';
-$channel_category_child = get_option('options_podcasts_channel_category');
 $channel_explicit = get_option('options_podcasts_channel_explicit');
 
 # Get the Channel Category & Parent (If Applicable)
-// $channel_category_id = get_term_by('id', get_option('options_podcasts_channel_category'), 'itunes_categories');
-// $channel_category = $channel_category_id->name;
+$channel_category_id = get_term_by('id', get_option('options_podcasts_channel_category'), 'itunes_categories');
+$channel_category_child = $channel_category_id->name;
 
-// if ( $channel_category_id->parent != 0 ) {
-//   $parent_category = get_term_by( 'id', $channel_category_id->parent, 'itunes_categories' )->name;
-// } else {
-//   $parent_category = NULL;
-// }
-
+if ( $channel_category_id->parent != 0 ) {
+  $channel_category_parent = get_term_by( 'id', $channel_category_id->parent, 'itunes_categories' )->name;
+} else {
+  $$channel_category_parent = NULL;
+}
 
 /* Add channel tag as a child to rss tag */
 $channel_xml = $xml->addChild('channel');
@@ -78,12 +75,10 @@ $image_xml = $channel_xml->addChild('xlmns:itunes:image');
 $image_xml->addAttribute('href', $channel_image);
 
 $category_parent = $channel_xml->addChild('xlmns:itunes:category');
-$category_parent->addAttribute('text', $channel_category_parent);
+$category_parent->addAttribute('text', html_entity_decode($channel_category_parent));
 
 $category_child = $category_parent->addChild('xlmns:itunes:category');
-$category_child->addAttribute('text', $channel_category_child);
-
-// $category_close = $channel_xml->addChild('xlmns:itunes:category');
+$category_child->addAttribute('text', html_entity_decode($channel_category_child));
 
 /* Add owner tag and childs */
 $owner_xml = $channel_xml->addChild('xlmns:itunes:owner');

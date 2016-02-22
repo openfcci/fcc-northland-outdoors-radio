@@ -27,6 +27,8 @@
  function fcc_northland_radio_plugin_activation() {
    # Flush our rewrite rules on activation.
    flush_rewrite_rules();
+   #Create radio page if it doesn't exist.
+   create_radio_page();
  }
  register_activation_hook( __FILE__, 'fcc_northland_radio_plugin_activation' );
 

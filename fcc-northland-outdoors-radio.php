@@ -4,7 +4,7 @@
  * Plugin URI:  https://github.com/openfcci/fcc-northland-outdoors-radio
  * Author:      Forum Communications Company
  * Author URI:  http://www.forumcomm.com/
- * Version:     0.16.02.19
+ * Version:     0.16.02.21
  * Description: Northland Outdoors Radio, Podcasts and Stations plugin.
  * License:     GPL v2 or later
  * Text Domain: fcc_norad
@@ -38,6 +38,47 @@
    flush_rewrite_rules();
  }
  register_deactivation_hook( __FILE__, 'fcc_northland_radio_plugin_deactivation' );
+
+ /**
+  * Create Radio Page
+  *
+  * Creates the 'radio' page on plugin activation if one does not already exist.
+  *
+  * @author Josh Slebodnik <josh.slebodnik@forumcomm.com>
+  * @since 0.16.02.17
+  * @version 0.16.02.21
+  */
+ function create_radio_page() {
+   # Initialize the page ID to -1. This indicates no action has been taken.
+   $post_id = -1;
+
+   # Setup the author, slug, and title for the post
+   $author_id = 1;
+   $slug = 'radio';
+   $title = 'Radio';
+
+   # If the page doesn't already exist, then create it
+   if( null == get_page_by_path( 'radio' ) ) {
+
+     # Set the post ID so that we know the post was created successfully
+       $post_id = wp_insert_post(
+       array(
+         'comment_status'    =>  'closed',
+         'ping_status'       =>  'closed',
+         'post_author'       =>  $author_id,
+         'post_name'         =>  $slug,
+         'post_title'        =>  $title,
+         'post_status'       =>  'publish',
+         'post_type'         =>  'page'
+       )
+     );
+
+     # Otherwise, we'll stop
+   } else {
+     # Arbitrarily use -2 to indicate that the page with the title already exists
+     $post_id = -2;
+   } # end if
+ }
 
  /*--------------------------------------------------------------
  # LOAD INCLUDES FILES Pt. 1

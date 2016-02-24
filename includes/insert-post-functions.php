@@ -83,21 +83,18 @@ function fcc_insert_segment_post( $post_id, $post, $update ) {
     #Set new post meta segment 1
     $podcast_segment1_post = array(
         'post_title'    => 'Northland Outdoors Radio Podcast – ' . get_post_meta($post_id, 'segment_1_title', true),
-        'post_content'  => get_post_meta($post_id, 'segment_1_description', true),
         'post_status'   => 'draft',
         'post_author'   => $user->ID,
       );
     #Set new post meta segment 2
     $podcast_segment2_post = array(
         'post_title'    => 'Northland Outdoors Radio Podcast – ' . get_post_meta($post_id, 'segment_2_title', true),
-        'post_content'  => get_post_meta($post_id, 'segment_2_description', true),
         'post_status'   => 'draft',
         'post_author'   => $user->ID,
       );
     #Set new post meta segment 3
     $podcast_segment3_post = array(
         'post_title'    => 'Northland Outdoors Radio Podcast – ' . get_post_meta($post_id, 'segment_3_title', true),
-        'post_content'  => get_post_meta($post_id, 'segment_3_description', true),
         'post_status'   => 'draft',
         'post_author'   => $user->ID,
       );
@@ -117,15 +114,15 @@ function fcc_insert_segment_post( $post_id, $post, $update ) {
 
     #Set embed meta on segment 1 post
     $segment_1_jw_key = get_post_meta($post_id, 'segment_1_key', true);
-    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_1_jw_key .'-XmRneLwC.js"></script>';
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_1_jw_key . '-XmRneLwC.js"></script>' . '<div id="' . $segment_1_jw_key . '">Loading the player...</div><script type="text/javascript"> var playerInstance = jwplayer("' . $segment_1_jw_key . '");playerInstance.setup({ file: "//content.jwplatform.com/videos/' . $segment_1_jw_key . '.aac",image:"http://www.northlandoutdoors.com/files/2015/12/Northland-Outdoors-Logo_16x9.png",});</script>';
     update_post_meta($segment1_post_id, 'mvp_video_embed', $mvp_video_embed );
     #Set embed meta on segment 2 post
     $segment_2_jw_key = get_post_meta($post_id, 'segment_2_key', true);
-    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_2_jw_key .'-XmRneLwC.js"></script>';
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_2_jw_key . '-XmRneLwC.js"></script>' . '<div id="' . $segment_2_jw_key . '">Loading the player...</div><script type="text/javascript"> var playerInstance = jwplayer("' . $segment_2_jw_key . '");playerInstance.setup({ file: "//content.jwplatform.com/videos/' . $segment_2_jw_key . '.aac",image:"http://www.northlandoutdoors.com/files/2015/12/Northland-Outdoors-Logo_16x9.png",});</script>';
     update_post_meta($segment2_post_id, 'mvp_video_embed', $mvp_video_embed );
     #Set embed meta on segment 3 post
     $segment_3_jw_key = get_post_meta($post_id, 'segment_3_key', true);
-    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_3_jw_key .'-XmRneLwC.js"></script>';
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_3_jw_key . '-XmRneLwC.js"></script>' . '<div id="' . $segment_3_jw_key . '">Loading the player...</div><script type="text/javascript"> var playerInstance = jwplayer("' . $segment_3_jw_key . '");playerInstance.setup({ file: "//content.jwplatform.com/videos/' . $segment_3_jw_key . '.aac",image:"http://www.northlandoutdoors.com/files/2015/12/Northland-Outdoors-Logo_16x9.png",});</script>';
     update_post_meta($segment3_post_id, 'mvp_video_embed', $mvp_video_embed );
 
     #Update podcast post data segment 1
@@ -137,6 +134,45 @@ function fcc_insert_segment_post( $post_id, $post, $update ) {
     #Update podcast post data segment 3
     update_post_meta($post_id, 'segment_3_link', get_permalink($segment3_post_id));
     update_post_meta($post_id, 'segment_3_postid', $segment3_post_id);
+
+    #Add segment 1 post content
+    $segment1_amended_content =  '<p></p>
+    <p><a href="'. esc_url( get_permalink($segment2_post_id) ) .'" target="_blank">SEGMENT 2</a>. '. get_post_meta($post_id, 'segment_2_description', true) . ' </p>
+    <p><a href="'. esc_url( get_permalink($segment3_post_id) ) .'" target="_blank">SEGMENT 3</a>. '. get_post_meta($post_id, 'segment_3_description', true). ' </p>
+    <p>Northland Outdoors Radio airs on '. wp_count_posts('stations')->publish .' stations across Minnesota, North Dakota and Wisconsin. &nbsp;To find a station near you, <a href="'. get_site_url() .'/radio">visit the “RADIO” page.&nbsp;</a></p>';
+
+    #Update post with the description and amended content
+    $podcast_segment1_post_update = array(
+        'ID' => $segment1_post_id,
+        'post_content'  => get_post_meta($post_id, 'segment_1_description', true) . $segment1_amended_content
+    );
+    wp_update_post($podcast_segment1_post_update);
+
+    #Add segment 2 post content
+    $segment2_amended_content =  '<p></p>
+    <p><a href="'. esc_url( get_permalink($segment1_post_id) ) .'" target="_blank">SEGMENT 1</a>. '. get_post_meta($post_id, 'segment_1_description', true) . ' </p>
+    <p><a href="'. esc_url( get_permalink($segment3_post_id) ) .'" target="_blank">SEGMENT 3</a>. '. get_post_meta($post_id, 'segment_3_description', true). ' </p>
+    <p>Northland Outdoors Radio airs on '. wp_count_posts('stations')->publish .' stations across Minnesota, North Dakota and Wisconsin. &nbsp;To find a station near you, <a href="'. get_site_url() .'/radio">visit the “RADIO” page.&nbsp;</a></p>';
+
+    #Update post with the description and amended content
+    $podcast_segment2_post_update = array(
+        'ID' => $segment2_post_id,
+        'post_content'  => get_post_meta($post_id, 'segment_2_description', true) . $segment2_amended_content
+    );
+    wp_update_post($podcast_segment2_post_update);
+
+    #Add segment 3 post content
+    $segment3_amended_content =  '<p></p>
+    <p><a href="'. esc_url( get_permalink($segment1_post_id) ) .'" target="_blank">SEGMENT 1</a>. '. get_post_meta($post_id, 'segment_1_description', true) . ' </p>
+    <p><a href="'. esc_url( get_permalink($segment2_post_id) ) .'" target="_blank">SEGMENT 2</a>. '. get_post_meta($post_id, 'segment_2_description', true). ' </p>
+    <p>Northland Outdoors Radio airs on '. wp_count_posts('stations')->publish .' stations across Minnesota, North Dakota and Wisconsin. &nbsp;To find a station near you, <a href="'. get_site_url() .'/radio">visit the “RADIO” page.&nbsp;</a></p>';
+
+    #Update post with the description and amended content
+    $podcast_segment3_post_update = array(
+        'ID' => $segment3_post_id,
+        'post_content'  => get_post_meta($post_id, 'segment_3_description', true) . $segment3_amended_content
+    );
+    wp_update_post($podcast_segment3_post_update);
 
  }
 
@@ -157,27 +193,43 @@ function fcc_insert_segment_post_update( $post_id, $post, $update ) {
     #Get post id of segment 3 post
     $post_segment_3 = get_post_meta( $post_id, 'segment_3_postid');
 
+    #Add segment 1 post content
+    $segment1_amended_content =  '<p></p>
+    <p><a href="'. esc_url( get_permalink($post_segment_2) ) .'" target="_blank">SEGMENT 2</a>. '. get_post_meta($post_id, 'segment_2_description', true) . ' </p>
+    <p><a href="'. esc_url( get_permalink($post_segment_3) ) .'" target="_blank">SEGMENT 3</a>. '. get_post_meta($post_id, 'segment_3_description', true). ' </p>
+    <p>Northland Outdoors Radio airs on '. wp_count_posts('stations')->publish .' stations across Minnesota, North Dakota and Wisconsin. &nbsp;To find a station near you, <a href="'. get_site_url() .'/radio">visit the “RADIO” page.&nbsp;</a></p>';
+    #Add segment 2 post content
+    $segment2_amended_content =  '<p></p>
+    <p><a href="'. esc_url( get_permalink($post_segment_1) ) .'" target="_blank">SEGMENT 1</a>. '. get_post_meta($post_id, 'segment_1_description', true) . ' </p>
+    <p><a href="'. esc_url( get_permalink($post_segment_3) ) .'" target="_blank">SEGMENT 3</a>. '. get_post_meta($post_id, 'segment_3_description', true). ' </p>
+    <p>Northland Outdoors Radio airs on '. wp_count_posts('stations')->publish .' stations across Minnesota, North Dakota and Wisconsin. &nbsp;To find a station near you, <a href="'. get_site_url() .'/radio">visit the “RADIO” page.&nbsp;</a></p>';
+    #Add segment 3 post content
+    $segment3_amended_content =  '<p></p>
+    <p><a href="'. esc_url( get_permalink($post_segment_1) ) .'" target="_blank">SEGMENT 1</a>. '. get_post_meta($post_id, 'segment_1_description', true) . ' </p>
+    <p><a href="'. esc_url( get_permalink($post_segment_2) ) .'" target="_blank">SEGMENT 2</a>. '. get_post_meta($post_id, 'segment_2_description', true). ' </p>
+    <p>Northland Outdoors Radio airs on '. wp_count_posts('stations')->publish .' stations across Minnesota, North Dakota and Wisconsin. &nbsp;To find a station near you, <a href="'. get_site_url() .'/radio">visit the “RADIO” page.&nbsp;</a></p>';
+
     #update segment 1 post title and content
     wp_update_post(array('ID' => $post_segment_1, 'post_title' => get_post_meta($post_id, 'segment_1_title', true) ));
-    wp_update_post(array('ID' => $post_segment_1, 'post_content' => get_post_meta($post_id, 'segment_1_description', true) ));
+    wp_update_post(array('ID' => $post_segment_1, 'post_content' => get_post_meta($post_id, 'segment_1_description', true) . $segment1_amended_content ));
     #update segment 2 post title and content
     wp_update_post(array('ID' => $post_segment_2, 'post_title' => get_post_meta($post_id, 'segment_2_title', true) ));
-    wp_update_post(array('ID' => $post_segment_2, 'post_content' => get_post_meta($post_id, 'segment_2_description', true) ));
+    wp_update_post(array('ID' => $post_segment_2, 'post_content' => get_post_meta($post_id, 'segment_2_description', true) . $segment2_amended_content ));
     #update segment 3 post title and content
     wp_update_post(array('ID' => $post_segment_3, 'post_title' => get_post_meta($post_id, 'segment_3_title', true) ));
-    wp_update_post(array('ID' => $post_segment_3, 'post_content' => get_post_meta($post_id, 'segment_3_description', true) ));
+    wp_update_post(array('ID' => $post_segment_3, 'post_content' => get_post_meta($post_id, 'segment_3_description', true) . $segment3_amended_content ));
 
     #Set embed meta on segment 1 post
     $segment_1_jw_key = get_post_meta($post_id, 'segment_1_key', true);
-    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_1_jw_key .'-XmRneLwC.js"></script>';
-    update_post_meta($post_segment_1, 'mvp_video_embed', $mvp_video_embed );
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_1_jw_key . '-XmRneLwC.js"></script>' . '<div id="' . $segment_1_jw_key . '">Loading the player...</div><script type="text/javascript"> var playerInstance = jwplayer("' . $segment_1_jw_key . '");playerInstance.setup({ file: "//content.jwplatform.com/videos/' . $segment_1_jw_key . '.aac",image:"http://www.northlandoutdoors.com/files/2015/12/Northland-Outdoors-Logo_16x9.png",});</script>';
+    update_post_meta($segment1_post_id, 'mvp_video_embed', $mvp_video_embed );
     #Set embed meta on segment 2 post
     $segment_2_jw_key = get_post_meta($post_id, 'segment_2_key', true);
-    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_2_jw_key .'-XmRneLwC.js"></script>';
-    update_post_meta($post_segment_2, 'mvp_video_embed', $mvp_video_embed );
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_2_jw_key . '-XmRneLwC.js"></script>' . '<div id="' . $segment_2_jw_key . '">Loading the player...</div><script type="text/javascript"> var playerInstance = jwplayer("' . $segment_2_jw_key . '");playerInstance.setup({ file: "//content.jwplatform.com/videos/' . $segment_2_jw_key . '.aac",image:"http://www.northlandoutdoors.com/files/2015/12/Northland-Outdoors-Logo_16x9.png",});</script>';
+    update_post_meta($segment2_post_id, 'mvp_video_embed', $mvp_video_embed );
     #Set embed meta on segment 3 post
     $segment_3_jw_key = get_post_meta($post_id, 'segment_3_key', true);
-    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_3_jw_key .'-XmRneLwC.js"></script>';
-    update_post_meta($post_segment_3, 'mvp_video_embed', $mvp_video_embed );
+    $mvp_video_embed = '<script type="text/javascript" src="http://content.jwplatform.com/players/' . $segment_3_jw_key . '-XmRneLwC.js"></script>' . '<div id="' . $segment_3_jw_key . '">Loading the player...</div><script type="text/javascript"> var playerInstance = jwplayer("' . $segment_3_jw_key . '");playerInstance.setup({ file: "//content.jwplatform.com/videos/' . $segment_3_jw_key . '.aac",image:"http://www.northlandoutdoors.com/files/2015/12/Northland-Outdoors-Logo_16x9.png",});</script>';
+    update_post_meta($segment3_post_id, 'mvp_video_embed', $mvp_video_embed );
 
  }

@@ -1,7 +1,5 @@
 <?php ?>
 <!-- *** This Week's Show *** -->
-<div>
-  <h2 class="section-title">THIS WEEK'S SHOW</h2>
 
   <?php
   /* Begin the Loop */
@@ -46,7 +44,8 @@
      $segment_3_link = get_post_meta($id, 'segment_3_link', true);
 
      ?>
-     <?php if ( $station_website ) { echo '<a href="' .  $station_website . '" target="_blank">';}?>
+     <div>
+       <h2 class="section-title">THIS WEEK'S SHOW: <?php echo get_the_date( 'm/d/y', $post_id ); ?></h2>
        <div class="section-content">
        <!--<p class="podcast-title" style="text-align: left">
          <span style="text-decoration: underline">
@@ -78,7 +77,7 @@
 <?php
   # Restore original Post Data
   wp_reset_postdata();
-  //wp_reset_query(); // TODO: Remove?
+  wp_reset_query();
 } # endif;
 ?>
 

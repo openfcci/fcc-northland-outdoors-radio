@@ -4,24 +4,49 @@
 # PODCASTS XML FEED TEMPLATE
 --------------------------------------------------------------*/
 
+/**
+ * PODCASTS XML FEED
+ *
+ * @author Josh Slebodnik <josh.slebodnik@forumcomm.com>
+ * @since 0.16.02.05
+ * @version 0.16.02.21
+ */
+
 header("Content-type: text/xml");
+#Adds cdata to an element
+function addCData($element, $cdata_text)
+{
+ $node= dom_import_simplexml($element);
+ $no = $node->ownerDocument;
+ $node->appendChild($no->createCDATASection($cdata_text));
+}
+
 /* Add rss tag */
 $xml = new SimpleXMLElement('<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"/>');
 $xml->registerXPathNamespace('itunes', 'http://www.itunes.com/dtds/podcast-1.0.dtd');
 $xml->addAttribute('version', '2.0');
 
 /**** Channel META  *****/
-$channel_title = get_option('options_podcasts_channel_title');
+$channel_title = sanitize_text_field ( get_option('options_podcasts_channel_title') );
 $channel_link =  get_option('options_podcasts_channel_link');
 $channel_image = wp_get_attachment_url( get_option('options_podcasts_channel_image') );
 $channel_keywords = get_option('options_podcasts_channel_keywords');
 $channel_language = 'en-us';
-$channel_copyright = ' ' . date('Y') . ' Forum Communications Company. All Rights Reserved.';
+$channel_copyright = html_entity_decode('&#xA9; ') . date('Y') . ' Forum Communications Company. All Rights Reserved.';
 $channel_author = get_option('options_podcasts_channel_author');
-$channel_email = get_option('options_podcasts_channel_email');
-$channel_summary = '<![CDATA[' . get_option('options_podcasts_channel_summary') . ']]>';
-$channel_category = get_option('options_podcasts_channel_category');
+$channel_email = get_option('options_podcasts_channel_owner_e-mail');
+$channel_summary = sanitize_text_field ( get_option('options_podcasts_channel_summary') );
 $channel_explicit = get_option('options_podcasts_channel_explicit');
+
+# Get the Channel Category & Parent (If Applicable)
+$channel_category_id = get_term_by('id', get_option('options_podcasts_channel_category'), 'itunes_categories');
+$channel_category_child = $channel_category_id->name;
+
+if ( $channel_category_id->parent != 0 ) {
+  $channel_category_parent = get_term_by( 'id', $channel_category_id->parent, 'itunes_categories' )->name;
+} else {
+  $$channel_category_parent = NULL;
+}
 
 /* Add channel tag as a child to rss tag */
 $channel_xml = $xml->addChild('channel');
@@ -33,15 +58,27 @@ $channel_array = array (
   $channel_language => 'language',
   $channel_copyright => 'copyright',
   $channel_author => 'xlmns:itunes:author',
-  $channel_summary => 'xlmns:itunes:summary',
-  $channel_image => 'xlmns:itunes:image',
-  $channel_category => 'xlmns:itunes:category',
   $channel_explicit => 'xlmns:itunes:explicit',
   $channel_keywords => 'xlmns:itunes:keywords',
 );
 
 /* Add channel array tags as a child to rss tag */
 array_walk_recursive($channel_array, array ($channel_xml, 'addChild'));
+
+$summary_xml = $channel_xml->addChild('xlmns:itunes:summary');
+addCData($summary_xml, $channel_summary);
+
+$summary_xml = $channel_xml->addChild('description');
+addCData($summary_xml, $channel_summary);
+
+$image_xml = $channel_xml->addChild('xlmns:itunes:image');
+$image_xml->addAttribute('href', $channel_image);
+
+$category_parent = $channel_xml->addChild('xlmns:itunes:category');
+$category_parent->addAttribute('text', html_entity_decode($channel_category_parent));
+
+$category_child = $category_parent->addChild('xlmns:itunes:category');
+$category_child->addAttribute('text', html_entity_decode($channel_category_child));
 
 /* Add owner tag and childs */
 $owner_xml = $channel_xml->addChild('xlmns:itunes:owner');
@@ -64,15 +101,23 @@ if ( $the_query->have_posts()  ) { // IF
         $the_query->the_post();
         $id = (int) $post->ID;
 
+        #Get episode number
+        $episode = get_post_meta($id, 'podcast_episode_number', true);
+
         /***** ITEM META *****/
         # Item <title>
-        $segment_1_title = get_post_meta($id, 'segment_1_title', true);
-        $segment_2_title = get_post_meta($id, 'segment_1_title', true);
-        $segment_3_title = get_post_meta($id, 'segment_1_title', true);
+        $segment_1_title = sanitize_text_field ( get_post_meta($id, 'segment_1_title', true) );
+        $segment_1_title = 'Episode ' . $episode . '.1: ' . $segment_1_title;
+
+        $segment_2_title = sanitize_text_field ( get_post_meta($id, 'segment_2_title', true) );
+        $segment_2_title = 'Episode ' . $episode . '.2: ' . $segment_2_title;
+
+        $segment_3_title = sanitize_text_field ( get_post_meta($id, 'segment_3_title', true) );
+        $segment_3_title = 'Episode ' . $episode . '.3: ' . $segment_3_title;
         # Item <itunes:summary>
-        $segment_1_subtitle = '<![CDATA[' . strip_tags ( get_post_meta($id, 'segment_1_description', true) ) . ']]>'; // TODO: remove html, escape chars, convert to html entities, CDATA wrap
-        $segment_2_subtitle = '<![CDATA[' . strip_tags ( get_post_meta($id, 'segment_2_description', true) ) . ']]>';
-        $segment_3_subtitle = '<![CDATA[' . strip_tags ( get_post_meta($id, 'segment_3_description', true) ) . ']]>';
+        $segment_1_subtitle = sanitize_text_field ( get_post_meta($id, 'segment_1_description', true) ); // TODO: remove html, escape chars, convert to html entities, CDATA wrap
+        $segment_2_subtitle = sanitize_text_field ( get_post_meta($id, 'segment_2_description', true) );
+        $segment_3_subtitle = sanitize_text_field ( get_post_meta($id, 'segment_3_description', true) );
         # Item <pubDate>
         $segment_1_pubdate = date( DATE_RFC2822, strtotime( get_post_meta($id, 'segment_1_date', true) ) );
         $segment_2_pubdate = date( DATE_RFC2822, strtotime( get_post_meta($id, 'segment_2_date', true) ) );
@@ -103,20 +148,25 @@ if ( $the_query->have_posts()  ) { // IF
           /**** Set tags as a child to item tag ****/
           $item_1_title = $item_1->addChild('title', $segment_1_title);
 
-          $item_1_subtitle = $item_1->addChild('xmlns:itunes:subtitle', $segment_1_subtitle);
+          $item_1_subtitle = $item_1->addChild('xmlns:itunes:subtitle');
+          addCData($item_1_subtitle, $segment_1_subtitle);
+
+          $item_1_summary = $item_1->addChild('xmlns:itunes:summary');
+          addCData($item_1_summary, $segment_1_subtitle);
 
           $item_1_enclosure = $item_1->addChild('enclosure');
-          $item_1_enclosure->addAttribute('url', 'http://content.jwplatform.com/videos/' . $segment_1_key . '.m4a');
+          $item_1_enclosure->addAttribute('url', 'https://content.jwplatform.com/videos/' . $segment_1_key . '.m4a');
           $item_1_enclosure->addAttribute('length', $segment_1_length);
           $item_1_enclosure->addAttribute('type', 'audio/x-m4a');
 
-          $item_1_guid = $item_1->addChild('guid', 'http://content.jwplatform.com/videos/' . $segment_1_key . '.m4a');
+          $item_1_guid = $item_1->addChild('guid', 'https://content.jwplatform.com/videos/' . $segment_1_key . '.m4a');
 
-          $item_1_thumb = $item_1->addChild('xlmns:itunes:image', $segment_1_thumb);
+          $item_1_thumb = $item_1->addChild('xlmns:itunes:image');
+          $item_1_thumb->addAttribute('href', $segment_1_thumb);
 
           $item_1_date = $item_1->addChild('pubDate', $segment_1_pubdate);
 
-          $item_1_duration = $item_1->addChild('duration', $segment_1_duration);
+          $item_1_duration = $item_1->addChild('xmlns:itunes:duration', $segment_1_duration);
 
         }
 
@@ -129,18 +179,25 @@ if ( $the_query->have_posts()  ) { // IF
           /**** Set tags as a child to item tag ****/
           $item_2_title = $item_2->addChild('title', $segment_2_title);
 
-          $item_2_subtitle = $item_2->addChild('xmlns:itunes:subtitle', $segment_2_subtitle);
+          $item_2_subtitle = $item_2->addChild('xmlns:itunes:subtitle');
+          addCData($item_2_subtitle, $segment_2_subtitle);
+
+          $item_2_summary = $item_2->addChild('xmlns:itunes:summary');
+          addCData($item_2_summary, $segment_2_subtitle);
 
           $item_2_enclosure = $item_2->addChild('enclosure');
-          $item_2_enclosure->addAttribute('url', 'http://content.jwplatform.com/videos/' . $segment_2_key . '.m4a');
+          $item_2_enclosure->addAttribute('url', 'https://content.jwplatform.com/videos/' . $segment_2_key . '.m4a');
           $item_2_enclosure->addAttribute('length', $segment_2_length);
           $item_2_enclosure->addAttribute('type', 'audio/x-m4a');
 
-          $item_2_guid = $item_2->addChild('guid', 'http://content.jwplatform.com/videos/' . $segment_2_key . '.m4a');
+          $item_2_guid = $item_2->addChild('guid', 'https://content.jwplatform.com/videos/' . $segment_2_key . '.m4a');
+
+          $item_2_thumb = $item_2->addChild('xlmns:itunes:image');
+          $item_2_thumb->addAttribute('href', $segment_2_thumb);
 
           $item_2_date = $item_2->addChild('pubDate', $segment_2_pubdate);
 
-          $item_2_duration = $item_2->addChild('duration', $segment_2_duration);
+          $item_2_duration = $item_2->addChild('xmlns:itunes:duration', $segment_2_duration);
 
         }
 
@@ -151,20 +208,27 @@ if ( $the_query->have_posts()  ) { // IF
           $item_3 = $channel_xml->addChild('item');
 
           /**** Set tags as a child to item tag ****/
-          $item_3_title = $item_3->addChild('title', $segment_13title);
+          $item_3_title = $item_3->addChild('title', $segment_3_title);
 
-          $item_3_subtitle = $item_3->addChild('xmlns:itunes:subtitle', $segment_3_subtitle);
+          $item_3_subtitle = $item_3->addChild('xmlns:itunes:subtitle');
+          addCData($item_3_subtitle, $segment_3_subtitle);
+
+          $item_3_summary = $item_3->addChild('xmlns:itunes:summary');
+          addCData($item_3_summary, $segment_3_subtitle);
 
           $item_3_enclosure = $item_3->addChild('enclosure');
-          $item_3_enclosure->addAttribute('url', 'http://content.jwplatform.com/videos/' . $segment_3_key . '.m4a');
+          $item_3_enclosure->addAttribute('url', 'https://content.jwplatform.com/videos/' . $segment_3_key . '.m4a');
           $item_3_enclosure->addAttribute('length', $segment_3_length);
           $item_3_enclosure->addAttribute('type', 'audio/x-m4a');
 
-          $item_3_guid = $item_1->addChild('guid', 'http://content.jwplatform.com/videos/' . $segment_3_key . '.m4a');
+          $item_3_guid = $item_3->addChild('guid', 'https://content.jwplatform.com/videos/' . $segment_3_key . '.m4a');
+
+          $item_3_thumb = $item_3->addChild('xlmns:itunes:image');
+          $item_3_thumb->addAttribute('href', $segment_3_thumb);
 
           $item_3_date = $item_3->addChild('pubDate', $segment_2_pubdate);
 
-          $item_3_duration = $item_3->addChild('duration', $segment_3_duration);
+          $item_3_duration = $item_3->addChild('xmlns:itunes:duration', $segment_3_duration);
 
         }
 

@@ -1,4 +1,9 @@
 <?php get_header(); ?>
+<?php
+# Fixes Top News Theme Page Title/misc bugs.
+wp_reset_postdata();
+wp_reset_query();
+?>
 		</div><!--head-wrap-in-->
 	</div><!--head-wrap-out-->
 </div><!--head-wrap-->
@@ -12,6 +17,7 @@
 								<div id="post-content-contain" class="left relative">
 								<div id="post-content-wrapper" class="relative" <?php post_class(); ?>>
 									<div id="post-area" class="left relative">
+
 										<h1 class="story-title entry-title radio" itemprop="name headline"><?php the_title(); ?></h1> <!-- !? PAGE TITLE -->
 										<div id="content-area" class="left relative" itemprop="articleBody">
 											<!-- *** START NORTHLAND OUTDOORS RADIO CONTENT *** -->
@@ -22,26 +28,23 @@
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-thisweeksshow.php' ); ?><!--this weeks show-->
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-upcomingshows.php' ); ?><!--upcoming shows-->
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-stations.php' ); ?><!--stations-->
-
-											<!--<div>
-												<h2 class="section-title">PODCASTS</h2>
-											</div>-->
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-podcasts.php' ); ?><!--podcasts-->
 
-											<div class="radio-contact">Contact Bret:</div>
+											<div class="radio-contact">Contact Bret:</div><br>
 											<?php //echo get_option('options_norad_radio_contact'); ?>
 											<?php
 											/**
 											 * Jetpack Contact Forms workaround  // TODO: Make this not suck
 											 * Source: https://wordpress.org/support/topic/jetpack-contact-form-not-working-with-do_shortcode?replies=9
 											 */
-											query_posts( array( 'page_id' => 2533 ) ); // ID of the page including the form
+											$contact_form_page_id = get_post_meta($post->ID, 'norad_radio_contact_form_page', true);
+											query_posts( array( 'page_id' => $contact_form_page_id ) );
 											if ( have_posts() ) : while ( have_posts() ) : the_post();
 												the_content();
 											endwhile; endif;
 											wp_reset_query();
 											?>
-											<?php echo get_option('options_norad_radio_page_footnote'); // TODO: Style this?>
+											<?php echo get_post_meta($post->ID, 'norad_radio_page_footnote', true); // TODO: Style this?>
 											</div><!--radio-wrapper-->
 											<!-- END NORTHLAND OUTDOORS RADIO CONTENT-->
 										</div><!--content-area-->

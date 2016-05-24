@@ -12,9 +12,9 @@
  * @link http://www.advancedcustomfields.com/resources/acfload_field/
  *
  * @return string $value Format: 01/04/2016, 3:29pm
+ * @deprecated
  */
 function fcc_norad_acf_filter_admin_date_format( $value, $post_id, $field ) {
-    //if ( $value ) { $value = date( 'm/d/Y, g:ia', $value ); }
     if ( $value ) { $value = date( 'm/d/Y', $value ); }
     else { $value = $value; }
     return $value;
@@ -49,7 +49,7 @@ add_filter("acf/load_field/name=segment_3_duration", "fcc_norad_field_readonly_f
 add_filter("acf/load_field/name=segment_3_date", "fcc_norad_field_readonly_filter");
 add_filter("acf/load_field/name=segment_3_size", "fcc_norad_field_readonly_filter");
 # Episode Number
-//add_filter("acf/load_field/name=podcast_episode_number", "fcc_norad_field_readonly_filter");
+add_filter("acf/load_field/name=podcast_episode_number", "fcc_norad_field_readonly_filter");
 
 /**
  * Enable/Disable Segment Image Thumbnail Fields
@@ -60,7 +60,7 @@ add_filter("acf/load_field/name=segment_3_size", "fcc_norad_field_readonly_filte
  */
 function fcc_norad_segment_thumbnail_load_field( $field ) {
 
-  if ( !get_option('options_segement_thumbnail_image_field') ) {
+  if ( !get_option('options_segment_thumbnail_image_field') ) {
     $field['wrapper']['class'] = 'hidden-by-conditional-logic'; # Hide
   } else {
     $field['wrapper']['class'] = ''; # Show

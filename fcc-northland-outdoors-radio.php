@@ -185,7 +185,8 @@
    if ( is_page( 'radio' ) ) {
      wp_enqueue_style( 'custom_css_norad', plugin_dir_url( __FILE__ ) . '/includes/css/fcc_norad.css' );
      wp_enqueue_style( 'font_awesome', 'http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css' );
-    wp_enqueue_script( 'fcc_norad_js', plugin_dir_url( __FILE__ ) . '/includes/js/fcc_norad.js' );
+     wp_register_script('fcc_norad_js', plugin_dir_url( __FILE__ ) . '/includes/js/fcc_norad.js', array('jquery'), '', true);
+  wp_enqueue_script('fcc_norad_js');
    }
  }
  add_action( 'wp_enqueue_scripts', 'loadOnRadio' );

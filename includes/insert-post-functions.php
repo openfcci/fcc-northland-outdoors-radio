@@ -13,7 +13,7 @@
  */
 function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
   if ( $post->post_type == 'podcasts' && $post->post_status == 'publish' ) {
-
+    
     # Update the Episode Number
     $current_post = $post_id;
     $args = array(
@@ -52,6 +52,7 @@ function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
     add_action('save_post', 'fcc_norad_update_title_and_slug');
 
     # Add segment post
+    // TODO: Set to ONLY inset on 'Publish', not update
     fcc_insert_segment_post( $post_id, $post, $update );
 
   } else if ( $post->post_type == 'podcasts' && $update) {
@@ -73,8 +74,9 @@ add_action('save_post', 'fcc_norad_update_title_and_slug', 10, 3 );
  * Triggers on publish of new podcast
  *
  * @author Josh Slebodnik <josh.slebodnik@forumcomm.com>
+ * @author Ryan Veitch <ryan.veitch@forumcomm.com>
  * @since 0.16.02.17
- * @version 0.16.02.21
+ * @version 0.16.05.24
  */
 function fcc_insert_segment_post( $post_id, $post, $update ) {
     #Get user by email
@@ -82,34 +84,39 @@ function fcc_insert_segment_post( $post_id, $post, $update ) {
 
     #Set new post meta segment 1
     $podcast_segment1_post = array(
-        'post_title'    => 'Northland Outdoors Radio Podcast – ' . get_post_meta($post_id, 'segment_1_title', true),
+        'post_title'    => 'Northland Outdoors Radio On Demand: ' . get_post_meta($post_id, 'segment_1_title', true),
         'post_status'   => 'draft',
         'post_author'   => $user->ID,
       );
     #Set new post meta segment 2
     $podcast_segment2_post = array(
-        'post_title'    => 'Northland Outdoors Radio Podcast – ' . get_post_meta($post_id, 'segment_2_title', true),
+        'post_title'    => 'Northland Outdoors Radio On Demand: ' . get_post_meta($post_id, 'segment_2_title', true),
         'post_status'   => 'draft',
         'post_author'   => $user->ID,
       );
     #Set new post meta segment 3
     $podcast_segment3_post = array(
-        'post_title'    => 'Northland Outdoors Radio Podcast – ' . get_post_meta($post_id, 'segment_3_title', true),
+        'post_title'    => 'Northland Outdoors Radio On Demand: ' . get_post_meta($post_id, 'segment_3_title', true),
         'post_status'   => 'draft',
         'post_author'   => $user->ID,
       );
 
+    $category_id = get_term_by('name', 'Outdoors', 'category')->term_id;
+
     #Get corresponding segment 1 post id and insert a segment post
     $segment1_post_id = wp_insert_post( $podcast_segment1_post );
     #Set segment 1 post tags
+    wp_set_post_categories( $segment1_post_id, $category_id );
     wp_set_post_tags($segment1_post_id, 'Podcast,Radio,Featured', true);
     #Get corresponding segment 2 post id and insert a segment post
     $segment2_post_id = wp_insert_post( $podcast_segment2_post );
     #Set segment 2 post tags
+    wp_set_post_categories( $segment2_post_id, $category_id );
     wp_set_post_tags($segment2_post_id, 'Podcast,Radio,Featured', true);
     #Get corresponding segment 3 post id and insert a segment post
     $segment3_post_id = wp_insert_post( $podcast_segment3_post );
     #Set segment 3 post tags
+    wp_set_post_categories( $segment3_post_id, $category_id );
     wp_set_post_tags($segment3_post_id, 'Podcast,Radio,Featured', true);
 
     #Set embed meta on segment 1 post

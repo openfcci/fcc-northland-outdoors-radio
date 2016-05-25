@@ -31,6 +31,7 @@ if ( $the_query->have_posts()  ) { # IF
 
     <?php
     /**** POST META  *****/
+    $podcast_number = get_post_meta($id, 'podcast_episode_number', true);
     $segment_1_title = get_post_meta($id, 'segment_1_title', true);
     $segment_2_title = get_post_meta($id, 'segment_2_title', true);
     $segment_3_title = get_post_meta($id, 'segment_3_title', true);
@@ -53,21 +54,22 @@ if ( $the_query->have_posts()  ) { # IF
     </p>
     <ul>
       <?php
-      echo '<li>';
-      if ( $segment_1_link ) { echo '<a href="' .  $segment_1_link . '" target="_blank">' . $segment_1_title . '</a> &ndash; ';}
-      echo $segment_1_description . '</li>'; ?>
+      echo '<li class="podcast--segment">';
+      if ( $segment_1_link ) { echo '<span class="segment--title"><a href="' .  $segment_1_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link"><span class="podcast--number">Episode '. $podcast_number .'<br/></span><span class="segment--number">Segment 1</span><br/><span class="segment--titletext">' . $segment_1_title . '</span></span></a><span class="segment--show"> Show More <i class="fa fa-caret-down"></i></span></span>';}
+      echo '<span class="segment--description">' . $segment_1_description . '</span></li>'; ?>
 
       <?php
-      echo '<li>';
-      if ( $segment_2_link ) { echo '<a href="' .  $segment_2_link . '" target="_blank">' . $segment_2_title . '</a> &ndash; ';}
-      echo $segment_2_description . '</li>'; ?>
+      echo '<li class="podcast--segment">';
+      if ( $segment_2_link ) { echo '<span class="segment--title"><a href="' .  $segment_2_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link"><span class="podcast--number">Episode '. $podcast_number .'<br/></span><span class="segment--number">Segment 2</span><br/><span class="segment--titletext">' . $segment_2_title . '</span></span></a><span class="segment--show"> Show More <i class="fa fa-caret-down"></i></span></span>';}
+      echo '<span class="segment--description">' . $segment_2_description . '</span></li>'; ?>
 
       <?php
-      echo '<li>';
-      if ( $segment_3_link ) { echo '<a href="' .  $segment_3_link . '" target="_blank">' . $segment_3_title . '</a> &ndash; ';}
-      echo $segment_3_description . '</li>'; ?>
+      echo '<li class="podcast--segment">';
+      if ( $segment_3_link ) { echo '<span class="segment--title"><a href="' .  $segment_3_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link"><span class="podcast--number">Episode '. $podcast_number .'<br/></span><span class="segment--number">Segment 3</span><br/><span class="segment--titletext">' . $segment_3_title . '</span></span></a><span class="segment--show"> Show More <i class="fa fa-caret-down"></i></span></span>';}
+      echo '<span class="segment--description">' . $segment_3_description . '</span></li>'; ?>
     </ul>
   </div>
+
 
 <?php } #endif
   } #endwhile; ?>

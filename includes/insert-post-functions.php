@@ -12,8 +12,8 @@
  * @version 0.16.02.21
  */
 function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
-  if ( $post->post_type == 'podcasts' && $post->post_status == 'publish' ) {
-    
+  if ( $post->post_type == 'podcasts' && $post->post_status == 'publish' && ! $update ) {
+
     # Update the Episode Number
     $current_post = $post_id;
     $args = array(

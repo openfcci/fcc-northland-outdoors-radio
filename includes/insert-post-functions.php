@@ -12,7 +12,7 @@
  * @version 0.16.02.21
  */
 function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
-  if ( $post->post_type == 'podcasts' && $post->post_status == 'publish' && ! $update ) {
+  if ( $post->post_type == 'podcasts' && $post->post_status == 'publish' ) {
 
     # Update the Episode Number
     $current_post = $post_id;
@@ -52,8 +52,10 @@ function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
     add_action('save_post', 'fcc_norad_update_title_and_slug');
 
     # Add segment post
-    // TODO: Set to ONLY inset on 'Publish', not update
-    fcc_insert_segment_post( $post_id, $post, $update );
+    ## Set to ONLY inset on 'Publish', not update
+		if ( ! $update ) {
+			fcc_insert_segment_post( $post_id, $post, $update );
+		}
 
   } else if ( $post->post_type == 'podcasts' && $update) {
 

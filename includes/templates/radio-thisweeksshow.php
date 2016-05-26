@@ -45,31 +45,31 @@
 
      ?>
      <div>
-       <h2 class="section-title">THIS WEEK'S SHOW: <?php echo get_the_date( 'm/d/y', $post_id ); ?></h2>
-       <div class="section-content">
-       <!--<p class="podcast-title" style="text-align: left">
-         <span style="text-decoration: underline">
-           <strong><?php //echo get_the_date('n/j/Y');?></strong>
-         </span>
-       </p>-->
+       <h2 class="section-title">THIS WEEK'S SHOW: <span class="thisweek--titledate"><?php echo get_the_date( 'm/d/y', $post_id ); ?></span></h2>
+       <div class="section-thisweek">
+				 <p class="podcast-title thisweek--date" style="text-align: left">
+		       <span style="text-decoration: underline">
+		         <strong><?php echo get_the_date('n/j/Y');?></strong>
+		       </span>
+		     </p>
        <ul>
-         <?php
-         echo '<li>';
-         if ( $segment_1_link ) { echo '<a href="' .  $segment_1_link . '" target="_blank">' . $segment_1_title . '</a> &ndash; ';}
-         echo $segment_1_description . '</li>'; ?>
+				 <?php
+	       echo '<li class="podcast--segment">';
+	       if ( $segment_1_link ) { echo '<span class="segment--title"><a href="' .  $segment_1_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link"><span class="podcast--number">Episode '. $podcast_number .'<br/></span><span class="segment--number">Segment 1</span><br/><span class="segment--titletext">' . $segment_1_title . '</span></span></a><span class="segment--show"> Show More <i class="fa fa-caret-down"></i></span></span>';}
+	       echo '<span class="segment--description">' . $segment_1_description . '</span></li>'; ?>
 
-         <?php
-         echo '<li>';
-         if ( $segment_2_link ) { echo '<a href="' .  $segment_2_link . '" target="_blank">' . $segment_2_title . '</a> &ndash; ';}
-         echo $segment_2_description . '</li>'; ?>
+	       <?php
+	       echo '<li class="podcast--segment">';
+	       if ( $segment_2_link ) { echo '<span class="segment--title"><a href="' .  $segment_2_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link"><span class="podcast--number">Episode '. $podcast_number .'<br/></span><span class="segment--number">Segment 2</span><br/><span class="segment--titletext">' . $segment_2_title . '</span></span></a><span class="segment--show"> Show More <i class="fa fa-caret-down"></i></span></span>';}
+	       echo '<span class="segment--description">' . $segment_2_description . '</span></li>'; ?>
 
-         <?php
-         echo '<li>';
-         if ( $segment_3_link ) { echo '<a href="' .  $segment_3_link . '" target="_blank">' . $segment_3_title . '</a> &ndash; ';}
-         echo $segment_3_description . '</li>'; ?>
+	       <?php
+	       echo '<li class="podcast--segment">';
+	       if ( $segment_3_link ) { echo '<span class="segment--title"><a href="' .  $segment_3_link . '" target="_blank"><span class="segment--button"></span><span class="segment--link"><span class="podcast--number">Episode '. $podcast_number .'<br/></span><span class="segment--number">Segment 3</span><br/><span class="segment--titletext">' . $segment_3_title . '</span></span></a><span class="segment--show"> Show More <i class="fa fa-caret-down"></i></span></span>';}
+	       echo '<span class="segment--description">' . $segment_3_description . '</span></li>'; ?>
        </ul>
    </div><!-- END section-content-->
-</div><!-- END This Week's Show-->
+</div><br><!-- END This Week's Show-->
 
 <?php } #endif
   } #endwhile; ?>

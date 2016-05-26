@@ -23,7 +23,7 @@ wp_reset_query();
 											<!-- *** START NORTHLAND OUTDOORS RADIO CONTENT *** -->
 
 											<div class="radio-wrapper">
-												<div class="radio-tagline"><?php echo get_option('options_norad_header_description'); ?></div>
+												<div class="radio-tagline"><?php echo get_post_meta($post->ID, 'norad_header_description', true); ?></div>
 
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-thisweeksshow.php' ); ?><!--this weeks show-->
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-upcomingshows.php' ); ?><!--upcoming shows-->

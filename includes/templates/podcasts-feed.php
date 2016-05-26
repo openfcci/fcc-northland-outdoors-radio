@@ -171,11 +171,11 @@ if ( $the_query->have_posts( )  ) {
 			add_cdata( $item_1_summary, $segment_1_summary );
 
 			$item_1_enclosure = $item_1->addChild( 'enclosure' );
-			$item_1_enclosure->addAttribute( 'url', 'https://content.jwplatform.com/videos/' . $segment_1_key . '.m4a' );
+			$item_1_enclosure->addAttribute( 'url', 'http://content.jwplatform.com/videos/' . $segment_1_key . '.m4a' );
 			$item_1_enclosure->addAttribute( 'length', $segment_1_length );
 			$item_1_enclosure->addAttribute( 'type', 'audio/x-m4a' );
 
-			$item_1_guid = $item_1->addChild( 'guid', 'https://content.jwplatform.com/videos/' . $segment_1_key . '.m4a' );
+			$item_1_guid = $item_1->addChild( 'guid', 'http://content.jwplatform.com/videos/' . $segment_1_key . '.m4a' );
 
 			$item_1_thumb = $item_1->addChild( 'xlmns:itunes:image' );
 			$item_1_thumb->addAttribute( 'href', $segment_1_thumb );
@@ -201,11 +201,11 @@ if ( $the_query->have_posts( )  ) {
 			add_cdata( $item_2_summary, $segment_2_summary );
 
 			$item_2_enclosure = $item_2->addChild( 'enclosure' );
-			$item_2_enclosure->addAttribute( 'url', 'https://content.jwplatform.com/videos/' . $segment_2_key . '.m4a' );
+			$item_2_enclosure->addAttribute( 'url', 'http://content.jwplatform.com/videos/' . $segment_2_key . '.m4a' );
 			$item_2_enclosure->addAttribute( 'length', $segment_2_length );
 			$item_2_enclosure->addAttribute( 'type', 'audio/x-m4a' );
 
-			$item_2_guid = $item_2->addChild( 'guid', 'https://content.jwplatform.com/videos/' . $segment_2_key . '.m4a' );
+			$item_2_guid = $item_2->addChild( 'guid', 'http://content.jwplatform.com/videos/' . $segment_2_key . '.m4a' );
 
 			$item_2_thumb = $item_2->addChild( 'xlmns:itunes:image' );
 			$item_2_thumb->addAttribute( 'href', $segment_2_thumb );
@@ -232,11 +232,11 @@ if ( $the_query->have_posts( )  ) {
 			add_cdata( $item_3_summary, $segment_3_summary );
 
 			$item_3_enclosure = $item_3->addChild( 'enclosure' );
-			$item_3_enclosure->addAttribute( 'url', 'https://content.jwplatform.com/videos/' . $segment_3_key . '.m4a' );
+			$item_3_enclosure->addAttribute( 'url', 'http://content.jwplatform.com/videos/' . $segment_3_key . '.m4a' );
 			$item_3_enclosure->addAttribute( 'length', $segment_3_length );
 			$item_3_enclosure->addAttribute( 'type', 'audio/x-m4a' );
 
-			$item_3_guid = $item_3->addChild( 'guid', 'https://content.jwplatform.com/videos/' . $segment_3_key . '.m4a' );
+			$item_3_guid = $item_3->addChild( 'guid', 'http://content.jwplatform.com/videos/' . $segment_3_key . '.m4a' );
 
 			$item_3_thumb = $item_3->addChild( 'xlmns:itunes:image' );
 			$item_3_thumb->addAttribute( 'href', $segment_3_thumb );

@@ -1542,7 +1542,7 @@ acf_add_local_field_group(array (
 				'class' => '',
 				'id' => '',
 			),
-			'default_value' => 'Coming up on future shows:',
+			'default_value' => 'On the next Episode of Northland Outdoors Radio:',
 			'placeholder' => '',
 			'prepend' => '',
 			'append' => '',

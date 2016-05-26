@@ -1,4 +1,36 @@
+.story-title.radio { /* http://www.northlandoutdoors.com/radio/ */
+  margin-bottom: 20px;
+}
 
+.radio-tagline {
+	font-weight: 300;
+	margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 25px !important;
+}
+
+.thisweek--date {
+	display: none !important;
+}
+
+#upcoming .shows-content {
+  background-color: #eeeeee;
+}
+
+#upcoming .shows-content li {
+  margin-left: 35px;
+	margin-right: 15px;
+}
+
+#upcoming .headline {
+  font-weight: bold;
+}
+
+#upcoming .tagline {
+  font-size: small;
+}
 
 .podcast-post {
   display: block;
@@ -92,10 +124,18 @@ position: relative;
   padding: 0;
 }
 
-  .podcast-title{
-    border-bottom: 1px solid #ccc;
-    padding: 20px 0 10px 0;
-  }
+.podcast-title{
+	border-bottom: 1px solid #ccc;
+	padding: 20px 0 10px 0;
+}
+
+.thisweek--titledate {
+	display: none;
+}
+
+.thisweek--date {
+	display: block !important;
+}
 
 .podcast--number{
   display: none;
@@ -160,13 +200,14 @@ bottom: 0; right: 0;
 }
 
 .radio-tagline {
-  font-weight: bold;
-  font-style:italic;
-  margin: 30px 0px 15px 0px;
+	font-weight: 300;
+	font-size: smaller;
+	line-height: 140%;
+  /*font-style:italic;*/
+  margin: 10px 0px 30px 0px;
 }
 
 #upcoming .headline {
-  /* text-decoration: underline; */
   font-weight: bold;
 }
 
@@ -174,13 +215,16 @@ bottom: 0; right: 0;
   line-height: 160%;
 }
 
+#upcoming .shows-content li {
+  margin-left: 30px;
+}
+
 #upcoming .tagline {
   font-style:italic;
+	font-size: small;
 }
 
 #upcoming span.tagline::before {
-  vertical-align: super;
-  font-size: .8em;
   content: "*";
 }
 
@@ -210,10 +254,15 @@ bottom: 0; right: 0;
   box-sizing: border-box;
 }
 .section-content ul {
-  background-color: #eeeeee;
+  /*background-color: #eeeeee;*/
   box-sizing: border-box;
   padding-right: 15px;
 }
+
+.section-stations li {
+	margin-left: 30px !important;
+}
+
 .station-list {
   padding-bottom: 20px;
   overflow: auto;
@@ -223,6 +272,7 @@ bottom: 0; right: 0;
   height: 140px;
   float: left;
   margin: 0px 10px !important;
+	margin-left: 0px;
   border-left: 1px solid #cccccc;
   padding: 15px !important;
   box-sizing: border-box;

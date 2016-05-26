@@ -1,6 +1,6 @@
 <?php ?>
 <!-- *** PODCASTS *** -->
-<h2 class="section-title">PODCASTS</h2><br>
+<h2 class="section-title">PODCASTS</h2>
 <?php
 /* Begin the Loop */
 wp_reset_query(); // TODO: Remove?

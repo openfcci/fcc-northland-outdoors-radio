@@ -1,7 +1,7 @@
 <?php
 /*--------------------------------------------------------------
-# POSTS: Generation & Save Hooks
---------------------------------------------------------------*/
+ # POSTS: Generation & Save Hooks
+ --------------------------------------------------------------*/
 
 /**
  * Update Post Slug, Post Title & Episode Number
@@ -9,62 +9,63 @@
  * Triggers on save, edit or update of published podcasts
  * Works in "Quick Edit", but not bulk edit.
  * @since 0.16.01.28
- * @version 0.16.02.21
+ * @version 0.16.05.31
  */
+
 function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
-  if ( $post->post_type == 'podcasts' && $post->post_status == 'publish' ) {
 
-    # Update the Episode Number
-    $current_post = $post_id;
-    $args = array(
-      'post_type' => array('podcasts'),
-      'post_status' => array('publish'),
-      'posts_per_page' => '-1',
-      'order' => 'ASC', # Podcasts ordered oldest to newest
-      );
-    $podcasts = get_posts($args);
-    $post_count = (int) wp_count_posts('podcasts')->publish;
-    for ($i = 0; $i <= $post_count; $i++) {
-      # Find the index of the current post
-    	if ( $podcasts[$i]->ID == $current_post ) {
-        # Set the episode number
-    		$episode_number = ($i + 1);
-    	}
-    }
-    update_post_meta( $post_id, 'podcast_episode_number', $episode_number );
+	if ( 'podcasts' == $post->post_type && 'publish' == $post->post_status ) {
 
-    # Post Title
-    $date_title = get_the_date( 'm/d/y', $post_id ); # FORMAT: 01/28/16
-    $post_title = 'Episode ' . $episode_number . ' - ' . $date_title;
-
-    #Post Slug
-    $post_name = 'episode-' . $episode_number; # FORMAT: episode_11_-_02-11-16
-
-
-    # Unhook this function so it doesn't loop infinitely
-    remove_action('save_post', 'fcc_norad_update_title_and_slug');
-
-    # Update the Post Title & Post Slug
-    wp_update_post(array('ID' => $post_id, 'post_name' => $post_name ));
-    wp_update_post(array('ID' => $post_id, 'post_title' => $post_title ));
-
-    # Re-hook this function
-    add_action('save_post', 'fcc_norad_update_title_and_slug');
-
-    # Add segment post
-    ## Set to ONLY inset on 'Publish', not update
-		if ( ! $update ) {
-			fcc_insert_segment_post( $post_id, $post, $update );
+		# Update the Episode Number
+		$current_post = $post_id;
+		$args = array(
+			'post_type' => array( 'podcasts' ),
+			'post_status' => array( 'publish' ),
+			'posts_per_page' => '-1',
+			'order' => 'ASC', # Podcasts ordered oldest to newest
+		);
+		$podcasts = get_posts( $args );
+		$post_count = (int) wp_count_posts( 'podcasts' )->publish;
+		for ( $i = 0; $i <= $post_count; $i++ ) {
+			# Find the index of the current post
+			if ( $current_post == $podcasts[ $i ]->ID ) {
+				# Set the episode number
+				$episode_number = ($i + 1);
+			}
 		}
+		update_post_meta( $post_id, 'podcast_episode_number', $episode_number );
 
-  } else if ( $post->post_type == 'podcasts' && $update) {
+		# Post Title
+		$date_title = get_the_date( 'm/d/y', $post_id ); # FORMAT: 01/28/16
+		$post_title = 'Episode ' . $episode_number . ' - ' . $date_title;
 
-    #Update segment post
-    fcc_insert_segment_post_update( $post_id, $post, $update );
+		#Post Slug
+		$post_name = 'episode-' . $episode_number; # FORMAT: episode_11_-_02-11-16
 
-  }
+		# Unhook this function so it doesn't loop infinitely
+		remove_action( 'save_post', 'fcc_norad_update_title_and_slug' );
+
+		# Update the Post Title & Post Slug
+		wp_update_post( array( 'ID' => $post_id, 'post_name' => $post_name ) );
+		wp_update_post( array( 'ID' => $post_id, 'post_title' => $post_title ) );
+
+		# Re-hook this function
+		add_action( 'save_post', 'fcc_norad_update_title_and_slug' );
+
+		# Is this a new or updated post?
+		$post_update = get_post_meta( $post_id, 'podcast_update' );
+
+		# If new, add segment posts
+		if ( ! $post_update ) {
+			update_post_meta( $post_id, 'podcast_update', '1' );
+			fcc_insert_segment_post( $post_id, $post, $update );
+		} elseif ( $update ) {
+			# If this is an update, update the segment posts
+			fcc_insert_segment_post_update( $post_id, $post, $update );
+		}
+	}
 }
-add_action('save_post', 'fcc_norad_update_title_and_slug', 10, 3 );
+add_action( 'save_post', 'fcc_norad_update_title_and_slug', 10, 3 );
 
 /*--------------------------------------------------------------
 # INSERT POST FUNCTIONS

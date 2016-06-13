@@ -69,7 +69,7 @@
 	       echo '<span class="segment--description">' . $segment_3_description . '</span></li>'; ?>
        </ul>
    </div><!-- END section-content-->
-</div><br><!-- END This Week's Show-->
+</div><!-- END This Week's Show-->
 
 <?php } #endif
   } #endwhile; ?>

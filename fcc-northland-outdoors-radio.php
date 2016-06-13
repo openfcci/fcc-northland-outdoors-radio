@@ -4,7 +4,7 @@
  * Plugin URI:  https://github.com/openfcci/fcc-northland-outdoors-radio
  * Author:      Forum Communications Company (Ryan Veitch, Braden Stevenson, Josh Slebodnik)
  * Author URI:  http://www.forumcomm.com/
- * Version:     1.16.05.31
+ * Version:     1.16.06.13
  * Description: Northland Outdoors Radio, Podcasts and Stations plugin.
  * License:     GPL v2 or later
  * Text Domain: fcc_norad
@@ -90,7 +90,9 @@ if ( ! get_option( 'fcc_podcast_terms' ) ) {
 }
 
 # JW Platform/BOTR API
-require_once( plugin_dir_path( __FILE__ ) . 'includes/botr/api.php' );
+if ( ! class_exists( 'BotrAPI' ) ) {
+	require_once( plugin_dir_path( __FILE__ ) . 'includes/botr/api.php' );
+}
 
 # Page Template Redirects
 require_once( plugin_dir_path( __FILE__ ) . '/includes/template-functions.php' );

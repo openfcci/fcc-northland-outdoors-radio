@@ -26,6 +26,9 @@ wp_reset_query();
 												<div class="radio-tagline"><?php echo get_post_meta($post->ID, 'norad_header_description', true); ?></div>
 
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-thisweeksshow.php' ); ?><!--this weeks show-->
+
+											<div class="radio-listen" style="text-align: center;"><span style="font-weight: 400; color: #999;">Listen on</span> <a href="https://itunes.apple.com/us/podcast/northland-outdoors/id1118174622?mt=2" target="_blank"> iTunes</a> | <a href="https://goo.gl/app/playmusic?ibi=com.google.PlayMusic&isi=691797987&ius=googleplaymusic&link=https://play.google.com/music/m/I5rkiq6t5rmvxvw2dkkzswewoqa?t%3DNorthland_Outdoors" target="_blank">Google Play</a> | <a href="http://www.northlandoutdoors.com/?feed=podcasts" target="_blank">RSS</a></div><br>
+
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-upcomingshows.php' ); ?><!--upcoming shows-->
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-stations.php' ); ?><!--stations-->
 											<?php load_template( NORADIO__PLUGIN_PATH . 'includes/templates/radio-podcasts.php' ); ?><!--podcasts-->

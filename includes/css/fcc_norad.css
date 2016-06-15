@@ -32,6 +32,38 @@
   font-size: small;
 }
 
+.section-stations ol{
+	padding-top: 20px;
+}
+
+.section-stations .highlighted{
+	color: #d17727!important;
+}
+.by_state{
+	color: #555;
+}
+.station-filter{
+	padding: 0 15px;
+	border-right: 2px solid #ccc;
+}
+.station-filter:last-of-type{
+	border-right: none;
+}
+.station_all{
+	float: left;
+	padding-left: 30px;
+	color: #ccc;
+	font-weight: 900;
+	cursor: pointer;
+}
+.station_states{
+	color: #ccc;
+	font-weight: 900;
+	cursor: pointer;
+	float: right;
+	padding-right: 20px;
+}
+
 .podcast-post {
   display: block;
   box-sizing: border-box;

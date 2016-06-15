@@ -11,6 +11,20 @@
 <div class="section-content section-stations">
 <?php
 
+$args = array( 'hide_empty=0' );
+
+$terms = get_terms( 'station_state', $args );
+if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+	$count = count( $terms );
+	$i = 0;
+	echo '<div class="station_all highlighted">ALL</div> <div class="station_states"><span class="by_state">By State: </span>';
+	foreach ( $terms as $term ) {
+		$term_link = get_term_link( $term, $tax );
+			echo '<span class="station-filter" title="' . $term->slug . '">' . $term->name . '</span> ';
+    }
+    echo '</div>';
+}
+
 //echo '<p><strong>' . get_post_meta( $post->ID, 'norad_stations_tagline', true ) . '</strong></p>';
 //echo '<p>' . get_post_meta( $post->ID, 'norad_stations_announcements', true ) . '</p>';
 
@@ -60,7 +74,7 @@ if ( $the_query->have_posts()  ) {
 		$thumbnail_id = get_post_meta( $id, '_thumbnail_id', true );
 
 		echo '<li>';
-		if ( $station_location ) { echo '<strong>' .  $station_location . ', ' . $station_state . ': </strong>'; }
+		if ( $station_location ) { echo '<strong>' .  $station_location . ', <span class="station_state">' . $station_state . '</span>: </strong>'; }
 		if ( $station_website ) { echo '<a href="' .  $station_website . '" target="_blank">'; }
 		if ( $station_name ) { echo $station_name; }
 		if ( $station_website ) { echo '</a>,'; }

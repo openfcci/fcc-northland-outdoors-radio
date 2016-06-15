@@ -246,6 +246,19 @@ function jwplayer_ajax_request() {
 }
 add_action( 'wp_ajax_jwplayer_ajax_request', 'jwplayer_ajax_request' );
 
+function ajax_filter_posts_scripts() {
+	// Enqueue script
+	wp_register_script( 'afp_script', plugin_dir_url( __FILE__ ) . 'includes/js/ajax-filter-stations.js', false, null, false );
+	wp_enqueue_script( 'afp_script' );
+
+	wp_localize_script( 'afp_script', 'afp_vars', array(
+		'afp_nonce' => wp_create_nonce( 'afp_nonce' ), // Create nonce which we later will use to verify AJAX request
+		'afp_ajax_url' => admin_url( 'admin-ajax.php' ),
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'ajax_filter_posts_scripts', 100 );
+
 /*--------------------------------------------------------------
 # PODCASTS FEED
 --------------------------------------------------------------*/

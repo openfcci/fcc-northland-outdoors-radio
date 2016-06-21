@@ -16,6 +16,26 @@ var boundaryWI = $( ".section-stations ol li:contains('WI:')" ).first();
 						.append(boundaryWI.nextAll().andSelf());
 $( ".section-stations ol li:contains('WI:')" ).first().parent().before( "<h2 class='WI'>Wisconsin</h2>" );
 
+var boundaryIA = $( ".section-stations ol li:contains('IA:')" ).first();
+	 $(".section-stations <ol>").insertAfter(boundaryIA.parent())
+						.append(boundaryIA.nextAll().andSelf());
+$( ".section-stations ol li:contains('IA:')" ).first().parent().before( "<h2 class='IA'>Iowa</h2>" );
+
+var boundaryMB = $( ".section-stations ol li:contains('MB:')" ).first();
+	 $(".section-stations <ol>").insertAfter(boundaryMB.parent())
+						.append(boundaryMB.nextAll().andSelf());
+$( ".section-stations ol li:contains('MB:')" ).first().parent().before( "<h2 class='MB'>Manitoba</h2>" );
+
+var boundaryMT = $( ".section-stations ol li:contains('MT:')" ).first();
+	 $(".section-stations <ol>").insertAfter(boundaryMT.parent())
+						.append(boundaryMT.nextAll().andSelf());
+$( ".section-stations ol li:contains('MT:')" ).first().parent().before( "<h2 class='MT'>Montana</h2>" );
+
+var boundarySD = $( ".section-stations ol li:contains('SD:')" ).first();
+	 $(".section-stations <ol>").insertAfter(boundarySD.parent())
+						.append(boundarySD.nextAll().andSelf());
+$( ".section-stations ol li:contains('SD:')" ).first().parent().before( "<h2 class='SD'>South Dakota</h2>" );
+
 	$('.station-filter').click( function(event) {
 		$('.station_all').removeClass("highlighted");
 		$('.station-filter').removeClass("highlighted");

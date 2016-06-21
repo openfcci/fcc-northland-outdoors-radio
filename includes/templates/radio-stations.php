@@ -17,12 +17,12 @@ $terms = get_terms( 'station_state', $args );
 if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 	$count = count( $terms );
 	$i = 0;
-	echo '<div class="station_all highlighted">ALL</div> <div class="station_states"><span class="by_state">By State: </span>';
+	echo '<div class="station_all highlighted">ALL</div> <div class="station_states"><span class="by_state">By State: </span><span class="station--filters">';
 	foreach ( $terms as $term ) {
 		$term_link = get_term_link( $term, $tax );
 			echo '<span class="station-filter" title="' . $term->slug . '">' . $term->name . '</span> ';
     }
-    echo '</div>';
+    echo '</span></div>';
 }
 
 //echo '<p><strong>' . get_post_meta( $post->ID, 'norad_stations_tagline', true ) . '</strong></p>';

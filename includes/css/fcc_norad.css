@@ -39,6 +39,12 @@
 	padding-left: 30px;
 }
 
+.station--filters{
+	float:right;
+	display: inline-block;
+	max-width: 72%;
+}
+
 .section-stations ol{
 	width: 100%;
 	font-size: 15px;
@@ -90,6 +96,7 @@
 	cursor: pointer;
 	float: right;
 	padding-right: 20px;
+	max-width: 70%;
 }
 
 .podcast-post {

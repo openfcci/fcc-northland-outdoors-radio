@@ -41,9 +41,21 @@ wp_reset_query();
 $args = array(
 	'post_type'				=> 'stations',
 	'posts_per_page'	=> '-1',
-	'meta_key'			=> 'station_state',
-	'orderby'			=> 'meta_value_num',
-	'order'						=> 'ASC',
+	'meta_query' => array(
+		'relation' => 'AND',
+		'state_clause' => array(
+			'key' => 'station_state',
+			'compare' => 'EXISTS',
+		),
+		'location_clause' => array(
+			'key' => 'station_location',
+			'compare' => 'EXISTS',
+		),
+	),
+	'orderby' => array(
+		'state_clause' => 'ASC',
+		'location_clause' => 'ASC',
+	),
 );
 
 $the_query = new WP_Query( $args );

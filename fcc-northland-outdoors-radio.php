@@ -181,6 +181,8 @@ add_action( 'init', 'add_admin_notices' );
  */
 function load_on_radio_page() {
 	if ( is_page( 'radio' ) ) {
+		wp_register_script( 'afp_script', plugin_dir_url( __FILE__ ) . 'includes/js/ajax-filter-stations.js', false, null, false );
+		wp_enqueue_script( 'afp_script' );
 		wp_enqueue_style( 'custom_css_norad', plugin_dir_url( __FILE__ ) . '/includes/css/fcc_norad.css' );
 		wp_enqueue_style( 'font_awesome', 'http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css' );
 		wp_register_script( 'fcc_norad_js', plugin_dir_url( __FILE__ ) . '/includes/js/fcc_norad.js', array( 'jquery' ), '', true );
@@ -246,18 +248,7 @@ function jwplayer_ajax_request() {
 }
 add_action( 'wp_ajax_jwplayer_ajax_request', 'jwplayer_ajax_request' );
 
-function ajax_filter_posts_scripts() {
-	// Enqueue script
-	wp_register_script( 'afp_script', plugin_dir_url( __FILE__ ) . 'includes/js/ajax-filter-stations.js', false, null, false );
-	wp_enqueue_script( 'afp_script' );
 
-	wp_localize_script( 'afp_script', 'afp_vars', array(
-		'afp_nonce' => wp_create_nonce( 'afp_nonce' ), // Create nonce which we later will use to verify AJAX request
-		'afp_ajax_url' => admin_url( 'admin-ajax.php' ),
-		)
-	);
-}
-add_action( 'wp_enqueue_scripts', 'ajax_filter_posts_scripts', 100 );
 
 /*--------------------------------------------------------------
 # PODCASTS FEED

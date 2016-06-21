@@ -179,6 +179,15 @@ position: relative;
 
 @media only screen and (max-width : 480px){
 
+	.station--list--partone, .station--list--parttwo, .station--list--partthree, .station--list--partfour, .station--list--partfive {
+		width: 50%;
+		min-height: 10px;
+		display: inline-block;
+		padding-right: 10px;
+		box-sizing: border-box;
+		vertical-align: top;
+	}
+
 .podcast-post{
   padding: 0;
 }

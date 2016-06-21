@@ -41,6 +41,8 @@ wp_reset_query();
 $args = array(
 	'post_type'				=> 'stations',
 	'posts_per_page'	=> '-1',
+	'meta_key'			=> 'station_state',
+	'orderby'			=> 'meta_value_num',
 	'order'						=> 'ASC',
 );
 
@@ -74,13 +76,15 @@ if ( $the_query->have_posts()  ) {
 		$thumbnail_id = get_post_meta( $id, '_thumbnail_id', true );
 
 		echo '<li>';
-		if ( $station_location ) { echo '<strong>' .  $station_location . ', <span class="station_state">' . $station_state . '</span>: </strong>'; }
-		if ( $station_website ) { echo '<a href="' .  $station_website . '" target="_blank">'; }
+		if ( $station_location ) { echo '<span class="station--list--partone"><strong>' .  $station_location . ', <span class="station_state">' . $station_state . '</span>: </strong></span>'; }
+		if ( $station_website ) { echo '<span class="station--list--parttwo"><a href="' .  $station_website . '" target="_blank">'; }
 		if ( $station_name ) { echo $station_name; }
-		if ( $station_website ) { echo '</a>,'; }
-		if ( $station_day && $station_time && $station_ampm ) { echo $station_day . ' at ' . $station_time . ' ' . $station_ampm; }
-		if ( $station_notes ) { echo $station_notes; }
-		if ( $station_streaming_link ) { echo '<a href="' .  $station_streaming_link . '" target="_blank">(LISTEN LIVE)</a>'; }
+		if ( $station_website ) { echo '</a></span>'; }
+		if ( $station_day && $station_time && $station_ampm ) { echo '<span class="station--list--partthree">'.$station_day . ' at ' . $station_time . ' ' . $station_ampm . '</span>'; }
+
+		if ( $station_streaming_link ) { echo '<span class="station--list--partfour"><a href="' .  $station_streaming_link . '" target="_blank">(LISTEN LIVE)</a></span>'; }
+		else{ echo '<span class="station--list--partfour"></span>'; }
+		if ( $station_notes ) { echo '<span class="station--list--partfive">' . $station_notes .'</span>'; }
 		echo '</li>';
 	} // end while;
 	/* Restore original Post Data */

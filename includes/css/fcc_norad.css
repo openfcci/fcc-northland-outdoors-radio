@@ -32,9 +32,36 @@
   font-size: small;
 }
 
-.section-stations ol{
+
+
+.ND, .MN, .WI{
 	padding-top: 20px;
 }
+
+.section-stations ol{
+	width: 100%;
+	font-size: 15px;
+
+}
+
+.station--list--partone, .station--list--parttwo, .station--list--partthree, .station--list--partfour, .station--list--partfive {
+	width: 20%;
+	min-height: 10px;
+	display: inline-block;
+	padding-right: 10px;
+	box-sizing: border-box;
+	vertical-align: top;
+}
+
+.station--list--parttwo{
+	width: 25%;
+}
+
+.station--list--partfour{
+	width: 15%;
+}
+
+
 
 .section-stations .highlighted{
 	color: #d17727!important;

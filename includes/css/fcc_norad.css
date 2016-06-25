@@ -32,6 +32,73 @@
   font-size: small;
 }
 
+
+
+.ND, .MN, .WI, .IA, .MB, .MT, .SD{
+	padding-top: 20px;
+	padding-left: 30px;
+}
+
+.station--filters{
+	float:right;
+	display: inline-block;
+	max-width: 72%;
+}
+
+.section-stations ol{
+	width: 100%;
+	font-size: 15px;
+
+}
+
+.station--list--partone, .station--list--parttwo, .station--list--partthree, .station--list--partfour, .station--list--partfive {
+	width: 20%;
+	min-height: 10px;
+	display: inline-block;
+	padding-right: 10px;
+	box-sizing: border-box;
+	vertical-align: top;
+}
+
+.station--list--parttwo{
+	width: 25%;
+}
+
+.station--list--partfour{
+	width: 15%;
+}
+
+
+
+.section-stations .highlighted{
+	color: #d17727!important;
+}
+.by_state{
+	color: #555;
+}
+.station-filter{
+	padding: 0 15px;
+	border-right: 2px solid #ccc;
+}
+.station-filter:last-of-type{
+	border-right: none;
+}
+.station_all{
+	float: left;
+	padding-left: 30px;
+	color: #ccc;
+	font-weight: 900;
+	cursor: pointer;
+}
+.station_states{
+	color: #ccc;
+	font-weight: 900;
+	cursor: pointer;
+	float: right;
+	padding-right: 20px;
+	max-width: 70%;
+}
+
 .podcast-post {
   display: block;
   box-sizing: border-box;
@@ -119,6 +186,15 @@ position: relative;
 }
 
 @media only screen and (max-width : 480px){
+
+	.station--list--partone, .station--list--parttwo, .station--list--partthree, .station--list--partfour, .station--list--partfive {
+		width: 50%;
+		min-height: 10px;
+		display: inline-block;
+		padding-right: 10px;
+		box-sizing: border-box;
+		vertical-align: top;
+	}
 
 .podcast-post{
   padding: 0;

@@ -52,6 +52,8 @@ function fcc_norad_update_title_and_slug( $post_id, $post, $update ) {
 		# Re-hook this function
 		add_action( 'save_post', 'fcc_norad_update_title_and_slug' );
 
+		// TODO UPDATE TO THIS: wp_is_post_revision( $post ); //https://codex.wordpress.org/Function_Reference/wp_is_post_revision
+
 		# Is this a new or updated post?
 		$post_update = get_post_meta( $post_id, 'podcast_update' );
 

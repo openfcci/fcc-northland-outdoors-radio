@@ -97,16 +97,20 @@ add_filter("acf/load_field/name=podcasts_channel_link", "fcc_norad_podcasts_chan
  * Order "All Podcasts" & "All Stations" Pages by Date
  *
  * @since 0.16.01.28
+ * @version 1.17.02.06
  */
 function fcc_norad_set_post_order_in_admin( $wp_query ) {
-global $my_admin_page;
-$screen = get_current_screen();
-  if ( ($screen->id == 'edit-podcasts' || $screen->id == 'edit-stations') && !isset($_GET['orderby']) ) {
-    $wp_query->set( 'orderby', 'date' );
-    $wp_query->set( 'order', 'DSC' );
-  }
+	if ( is_admin() && function_exists( 'get_current_screen' ) ) {
+		global $my_admin_page;
+		$screen = get_current_screen();
+
+		if ( ( 'edit-podcasts' == $screen->id || 'edit-stations' == $screen->id ) && ! isset( $_GET['orderby'] ) ) {
+			$wp_query->set( 'orderby', 'date' );
+			$wp_query->set( 'order', 'DSC' );
+		}
+	}
 }
-if ( is_admin() ) { add_filter('pre_get_posts', 'fcc_norad_set_post_order_in_admin' ); }
+if ( is_admin() ) { add_filter( 'pre_get_posts', 'fcc_norad_set_post_order_in_admin' ); }
 
 /*--------------------------------------------------------------
 # ACF: Custom Location Rules
